@@ -1,9 +1,0 @@
-/Users/dexterlohnes/AndroidStudioProjects/CookedApp/Application/build/intermediates/classes/debug
-/Users/dexterlohnes/AndroidStudioProjects/CookedApp/Application/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-54108b6b4168a2ff564a5df18daef087841559cb.jar
-/Users/dexterlohnes/AndroidStudioProjects/CookedApp/Application/build/intermediates/pre-dexed/debug/support-annotations-21.0.2-86270ac9f2007849f9452ff314125f0acddcefe1.jar
-/Users/dexterlohnes/AndroidStudioProjects/CookedApp/Application/build/intermediates/pre-dexed/debug/classes-6d2fb977dab7aee4c40494abf2411fe2855b24e8.jar
-/Users/dexterlohnes/AndroidStudioProjects/CookedApp/Application/build/intermediates/pre-dexed/debug/classes-2353a79572365a85c4d69a0208229b946125759f.jar
-/Users/dexterlohnes/AndroidStudioProjects/CookedApp/Application/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-8ae75669d3b2910ea224ad0e375b58cbf5b2a754.jar
-/Users/dexterlohnes/AndroidStudioProjects/CookedApp/Application/build/intermediates/pre-dexed/debug/classes-de4c31820b74ead4c2a6498049737d6212a70152.jar
-/Users/dexterlohnes/AndroidStudioProjects/CookedApp/Application/build/intermediates/pre-dexed/debug/classes-fe9352b6942e3b5e201e5a0d6cab23379baac996.jar
-/Users/dexterlohnes/AndroidStudioProjects/CookedApp/Application/build/intermediates/pre-dexed/debug/classes-84352a8d50b1da6e62fd344e419d2b18b1b941d8.jar
