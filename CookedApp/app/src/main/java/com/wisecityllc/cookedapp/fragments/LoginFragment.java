@@ -15,7 +15,6 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.wisecityllc.cookedapp.MainActivity;
 import com.wisecityllc.cookedapp.R;
-import com.wisecityllc.cookedapp.RegistrationActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -112,11 +111,6 @@ public class LoginFragment extends Fragment {
             }
         });
         mLoadingOverlay.setVisibility(View.INVISIBLE);
-    }
-
-    private void startRegistrationActivity() {
-        Intent startActivityIntent = new Intent(getActivity(), RegistrationActivity.class);
-        startActivity(startActivityIntent);
     }
 
     private void attemptLogin(){

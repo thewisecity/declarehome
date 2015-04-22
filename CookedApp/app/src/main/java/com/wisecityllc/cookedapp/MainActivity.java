@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity
     /**
      * Tells us whether this is the first time starting up the activity or not
      */
-    private boolean mHasInitialized = false;
+    private boolean mHasInitializedFirstFragment = false;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -52,6 +52,7 @@ public class MainActivity extends ActionBarActivity
 
         if(savedInstanceState != null){
             hasAlreadySetUpParse = savedInstanceState.getBoolean("hasLoaded");
+            mHasInitializedFirstFragment = savedInstanceState.getBoolean("hasInitializedFirstFragment");
         }
         // Enable Local Datastore.
         if(hasAlreadySetUpParse == false) {
@@ -75,14 +76,16 @@ public class MainActivity extends ActionBarActivity
         if(mNavigationDrawerFragment == null)
             mNavigationDrawerFragment = (NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
-        if(mHasInitialized == false) {
+        if(mHasInitializedFirstFragment == false) {
             getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("loading")).commit();
             if (ParseUser.getCurrentUser() != null) {
                 //We are already logged in, go to main activity
                 switchToNavFragment();
+                mHasInitializedFirstFragment = true;
             } else {
                 //Go to login activity
                 switchToLoginFragment();
+                mHasInitializedFirstFragment = true;
             }
         }
     }
@@ -279,5 +282,6 @@ public class MainActivity extends ActionBarActivity
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("hasLoaded", true);
+        outState.putBoolean("hasInitializedFirstFragment", mHasInitializedFirstFragment);
     }
 }
