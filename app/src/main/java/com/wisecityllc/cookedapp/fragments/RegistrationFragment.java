@@ -13,6 +13,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.wisecityllc.cookedapp.R;
+import com.wisecityllc.cookedapp.utilities.Verification;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -96,16 +97,19 @@ public class RegistrationFragment extends Fragment {
         });
     }
 
-    private void registerUser(){
+    private void registerUser() {
 
-        if(verifyEmail() && verifyPassword() && verifyUsername()){
+        String email = mEmailField.getText().toString();
+        String password = mPasswordField.getText().toString();
+        String displayName = mDisplayNameField.getText().toString();
+        if (Verification.verifyEmail(email) && Verification.verifyPassword(password) && Verification.verifyUsername(displayName)) {
             mLoadingOverlay.setVisibility(View.VISIBLE);
             ParseUser user = new ParseUser();
-            user.setUsername(mEmailField.getText().toString());
-            user.setPassword(mPasswordField.getText().toString());
-            user.setEmail(mEmailField.getText().toString());
+            user.setUsername(email)
+            user.setPassword(password);
+            user.setEmail(email);
 
-            user.put("displayName", mDisplayNameField.getText().toString());
+            user.put("displayName", displayName);
 
             user.signUpInBackground(new SignUpCallback() {
                 public void done(ParseException e) {
@@ -122,22 +126,6 @@ public class RegistrationFragment extends Fragment {
         }
 
     }
-
-    private boolean verifyEmail(){
-        //TODO: implement
-        return true;
-    }
-
-    private boolean verifyPassword(){
-        //TODO: implement
-        return true;
-    }
-
-    private boolean verifyUsername(){
-        //TODO: implement
-        return true;
-    }
-
     @Override
     public void onDetach() {
         super.onDetach();
