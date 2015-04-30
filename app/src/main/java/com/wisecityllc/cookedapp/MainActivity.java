@@ -13,19 +13,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.parse.LogOutCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.wisecityllc.cookedapp.fragments.LoadingScreenFragment;
 import com.wisecityllc.cookedapp.fragments.LoginFragment;
 import com.wisecityllc.cookedapp.fragments.RegistrationFragment;
 
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, LoginFragment.LoginFragmentInteractionListener, RegistrationFragment.RegistrationFragmentInteractionListener {
+
+
+    //================================================================================
+    //region Properties
+    //================================================================================
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -37,10 +41,31 @@ public class MainActivity extends ActionBarActivity
      */
     private boolean mHasInitializedFirstFragment = false;
 
+
+    /**
+     * Holds a reference to whatever the current Image Picker button is.
+     * This can be in a number of fragments, and as such we want to have one
+     * reference so that all the functionality which occurs in onActivityResult(...)
+     * can be repurposed no matter what the current fragment shown is
+     */
+    private ImageButton mImagePickerButton;
+
+    /**
+     * The loading view used throughout the app to indicate that something is taking place / loading is occuring
+     * Used in place of having a loading indicator for each fragment that needs one throughout the app
+     */
+    private View mLoadingOverlay;
+
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+
+    //endregion
+
+    //================================================================================
+    //region Activity Lifecycle Methods
+    //================================================================================
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,24 +73,9 @@ public class MainActivity extends ActionBarActivity
         setContentView(R.layout.activity_main);
 
 
-        boolean hasAlreadySetUpParse = false;
-
         if(savedInstanceState != null){
-            hasAlreadySetUpParse = savedInstanceState.getBoolean("hasLoaded");
             mHasInitializedFirstFragment = savedInstanceState.getBoolean("hasInitializedFirstFragment");
         }
-        // Enable Local Datastore.
-        if(hasAlreadySetUpParse == false) {
-            Parse.enableLocalDatastore(this);
-
-            Parse.initialize(this, "BrndBVrRczElKefgG3TvjCk3JYxtd5GB2GMzKoEP", "Xb7Pcc0lT2I3uJYNNoT6buaCuZ9dcvBMtCx9U5gw");
-        }
-
-        LoadingScreenFragment loadingFrag = new LoadingScreenFragment();
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.container, loadingFrag, "loading");
-        transaction.commit();
 
     }
 
@@ -73,11 +83,12 @@ public class MainActivity extends ActionBarActivity
     protected void onStart() {
         super.onStart();
 
+        mLoadingOverlay = findViewById(R.id.main_loading_view);
+
         if(mNavigationDrawerFragment == null)
             mNavigationDrawerFragment = (NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-
+        setLoading(false);
         if(mHasInitializedFirstFragment == false) {
-            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("loading")).commit();
             if (ParseUser.getCurrentUser() != null) {
                 //We are already logged in, go to main activity
                 switchToNavFragment();
@@ -88,7 +99,28 @@ public class MainActivity extends ActionBarActivity
                 mHasInitializedFirstFragment = true;
             }
         }
+
     }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean("hasInitializedFirstFragment", mHasInitializedFirstFragment);
+        super.onSaveInstanceState(outState);
+    }
+
+    //endregion
+
+
+    //================================================================================
+    //region Fragment Management Methods
+    //================================================================================
+
+
 
     private void switchToNavFragment() {
 
@@ -101,8 +133,9 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void switchToRegistrationFragment() {
+        RegistrationFragment regFrag = new RegistrationFragment();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, new RegistrationFragment(), "registration")
+                .replace(R.id.container, regFrag, null)
                         // Add this transaction to the back stack
                 .addToBackStack(null)
                 .commit();
@@ -114,13 +147,50 @@ public class MainActivity extends ActionBarActivity
         manager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         LoginFragment loginFrag = new LoginFragment();
         FragmentTransaction trans = manager.beginTransaction();
-        trans.replace(R.id.container, loginFrag, "");
+        trans.add(R.id.container, loginFrag, null);
         trans.commit();
         if(mNavigationDrawerFragment != null)
             mNavigationDrawerFragment.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-
-
     }
+
+    public void setCurrentImagePickerButton(ImageButton picker){
+        mImagePickerButton = picker;
+    }
+
+    //endregion
+
+    //================================================================================
+    //region Fragment Callback Methods
+    //================================================================================
+
+    @Override
+    public void registrationSucceeded() {
+        Toast.makeText(this, "Account Created", Toast.LENGTH_SHORT).show();
+        switchToNavFragment();
+        setLoading(false);
+    }
+
+    @Override
+    public void loginAttemptFinished(boolean succeeded) {
+        if(succeeded){
+            Toast.makeText(this, "Login Succeeded.", Toast.LENGTH_SHORT).show();
+            switchToNavFragment();
+            setLoading(false);
+        }else{
+            Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show();
+            setLoading(false);
+        }
+    }
+
+    @Override
+    public void registrationButtonTouched() {
+        switchToRegistrationFragment();
+    }
+    //endregion
+
+    //================================================================================
+    //region Navigation Drawer Methods
+    //================================================================================
 
     @Override
     public void onNavigationDrawerFinishedLoading() {
@@ -140,6 +210,8 @@ public class MainActivity extends ActionBarActivity
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
     }
+
+    //endregion
 
     public void onSectionAttached(int number) {
         switch (number) {
@@ -196,21 +268,6 @@ public class MainActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void registrationSucceeded() {
-        Toast.makeText(this, "Account Created", Toast.LENGTH_SHORT).show();
-        switchToNavFragment();
-    }
-
-    @Override
-    public void loginAttemptFinished(boolean succeeded) {
-        if(succeeded){
-            Toast.makeText(this, "Login Succeeded.", Toast.LENGTH_SHORT).show();
-            switchToNavFragment();
-        }else{
-            Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     private void attemptLogout() {
         if(ParseUser.getCurrentUser() != null){
@@ -232,11 +289,14 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
-
-    @Override
-    public void registrationButtonTouched() {
-        switchToRegistrationFragment();
+    public void setLoading(boolean isLoading){
+        if(isLoading){
+            mLoadingOverlay.setVisibility(View.VISIBLE);
+        }else{
+            mLoadingOverlay.setVisibility(View.INVISIBLE);
+        }
     }
+
 
     /**
      * A placeholder fragment containing a simple view.
@@ -278,10 +338,4 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean("hasLoaded", true);
-        outState.putBoolean("hasInitializedFirstFragment", mHasInitializedFirstFragment);
-    }
 }

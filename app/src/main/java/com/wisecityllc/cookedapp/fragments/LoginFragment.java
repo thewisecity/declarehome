@@ -56,6 +56,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setRetainInstance(true);
     }
 
     @Override
@@ -71,6 +72,17 @@ public class LoginFragment extends Fragment {
 //            mListener.onFragmentInteraction(uri);
 //        }
 //    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -94,23 +106,26 @@ public class LoginFragment extends Fragment {
         mEmailField = (EditText)getActivity().findViewById(R.id.login_email_field);
         mPasswordField = (EditText)getActivity().findViewById(R.id.login_password_field);
 
-        mSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
+        if(mSignInButton != null)
+            mSignInButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    attemptLogin();
+                }
+            });
 
-        mRegisterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                startRegistrationActivity();
-//                printShit();
-                mListener.registrationButtonTouched();
+        if(mRegisterButton != null)
+            mRegisterButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+    //                startRegistrationActivity();
+    //                printShit();
+                    mListener.registrationButtonTouched();
 
-            }
-        });
-        mLoadingOverlay.setVisibility(View.INVISIBLE);
+                }
+            });
+        if(mLoadingOverlay != null)
+            mLoadingOverlay.setVisibility(View.INVISIBLE);
     }
 
     private void attemptLogin(){

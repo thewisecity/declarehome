@@ -1,19 +1,28 @@
 package com.wisecityllc.cookedapp.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
+import com.wisecityllc.cookedapp.MainActivity;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.utilities.Verification;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,13 +34,19 @@ import com.wisecityllc.cookedapp.utilities.Verification;
  */
 public class RegistrationFragment extends Fragment {
 
-    private RegistrationFragmentInteractionListener mListener;
+    private MainActivity mListener;
 
     private EditText mDisplayNameField, mEmailField, mPasswordField;
 
+    private ImageButton mProfilePicButton;
+
+    private Bitmap mImageForUpload;
+
     private Button mRegisterButton;
 
-    private View mLoadingOverlay;
+    private ParseFile mProfilePicUploadFile;
+
+    static final int REGISTRATION_REQUEST_PHOTO_CAPTURE = 100;
 
     /**
      * Use this factory method to create a new instance of
@@ -39,7 +54,6 @@ public class RegistrationFragment extends Fragment {
      *
      * @return A new instance of fragment RegistrationFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static RegistrationFragment newInstance(String param1, String param2) {
         RegistrationFragment fragment = new RegistrationFragment();
         return fragment;
@@ -72,7 +86,7 @@ public class RegistrationFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (RegistrationFragmentInteractionListener) activity;
+            mListener = (MainActivity) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -86,8 +100,9 @@ public class RegistrationFragment extends Fragment {
         mPasswordField = (EditText)getActivity().findViewById(R.id.registration_password_field);
         mEmailField = (EditText)getActivity().findViewById(R.id.registration_email_field);
 
+        mProfilePicButton = (ImageButton)getActivity().findViewById(R.id.registration_profile_pic_button);
+
         mRegisterButton = (Button)getActivity().findViewById(R.id.registration_register_button);
-        mLoadingOverlay = getActivity().findViewById(R.id.login_loading_view);
 
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +110,42 @@ public class RegistrationFragment extends Fragment {
                 registerUser();
             }
         });
+
+        mProfilePicButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, REGISTRATION_REQUEST_PHOTO_CAPTURE);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent returnedIntent) {
+        super.onActivityResult(requestCode, resultCode, returnedIntent);
+
+        switch(requestCode) {
+            case REGISTRATION_REQUEST_PHOTO_CAPTURE:
+                if (resultCode == Activity.RESULT_OK) {
+                    Bundle extras = returnedIntent.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    mProfilePicButton.setImageBitmap(imageBitmap);
+                    mImageForUpload = imageBitmap;
+
+                    //Format image for Parse upload
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    // get byte array here
+                    byte[] bytearray= stream.toByteArray();
+                    mProfilePicUploadFile = new ParseFile("profilePic.jpg", bytearray);
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     private void registerUser() {
@@ -102,27 +153,40 @@ public class RegistrationFragment extends Fragment {
         String email = mEmailField.getText().toString();
         String password = mPasswordField.getText().toString();
         String displayName = mDisplayNameField.getText().toString();
-        if (Verification.verifyEmail(email) && Verification.verifyPassword(password) && Verification.verifyUsername(displayName)) {
-            mLoadingOverlay.setVisibility(View.VISIBLE);
-            ParseUser user = new ParseUser();
-            user.setUsername(email)
+        if (Verification.verifyEmail(email) && Verification.verifyPassword(password) && Verification.verifyUsername(displayName) && mProfilePicUploadFile != null) {
+            ((MainActivity)getActivity()).setLoading(true);
+            final ParseUser user = new ParseUser();
+            user.setUsername(email);
             user.setPassword(password);
             user.setEmail(email);
 
             user.put("displayName", displayName);
 
-            user.signUpInBackground(new SignUpCallback() {
+            mProfilePicUploadFile.saveInBackground(new SaveCallback() {
+                @Override
                 public void done(ParseException e) {
-                    if (e == null) {
-                        // Hooray! Let them use the app now.
-                        mListener.registrationSucceeded();
-                    } else {
-                        // Sign up didn't succeed. Look at the ParseException
-                        // to figure out what went wrong
+                    if(e == null) {
+                        user.put("profilePic", mProfilePicUploadFile);
+                        user.signUpInBackground(new SignUpCallback() {
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    // Hooray! Let them use the app now.
+                                    mListener.registrationSucceeded();
+                                } else {
+                                    // Sign up didn't succeed. Look at the ParseException
+                                    // to figure out what went wrong
+                                }
+                                if(getActivity() != null)
+                                    ((MainActivity)getActivity()).setLoading(false);
+                            }
+                        });
+                    }else{
+                        //Problem saving photo
                     }
-                    mLoadingOverlay.setVisibility(View.INVISIBLE);
                 }
             });
+
+
         }
 
     }
