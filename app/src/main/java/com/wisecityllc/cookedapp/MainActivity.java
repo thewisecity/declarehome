@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.segment.analytics.Analytics;
+import com.segment.analytics.Traits;
 import com.wisecityllc.cookedapp.fragments.LoginFragment;
 import com.wisecityllc.cookedapp.fragments.RegistrationFragment;
 
@@ -91,6 +93,7 @@ public class MainActivity extends ActionBarActivity
         if(mHasInitializedFirstFragment == false) {
             if (ParseUser.getCurrentUser() != null) {
                 //We are already logged in, go to main activity
+
                 switchToNavFragment();
                 mHasInitializedFirstFragment = true;
             } else {
@@ -98,8 +101,8 @@ public class MainActivity extends ActionBarActivity
                 switchToLoginFragment();
                 mHasInitializedFirstFragment = true;
             }
-        }
 
+        }
     }
 
     @Override
@@ -168,6 +171,11 @@ public class MainActivity extends ActionBarActivity
         Toast.makeText(this, "Account Created", Toast.LENGTH_SHORT).show();
         switchToNavFragment();
         setLoading(false);
+        if (ParseUser.getCurrentUser() != null) {
+            //We are already logged in, go to main activity after registering user
+            Analytics.with(this).identify(ParseUser.getCurrentUser().getObjectId(), new Traits().putName(ParseUser.getCurrentUser().getString("displayName")).putEmail(ParseUser.getCurrentUser().getEmail()), null);
+
+        }
     }
 
     @Override

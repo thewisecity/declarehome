@@ -26,8 +26,11 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile fileTree(dir: 'libs', include: 'Parse-*.jar')
+    compile('com.segment.analytics.android:analytics:+@aar') {
+        transitive = true
+    }
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.parse.bolts:bolts-android:1.+'
-    compile 'com.google.android.gms:play-services:7.0.0'
     compile 'com.instabug.library:instabugsupport:1+'
+
 }
