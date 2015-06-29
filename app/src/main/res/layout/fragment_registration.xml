@@ -51,6 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/registration_password_field"
+            android:inputType="textPassword"
             android:hint="@string/registration_prompt_password"
             android:layout_below="@+id/registration_email_field"
             android:layout_alignLeft="@+id/registration_email_field"
