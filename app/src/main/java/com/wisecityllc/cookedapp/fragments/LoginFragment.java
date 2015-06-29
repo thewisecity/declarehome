@@ -13,7 +13,7 @@ import android.widget.EditText;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.wisecityllc.cookedapp.MainActivity;
+import com.wisecityllc.cookedapp.PreLoginActivity;
 import com.wisecityllc.cookedapp.R;
 
 /**
@@ -147,7 +147,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void loginSuccessful() {
-        Intent startActivityIntent = new Intent(getActivity(), MainActivity.class);
+        Intent startActivityIntent = new Intent(getActivity(), PreLoginActivity.class);
         startActivity(startActivityIntent);
     }
 

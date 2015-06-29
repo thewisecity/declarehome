@@ -22,10 +22,11 @@ import com.parse.ParseUser;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Traits;
 import com.wisecityllc.cookedapp.fragments.LoginFragment;
+import com.wisecityllc.cookedapp.fragments.NavigationDrawerFragment;
 import com.wisecityllc.cookedapp.fragments.RegistrationFragment;
 
 
-public class MainActivity extends ActionBarActivity
+public class PreLoginActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, LoginFragment.LoginFragmentInteractionListener, RegistrationFragment.RegistrationFragmentInteractionListener {
 
 
@@ -72,7 +73,7 @@ public class MainActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_pre_login);
 
 
         if(savedInstanceState != null){
@@ -124,7 +125,7 @@ public class MainActivity extends ActionBarActivity
     //================================================================================
 
 
-
+    @Deprecated
     private void switchToNavFragment() {
 
         FragmentManager manager = getSupportFragmentManager();
@@ -341,7 +342,7 @@ public class MainActivity extends ActionBarActivity
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
+            ((PreLoginActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }

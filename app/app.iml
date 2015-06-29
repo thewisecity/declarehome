@@ -87,6 +87,7 @@
     <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="analytics-integration-bugsnag-3.1.4" level="project" />
+    <orderEntry type="library" exported="" name="instabugsupport-1.4" level="project" />
     <orderEntry type="library" exported="" name="analytics-integration-localytics-3.1.4" level="project" />
     <orderEntry type="library" exported="" name="okio-1.2.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-base-7.5.0" level="project" />
@@ -95,12 +96,11 @@
     <orderEntry type="library" exported="" name="analytics-integration-google-analytics-3.1.4" level="project" />
     <orderEntry type="library" exported="" name="android-sdk-1.7.0" level="project" />
     <orderEntry type="library" exported="" name="Parse-1.9.1" level="project" />
-    <orderEntry type="library" exported="" name="instabugsupport-1.3.9" level="project" />
     <orderEntry type="library" exported="" name="analytics-integration-leanplum-3.1.4" level="project" />
     <orderEntry type="library" exported="" name="analytics-integration-kahuna-3.1.4" level="project" />
     <orderEntry type="library" exported="" name="QuantcastAndroidSdk-split-1.2.7" level="project" />
-    <orderEntry type="library" exported="" name="analytics-core-3.1.4" level="project" />
     <orderEntry type="library" exported="" name="library-1.0.16" level="project" />
+    <orderEntry type="library" exported="" name="analytics-core-3.1.4" level="project" />
     <orderEntry type="library" exported="" name="analytics-integration-amplitude-3.1.4" level="project" />
     <orderEntry type="library" exported="" name="mimecraft-1.1.1" level="project" />
     <orderEntry type="library" exported="" name="analytics-integration-appsflyer-3.1.4" level="project" />
@@ -120,7 +120,7 @@
     <orderEntry type="library" exported="" name="analytics-integration-mixpanel-3.1.4" level="project" />
     <orderEntry type="library" exported="" name="analytics-integration-uxcam-3.1.4" level="project" />
     <orderEntry type="library" exported="" name="crittercism-android-agent-5.2.0" level="project" />
-    <orderEntry type="library" exported="" name="instabugcore-1.3.9" level="project" />
+    <orderEntry type="library" exported="" name="instabugcore-1.4" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.2.0" level="project" />
     <orderEntry type="library" exported="" name="analytics-integration-crittercism-3.1.4" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.2.0" level="project" />

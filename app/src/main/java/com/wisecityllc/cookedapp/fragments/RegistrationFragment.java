@@ -18,7 +18,7 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
-import com.wisecityllc.cookedapp.MainActivity;
+import com.wisecityllc.cookedapp.PreLoginActivity;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.utilities.Verification;
 
@@ -34,7 +34,7 @@ import java.io.ByteArrayOutputStream;
  */
 public class RegistrationFragment extends Fragment {
 
-    private MainActivity mListener;
+    private PreLoginActivity mListener;
 
     private EditText mDisplayNameField, mEmailField, mPasswordField;
 
@@ -86,7 +86,7 @@ public class RegistrationFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (MainActivity) activity;
+            mListener = (PreLoginActivity) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -154,7 +154,7 @@ public class RegistrationFragment extends Fragment {
         String password = mPasswordField.getText().toString();
         String displayName = mDisplayNameField.getText().toString();
         if (Verification.verifyEmail(email) && Verification.verifyPassword(password) && Verification.verifyUsername(displayName) && mProfilePicUploadFile != null) {
-            ((MainActivity)getActivity()).setLoading(true);
+            ((PreLoginActivity)getActivity()).setLoading(true);
             final ParseUser user = new ParseUser();
             user.setUsername(email);
             user.setPassword(password);
@@ -177,7 +177,7 @@ public class RegistrationFragment extends Fragment {
                                     // to figure out what went wrong
                                 }
                                 if(getActivity() != null)
-                                    ((MainActivity)getActivity()).setLoading(false);
+                                    ((PreLoginActivity)getActivity()).setLoading(false);
                             }
                         });
                     }else{

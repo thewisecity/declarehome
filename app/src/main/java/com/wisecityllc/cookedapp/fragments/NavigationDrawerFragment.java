@@ -1,4 +1,4 @@
-package com.wisecityllc.cookedapp;
+package com.wisecityllc.cookedapp.fragments;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.segment.analytics.Analytics;
+import com.wisecityllc.cookedapp.R;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
