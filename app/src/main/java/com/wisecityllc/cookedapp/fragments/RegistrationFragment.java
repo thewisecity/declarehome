@@ -18,7 +18,7 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
-import com.wisecityllc.cookedapp.PreLoginActivity;
+import com.wisecityllc.cookedapp.activities.PreLoginActivity;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.utilities.Verification;
 

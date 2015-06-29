@@ -84,7 +84,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="analytics-integration-bugsnag-3.1.4" level="project" />
     <orderEntry type="library" exported="" name="instabugsupport-1.4" level="project" />
@@ -99,8 +99,8 @@
     <orderEntry type="library" exported="" name="analytics-integration-leanplum-3.1.4" level="project" />
     <orderEntry type="library" exported="" name="analytics-integration-kahuna-3.1.4" level="project" />
     <orderEntry type="library" exported="" name="QuantcastAndroidSdk-split-1.2.7" level="project" />
-    <orderEntry type="library" exported="" name="library-1.0.16" level="project" />
     <orderEntry type="library" exported="" name="analytics-core-3.1.4" level="project" />
+    <orderEntry type="library" exported="" name="library-1.0.16" level="project" />
     <orderEntry type="library" exported="" name="analytics-integration-amplitude-3.1.4" level="project" />
     <orderEntry type="library" exported="" name="mimecraft-1.1.1" level="project" />
     <orderEntry type="library" exported="" name="analytics-integration-appsflyer-3.1.4" level="project" />
