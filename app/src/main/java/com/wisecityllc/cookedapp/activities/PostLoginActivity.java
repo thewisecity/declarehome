@@ -144,6 +144,7 @@ public class PostLoginActivity extends ActionBarActivity
 
     private void switchToLoginActivity() {
         Intent loginActivityIntent = new Intent(this, PreLoginActivity.class);
+        loginActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(loginActivityIntent);
     }
 

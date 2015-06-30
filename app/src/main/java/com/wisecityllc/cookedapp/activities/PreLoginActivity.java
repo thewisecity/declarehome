@@ -109,6 +109,7 @@ public class PreLoginActivity extends ActionBarActivity
 
     private void switchToPostLoginActivity() {
         Intent startPostLoginActivityIntent = new Intent(this, PostLoginActivity.class);
+        startPostLoginActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(startPostLoginActivityIntent);
     }
 
