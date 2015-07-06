@@ -1,7 +1,6 @@
 package com.wisecityllc.cookedapp.fragments;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,9 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
+import com.wisecityllc.cookedapp.parseClasses.Group;
 
 import com.wisecityllc.cookedapp.R;
-import com.wisecityllc.cookedapp.activities.CreateGroupActivity;
 import com.wisecityllc.cookedapp.adapters.AllGroupsAdapter;
 
 /**
@@ -28,7 +28,7 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
 
     private AllGroupsAdapter mGroupsAdapter;
     private ListView mGroupsListView;
-    
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -117,12 +117,9 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        startCreateNewGroupActivity();
+        Toast.makeText(getActivity(), "Tapped " + ((Group)mGroupsAdapter.getItem(i)).getName(), Toast.LENGTH_SHORT).show();
+        //startCreateNewGroupActivity();
     }
 
-    private void startCreateNewGroupActivity(){
-        Intent startNewGroupIntent = new Intent(getActivity(), CreateGroupActivity.class);
-        startNewGroupIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(startNewGroupIntent);
-    }
+
 }

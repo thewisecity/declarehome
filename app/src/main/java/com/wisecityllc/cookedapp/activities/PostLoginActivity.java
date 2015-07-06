@@ -201,11 +201,19 @@ public class PostLoginActivity extends ActionBarActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
+
+        if(position == NavigationDrawerFragment.NAV_DRAWER_CREATE_GROUP_POSITION){
+            startCreateNewGroupActivity();
+        }
+
+
     }
 
+    private void startCreateNewGroupActivity(){
+        Intent startNewGroupIntent = new Intent(this, CreateGroupActivity.class);
+        startNewGroupIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(startNewGroupIntent);
+    }
     //endregion
 
     /**
@@ -239,6 +247,7 @@ public class PostLoginActivity extends ActionBarActivity
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
         }
+
 
 
     }
