@@ -16,15 +16,24 @@ public class PostLoginPageAdapter extends FragmentPagerAdapter {
     private static final int EVENTS_FRAGMENT = 1;
     private static final int WELLNESS_FRAGMENT = 2;
 
+    private GroupsFragment mGroupsFragment;
+    private EventsFragment mEventsFragment;
+
     public PostLoginPageAdapter (FragmentManager fm) {
         super(fm);
+        mGroupsFragment = new GroupsFragment();
+        mEventsFragment = new EventsFragment();
+    }
+
+    public void notifyGroupsDataUpdated(){
+        mGroupsFragment.notifyGroupsDataUpdated();
     }
 
     @Override
     public Fragment getItem(int i) {
         switch (i){
-            case GROUPS_FRAGMENT : return new GroupsFragment();
-            case EVENTS_FRAGMENT : return new EventsFragment();
+            case GROUPS_FRAGMENT : return mGroupsFragment;
+            case EVENTS_FRAGMENT : return mEventsFragment;
             case WELLNESS_FRAGMENT : return new WellnessFragment();
         }
         return null;
