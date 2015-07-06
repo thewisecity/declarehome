@@ -1,9 +1,13 @@
 package com.wisecityllc.cookedapp.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -29,9 +33,9 @@ import com.wisecityllc.cookedapp.fragments.WellnessFragment;
 
 public class PostLoginActivity extends ActionBarActivity
         implements  NavigationDrawerFragment.NavigationDrawerCallbacks,
-                    GroupsFragment.GroupsFragmentInteractionListener,
-                    WellnessFragment.WellnessFragmentInteractionListener,
-                    EventsFragment.EventsFragmentInteractionListener {
+        GroupsFragment.GroupsFragmentInteractionListener,
+        WellnessFragment.WellnessFragmentInteractionListener,
+        EventsFragment.EventsFragmentInteractionListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -50,9 +54,17 @@ public class PostLoginActivity extends ActionBarActivity
     private ViewPager mViewPager;
 
     /**
+     * Adapter which controls the Groups and Events fragment
+     */
+    private PostLoginPageAdapter mPageAdapter;
+
+    /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+
+
+    private BroadcastReceiver mParseObjectUpdatesReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +72,21 @@ public class PostLoginActivity extends ActionBarActivity
         setContentView(R.layout.activity_post_login);
 
 
+        //Initialize broadcast receiver
+        mParseObjectUpdatesReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                //"Group was created" intent received
+                if(intent.getAction().equalsIgnoreCase(getString(R.string.broadcast_group_saved_success))){
+                    mPageAdapter.notifyGroupsDataUpdated();
+                }
+            }
+        };
+        IntentFilter parseObjectUpdates = new IntentFilter();
+        parseObjectUpdates.addAction(getString(R.string.broadcast_group_saved_success));
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mParseObjectUpdatesReceiver, parseObjectUpdates);
     }
 
     @Override
@@ -69,7 +96,8 @@ public class PostLoginActivity extends ActionBarActivity
             mNavigationDrawerFragment = (NavigationDrawerFragment)getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         if(mViewPager == null) {
             mViewPager = (ViewPager) findViewById(R.id.post_login_pager);
-            mViewPager.setAdapter(new PostLoginPageAdapter(getSupportFragmentManager()));
+            mPageAdapter = new PostLoginPageAdapter(getSupportFragmentManager());
+            mViewPager.setAdapter(mPageAdapter);
         }
 
         // Give the SlidingTabLayout the ViewPager, this must be done AFTER the ViewPager has had
@@ -78,6 +106,13 @@ public class PostLoginActivity extends ActionBarActivity
             mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
             mSlidingTabLayout.setViewPager(mViewPager);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mParseObjectUpdatesReceiver);
+        super.onDestroy();
+
     }
 
     public void restoreActionBar() {

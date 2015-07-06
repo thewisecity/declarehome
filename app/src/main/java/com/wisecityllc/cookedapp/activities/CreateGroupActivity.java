@@ -2,7 +2,6 @@ package com.wisecityllc.cookedapp.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +28,7 @@ public class CreateGroupActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_group);
     }
-    
+
     @Override
     protected void onStart() {
         super.onStart();
