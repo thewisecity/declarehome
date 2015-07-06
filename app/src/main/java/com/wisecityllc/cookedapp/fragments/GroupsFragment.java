@@ -1,14 +1,17 @@
 package com.wisecityllc.cookedapp.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.wisecityllc.cookedapp.R;
+import com.wisecityllc.cookedapp.activities.CreateGroupActivity;
 import com.wisecityllc.cookedapp.adapters.AllGroupsAdapter;
 
 /**
@@ -19,13 +22,13 @@ import com.wisecityllc.cookedapp.adapters.AllGroupsAdapter;
  * Use the {@link GroupsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GroupsFragment extends Fragment {
+public class GroupsFragment extends Fragment implements AdapterView.OnItemClickListener{
 
     private GroupsFragmentInteractionListener mListener;
 
     private AllGroupsAdapter mGroupsAdapter;
     private ListView mGroupsListView;
-
+    
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -42,12 +45,18 @@ public class GroupsFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public void notifyGroupsDataUpdated() {
+        mGroupsAdapter.loadObjects();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Initialize main ParseQueryAdapter
         mGroupsAdapter = new AllGroupsAdapter(getActivity());
+
+
 
     }
 
@@ -59,6 +68,7 @@ public class GroupsFragment extends Fragment {
         }
 
         mGroupsListView.setAdapter(mGroupsAdapter);
+        mGroupsListView.setOnItemClickListener(this);
 
         mGroupsAdapter.loadObjects();
 
@@ -89,6 +99,8 @@ public class GroupsFragment extends Fragment {
         mListener = null;
     }
 
+
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -103,4 +115,14 @@ public class GroupsFragment extends Fragment {
 //        public void onFragmentInteraction(Uri uri);
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        startCreateNewGroupActivity();
+    }
+
+    private void startCreateNewGroupActivity(){
+        Intent startNewGroupIntent = new Intent(getActivity(), CreateGroupActivity.class);
+        startNewGroupIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(startNewGroupIntent);
+    }
 }
