@@ -27,7 +27,21 @@
     <string name="hello_wellness">Hello wellness!</string>
     <string name="hello_groups">Hello groups!</string>
     <string name="hello_events">Hello events!</string>
+    <string name="title_activity_create_group">CreateGroupActivity</string>
 
+    <string name="enter_all_info_below">Enter all info below to start a new group</string>
+    <string name="create_group">Create Group</string>
+    <string name="group_name">Group Name</string>
+    <string name="group_purpose">Group Purpose</string>
+    <string name="neighberhoods_areas_districts">Neighberhoods/Areas/Districts of focus</string>
+    <string name="group_street_address">Group Street Address</string>
+    <string name="city">City</string>
+    <string name="state_province_territory_department">State/Province/Territory/Department</string>
+    <string name="group_website">Group website</string>
+    <string name="facebook_page">Facebook page</string>
+    <string name="twitter_name">Twitter name</string>
 
+    <!-- Broadcast Notification Constants Strings -->
+    <string name="broadcast_group_saved_success">GroupSavedIntent</string>
 
 </resources>
