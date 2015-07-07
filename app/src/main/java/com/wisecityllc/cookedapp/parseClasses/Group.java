@@ -12,8 +12,6 @@ import com.parse.SaveCallback;
 import com.wisecityllc.cookedapp.App;
 import com.wisecityllc.cookedapp.R;
 
-//import com.parse.PFObject;
-
 /**
  * Created by dexterlohnes on 6/30/15.
  */
