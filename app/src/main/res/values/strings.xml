@@ -16,8 +16,10 @@
     <string name="parse_client_key">Xb7Pcc0lT2I3uJYNNoT6buaCuZ9dcvBMtCx9U5gw</string>
     <string name="title_activity_registration">RegistrationActivity</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Cloud Code functions-->
+    <string name="cloud_code_get_user_status_within_group">getUserStatusForGroup</string>
+
+
     <string name="title_activity_nonsenseactivity">nonsenseactivity</string>
     <string name="title_activity_post_login">PostLoginActivity</string>
 
@@ -27,6 +29,8 @@
     <string name="hello_groups">Hello groups!</string>
     <string name="hello_events">Hello events!</string>
     <string name="title_activity_create_group">CreateGroupActivity</string>
+
+    <string name="invite_members">Invite Members</string>
 
     <string name="enter_all_info_below">Enter all info below to start a new group</string>
     <string name="create_group">Create Group</string>
@@ -42,5 +46,6 @@
 
     <!-- Broadcast Notification Constants Strings -->
     <string name="broadcast_group_saved_success">GroupSavedIntent</string>
+    <string name="title_activity_group_details">GroupDetailsActivity</string>
 
 </resources>
