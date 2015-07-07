@@ -1,6 +1,7 @@
 package com.wisecityllc.cookedapp.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,10 +10,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-import com.wisecityllc.cookedapp.parseClasses.Group;
 
 import com.wisecityllc.cookedapp.R;
+import com.wisecityllc.cookedapp.activities.GroupDetailsActivity;
 import com.wisecityllc.cookedapp.adapters.AllGroupsAdapter;
+import com.wisecityllc.cookedapp.parseClasses.Group;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -118,8 +120,19 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Toast.makeText(getActivity(), "Tapped " + ((Group)mGroupsAdapter.getItem(i)).getName(), Toast.LENGTH_SHORT).show();
-        //startCreateNewGroupActivity();
+        Group selectedGroup = mGroupsAdapter.getItem(i);
+        startCreateNewGroupActivity(selectedGroup);
     }
 
-
+    private void startCreateNewGroupActivity(Group group){
+        Intent viewGroupDetailsIntent = new Intent(getActivity(), GroupDetailsActivity.class);
+        viewGroupDetailsIntent.putExtra("id", group.getObjectId());
+        viewGroupDetailsIntent.putExtra("name", group.getName());
+        viewGroupDetailsIntent.putExtra("purpose", group.getPurpose());
+        viewGroupDetailsIntent.putExtra("neighberhoods", group.getNeighberhoods());
+        viewGroupDetailsIntent.putExtra("city", group.getCity());
+        viewGroupDetailsIntent.putExtra("state", group.getState());
+        viewGroupDetailsIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(viewGroupDetailsIntent);
+    }
 }
