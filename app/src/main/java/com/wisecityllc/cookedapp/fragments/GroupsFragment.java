@@ -127,6 +127,7 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
     private void startCreateNewGroupActivity(Group group){
         Intent viewGroupDetailsIntent = new Intent(getActivity(), GroupDetailsActivity.class);
         viewGroupDetailsIntent.putExtra("id", group.getObjectId());
+        viewGroupDetailsIntent.putExtra("groupHashId", group.getGroupHashId());
         viewGroupDetailsIntent.putExtra("name", group.getName());
         viewGroupDetailsIntent.putExtra("purpose", group.getPurpose());
         viewGroupDetailsIntent.putExtra("neighberhoods", group.getNeighberhoods());

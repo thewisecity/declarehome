@@ -2,6 +2,7 @@ package com.wisecityllc.cookedapp.parseClasses;
 
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.parse.ParseClassName;
@@ -85,6 +86,16 @@ public class Group extends ParseObject {
 
     public String getName() {
         return getString("name");
+    }
+
+    public void setGroupHashId(Number groupHashId) {
+        put("groupHashId", groupHashId);
+    }
+
+    public String getGroupHashId() {
+        Number hashId = getNumber("groupHashId");
+        Log.d("Dex",hashId.toString());
+        return hashId.toString();
     }
 
     public void setName(String name) {
