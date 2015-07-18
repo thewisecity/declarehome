@@ -84,7 +84,11 @@
         android:id="@+id/group_details_activity_button"
         android:background="#00b6a1"
         android:layout_gravity="center"
-        android:layout_width="200dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_width="fill_parent"
+        android:maxWidth="220dp"
+        android:minWidth="100dp"
         android:layout_height="60dp" />
 
 </LinearLayout>

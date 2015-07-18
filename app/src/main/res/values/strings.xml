@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">CookedApp</string>
 
+    <string name="enter_up_to_four_new_members_at_a_time">Enter up to four new members at a time</string>
+
     <!-- Navigation drawer sections -->
     <string name="nav_section_create_new_group">Create A New Group</string>
 
@@ -18,6 +20,7 @@
 
     <!-- Cloud Code functions-->
     <string name="cloud_code_get_user_status_within_group">getUserStatusForGroup</string>
+    <string name="cloud_code_send_invite_to_individual_user">inviteToGroup</string>
 
 
     <string name="title_activity_nonsenseactivity">nonsenseactivity</string>
@@ -43,9 +46,12 @@
     <string name="group_website">Group website</string>
     <string name="facebook_page">Facebook page</string>
     <string name="twitter_name">Twitter name</string>
+    <string name="add_email_address">Add email address</string>
+    <string name="invite_new_members">Invite New Members</string>
 
     <!-- Broadcast Notification Constants Strings -->
     <string name="broadcast_group_saved_success">GroupSavedIntent</string>
     <string name="title_activity_group_details">GroupDetailsActivity</string>
+    <string name="title_activity_invite_members">InviteMembersActivity</string>
 
 </resources>

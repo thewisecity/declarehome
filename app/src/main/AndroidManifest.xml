@@ -49,6 +49,10 @@
             android:name=".activities.GroupDetailsActivity"
             android:label="@string/title_activity_group_details" >
         </activity>
+        <activity
+            android:name=".activities.InviteMembersActivity"
+            android:label="@string/title_activity_invite_members" >
+        </activity>
     </application>
 
 </manifest>

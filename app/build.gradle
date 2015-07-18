@@ -30,6 +30,5 @@ dependencies {
         transitive = true
     }
     compile 'com.android.support:appcompat-v7:22.0.0'
-    compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.instabug.library:instabugsupport:1+'
 }

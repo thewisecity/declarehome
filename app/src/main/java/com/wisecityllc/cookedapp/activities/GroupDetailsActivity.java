@@ -102,7 +102,7 @@ public class GroupDetailsActivity extends ActionBarActivity {
                             updateUIForUserStatusResponse(response);
                         }
                     }
-                });
+        });
     }
 
 
@@ -120,6 +120,12 @@ public class GroupDetailsActivity extends ActionBarActivity {
         {
             mButton.setVisibility(View.VISIBLE);
             mButton.setText(getString(R.string.invite_members));
+            mButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openInviteMembersActivity();
+                }
+            });
         }
 
         else if(response==USER_HAS_BEEN_INVITED)
@@ -158,6 +164,13 @@ public class GroupDetailsActivity extends ActionBarActivity {
             mButton.setVisibility(View.VISIBLE);
             mButton.setText("Not sure what happened");
         }
+    }
+
+    private void openInviteMembersActivity() {
+        Intent openActivity = new Intent(this, InviteMembersActivity.class);
+        openActivity.putExtra("groupId", getIntent().getStringExtra("id"));
+        openActivity.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(openActivity);
     }
 
 }
