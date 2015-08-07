@@ -48,7 +48,8 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
     }
 
     public void notifyGroupsDataUpdated() {
-        mGroupsAdapter.loadObjects();
+        if(mGroupsAdapter != null)
+            mGroupsAdapter.loadObjects();
     }
 
     @Override

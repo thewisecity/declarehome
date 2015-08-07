@@ -17,6 +17,7 @@ import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.fragments.LoginFragment;
 import com.wisecityllc.cookedapp.fragments.RegistrationFragment;
 import com.wisecityllc.cookedapp.utilities.Installation;
+import com.wisecityllc.cookedapp.utilities.Notifications;
 
 
 public class PreLoginActivity extends ActionBarActivity
