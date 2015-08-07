@@ -16,6 +16,7 @@ import com.segment.analytics.Traits;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.fragments.LoginFragment;
 import com.wisecityllc.cookedapp.fragments.RegistrationFragment;
+import com.wisecityllc.cookedapp.utilities.Installation;
 
 
 public class PreLoginActivity extends ActionBarActivity
@@ -76,10 +77,17 @@ public class PreLoginActivity extends ActionBarActivity
         if(mHasInitializedFirstFragment == false) {
             if (ParseUser.getCurrentUser() != null) {
                 //We are already logged in, go to main activity
-
                 switchToPostLoginActivity();
+
+                //Make sure our current installation is associated with our current user
+                Installation.associateCurrentUserWithCurrentInstallation();
+
+
+
                 mHasInitializedFirstFragment = true;
             } else {
+                //Unassociate our current Installation from any user
+                Installation.unassociateCurrentUserFromCurrentInstallation();
                 //Go to login activity
                 switchToLoginFragment();
                 mHasInitializedFirstFragment = true;
@@ -130,6 +138,7 @@ public class PreLoginActivity extends ActionBarActivity
         FragmentTransaction trans = manager.beginTransaction();
         trans.add(R.id.container, loginFrag, null);
         trans.commit();
+
 //        if(mNavigationDrawerFragment != null)
 //            mNavigationDrawerFragment.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
