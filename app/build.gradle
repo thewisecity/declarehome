@@ -1,4 +1,14 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 22
@@ -21,14 +31,15 @@ android {
 
 repositories {
     mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile fileTree(dir: 'libs', include: 'Parse-*.jar')
-//    compile('com.segment.analytics.android:analytics:+@aar') {
-//        transitive = true
-//    }
+    //    compile('com.segment.analytics.android:analytics:+@aar') {
+    //        transitive = true
+    //    }
     compile('com.segment.analytics.android:analytics-core:+') {
         transitive = true
     }
@@ -37,4 +48,8 @@ dependencies {
     }
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.instabug.library:instabugsupport:1+'
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.0@aar') {
+        transitive = true;
+    }
+    compile files('libs/Parse-1.9.4.jar')
 }
