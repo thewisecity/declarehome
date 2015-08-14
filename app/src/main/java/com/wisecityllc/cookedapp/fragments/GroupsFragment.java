@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.activities.GroupDetailsActivity;
+import com.wisecityllc.cookedapp.activities.MessageWallActivity;
 import com.wisecityllc.cookedapp.adapters.AllGroupsAdapter;
 import com.wisecityllc.cookedapp.parseClasses.Group;
 
@@ -122,7 +123,8 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Toast.makeText(getActivity(), "Tapped " + ((Group)mGroupsAdapter.getItem(i)).getName(), Toast.LENGTH_SHORT).show();
         Group selectedGroup = mGroupsAdapter.getItem(i);
-        startCreateNewGroupActivity(selectedGroup);
+//        startCreateNewGroupActivity(selectedGroup);
+        startMessageWallActivityForGroup(selectedGroup);
     }
 
     private void startCreateNewGroupActivity(Group group){
@@ -136,5 +138,14 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
         viewGroupDetailsIntent.putExtra("state", group.getState());
         viewGroupDetailsIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(viewGroupDetailsIntent);
+    }
+
+    private void startMessageWallActivityForGroup (Group group){
+        Intent viewGroupMessageWallIntent = new Intent(getActivity(), MessageWallActivity.class);
+        viewGroupMessageWallIntent.putExtra("groupId", group.getObjectId());
+        viewGroupMessageWallIntent.putExtra("groupName", group.getName());
+        viewGroupMessageWallIntent.putExtra("city", group.getCity());
+        viewGroupMessageWallIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(viewGroupMessageWallIntent);
     }
 }

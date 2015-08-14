@@ -25,7 +25,6 @@ public class AllGroupsAdapter extends ParseQueryAdapter<Group>{
         });
     }
 
-
     @Override
     public View getItemView(Group group, View v, ViewGroup parent) {
 

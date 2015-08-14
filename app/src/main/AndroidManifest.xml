@@ -14,7 +14,6 @@
     <!-- Allows location to be tracked -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -26,8 +25,10 @@
       IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
       to match your app's package name + ".permission.C2D_MESSAGE".
     -->
-    <permission android:protectionLevel="signature"
-        android:name="com.wisecityllc.cookedapp.permission.C2D_MESSAGE" />
+    <permission
+        android:name="com.wisecityllc.cookedapp.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="com.wisecityllc.cookedapp.permission.C2D_MESSAGE" />
 
     <uses-feature
@@ -43,9 +44,6 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light" >
-
-
-
         <activity
             android:name=".activities.PreLoginActivity"
             android:label="@string/app_name" >
@@ -72,43 +70,47 @@
             android:label="@string/title_activity_invite_members" >
         </activity>
 
-
-
-        <!-- All this comes from the parse push quick starter guide https://www.parse.com/apps/quickstart#parse_push/android/native/existing-->
-        <!-- PARSE PUSH-->
+        <!-- All this comes from the parse push quick starter guide https://www.parse.com/apps/quickstart#parse_push/android/native/existing -->
+        <!-- PARSE PUSH -->
 
         <service android:name="com.parse.PushService" />
-        <receiver android:name="com.parse.ParseBroadcastReceiver">
+
+        <receiver android:name="com.parse.ParseBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.parse.ParsePushBroadcastReceiver"
-            android:exported="false">
+        <receiver
+            android:name="com.parse.ParsePushBroadcastReceiver"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
                 <action android:name="com.parse.push.intent.DELETE" />
                 <action android:name="com.parse.push.intent.OPEN" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.parse.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <!--
-                  IMPORTANT: Change "com.parse.starter" to match your app's package name.
-                -->
+<!--                   IMPORTANT: Change "com.parse.starter" to match your app's package name. -->
                 <category android:name="com.wisecityllc.cookedapp" />
             </intent-filter>
         </receiver>
 
-        <!-- PARSE PUSH-->
+        <!-- PARSE PUSH -->
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="d73bd1f29c7de60137b18d4cabe784353625ad5f" />
+
+        <activity
+            android:name=".activities.MessageWallActivity"
+            android:label="@string/title_activity_message_wall" >
+        </activity>
     </application>
 
 </manifest>
