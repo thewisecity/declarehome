@@ -76,24 +76,31 @@ public class GroupDetailsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void setIsLoadingMemberStatus(){
+        ProgressBar loadingIndicator = (ProgressBar) findViewById(R.id.group_details_activity_loading_indicator);
+        loadingIndicator.setVisibility(View.VISIBLE);
+
+        mButton.setVisibility(View.GONE);
+        mButton.setOnClickListener(null);
+    }
+
     private void setupUIForCurrentUserStatusWithinGroup() {
+
+        setIsLoadingMemberStatus();
+
         HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("group", getIntent().getStringExtra("id"));
-        Log.d("DEX", "GroupHashId: " + getIntent().getStringExtra("groupHashId"));
-        params.put("groupHashId", getIntent().getStringExtra("groupHashId"));
+        params.put("groupId", getIntent().getStringExtra("id"));
         ParseCloud.callFunctionInBackground(getString(R.string.cloud_code_get_user_status_within_group),
                 params,
                 new FunctionCallback<Number>() {
                     @Override
                     public void done(Number number, ParseException e) {
 
-                        if(e != null){
+                        if (e != null) {
                             Log.e("Error", e.getLocalizedMessage());
 
-                        }else {
+                        } else {
 
-                            ProgressBar loadingIndicator = (ProgressBar) findViewById(R.id.group_details_activity_loading_indicator);
-                            loadingIndicator.setVisibility(View.GONE);
 
                             int response = 9999;
                             if (number != null)
@@ -102,11 +109,13 @@ public class GroupDetailsActivity extends ActionBarActivity {
                             updateUIForUserStatusResponse(response);
                         }
                     }
-        });
+                });
     }
 
 
-    private void updateUIForUserStatusResponse(int response){
+    private void updateUIForUserStatusResponse(final int response){
+        ProgressBar loadingIndicator = (ProgressBar) findViewById(R.id.group_details_activity_loading_indicator);
+        loadingIndicator.setVisibility(View.GONE);
         if(response==USER_IS_MEMBER)
 
         {
@@ -143,8 +152,7 @@ public class GroupDetailsActivity extends ActionBarActivity {
             mButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Send a request to join the group
-
+                    requestMembership();
                     //Update our button
                 }
             });
@@ -155,7 +163,7 @@ public class GroupDetailsActivity extends ActionBarActivity {
         {
             mButton.setVisibility(View.VISIBLE);
             mButton.setEnabled(false);
-            mButton.setText("Awaiting Response");
+            mButton.setText("Membership requested");
         }
 
         else
@@ -164,6 +172,33 @@ public class GroupDetailsActivity extends ActionBarActivity {
             mButton.setVisibility(View.VISIBLE);
             mButton.setText("Not sure what happened");
         }
+    }
+
+    private void requestMembership() {
+        setIsLoadingMemberStatus();
+        //Send a request to join the group
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("groupId", getIntent().getStringExtra("id"));
+        ParseCloud.callFunctionInBackground(getString(R.string.cloud_code_request_membership_to_group),
+                params,
+                new FunctionCallback<Number>() {
+                    @Override
+                    public void done(Number number, ParseException e) {
+
+                        if (e != null) { // Failure!
+                            Log.e("Error", e.getLocalizedMessage());
+
+                        } else { // Success!
+
+                            int response = 9999;
+                            if (number != null)
+                                response = number.intValue();
+
+                            updateUIForUserStatusResponse(response);
+
+                        }
+                    }
+                });
     }
 
     private void openInviteMembersActivity() {
