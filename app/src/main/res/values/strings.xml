@@ -21,6 +21,7 @@
     <!-- Cloud Code functions-->
     <string name="cloud_code_get_user_status_within_group">getUserStatusForGroup</string>
     <string name="cloud_code_send_invite_to_individual_user">inviteToGroup</string>
+    <string name="cloud_code_request_membership_to_group">requestMembershipToGroup</string>
 
 
     <string name="title_activity_nonsenseactivity">nonsenseactivity</string>
@@ -52,6 +53,7 @@
     <!-- Broadcast Notification Constants Strings -->
     <string name="broadcast_group_saved_success">GroupSavedIntent</string>
     <string name="title_activity_group_details">GroupDetailsActivity</string>
+    <string name="broadcast_message_saved_success">MessageSavedIntent</string>
     <string name="title_activity_invite_members">InviteMembersActivity</string>
 
 </resources>
