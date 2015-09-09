@@ -85,6 +85,16 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
         return inflater.inflate(R.layout.fragment_groups, container, false);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mGroupsListView = null;
+    }
 
     @Override
     public void onAttach(Activity activity) {
