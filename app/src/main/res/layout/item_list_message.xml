@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <com.parse.ParseImageView
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="6dp"
+        android:id="@+id/message_item_author_image"/>
+
+    <LinearLayout
+        android:layout_toRightOf="@id/message_item_author_image"
+        android:layout_toLeftOf="@+id/message_item_created_at"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/message_item_author_name"
+            android:layout_marginBottom="6dp"
+            android:text="Namus Exampilus"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/message_item_body_text"
+            android:layout_marginBottom="6dp"
+            android:text="Lorem ipsum dolor est lorem ipsum dolor est Lorem ipsum dolor est lorem ipsum dolor est Lorem ipsum dolor est lorem ipsum dolor est"
+            android:textColor="@android:color/black"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@id/message_item_created_at"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:text="2h"/>
+
+</RelativeLayout>
