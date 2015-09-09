@@ -1,0 +1,90 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.wisecityllc.cookedapp.fragments.PostMessageUIFragment">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99333333"/>
+
+    <!-- Our '+' button which when hit darkens the background and lets us post new messages-->
+    <Button
+        android:id="@+id/post_message_ui_plus_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="25dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        style="@style/RoundPlusButton"
+        android:text="+"
+        android:textSize="36sp"
+        android:layout_gravity="center"
+        android:textColor="#666666"/>
+
+
+    <!-- The container for our "Post *" buttons -->
+    <LinearLayout
+        android:layout_above="@id/post_message_ui_plus_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical"
+        android:layout_marginBottom="15dp">
+
+        <Button
+            android:id="@+id/post_message_ui_post_action_alert_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/PostMessageButton"
+            android:text="Post Action Alert"/>
+
+        <Button
+            android:id="@+id/post_message_ui_post_action_event_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/PostMessageButton"
+            android:text="Post Event Notice"/>
+
+
+        <Button
+            android:id="@+id/post_message_ui_post_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/PostMessageButton"
+            android:text="Post Action Alert"/>
+
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/post_message_ui_message_edit_text_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="false"
+        android:background="@drawable/post_message_edit_text_layout_background">
+
+        <Button
+            android:id="@+id/post_message_ui_send_button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:text="Post"/>
+
+        <EditText
+            android:id="@+id/post_message_ui_message_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Send Message"
+            android:layout_marginRight="100dp" />
+
+
+
+    </FrameLayout>
+
+
+
+
+</RelativeLayout>
