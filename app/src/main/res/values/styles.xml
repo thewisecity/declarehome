@@ -30,6 +30,8 @@
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/round_plus_button_selector</item>
         <item name="android:focusable">true</item>
+        <item name="android:checkable">true</item>
+        <item name="android:checked">false</item>
         <item name="android:clickable">true</item>
         <item name="android:layout_marginRight">10dp</item>
     </style>
