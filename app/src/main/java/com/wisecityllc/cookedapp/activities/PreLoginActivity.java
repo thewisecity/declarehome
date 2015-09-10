@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Traits;
@@ -156,6 +157,11 @@ public class PreLoginActivity extends ActionBarActivity
     @Override
     public void registrationSucceeded() {
         Toast.makeText(this, "Account Created", Toast.LENGTH_SHORT).show();
+        try {
+            ParseUser.getCurrentUser().pin();
+        } catch (ParseException err) {
+            err.printStackTrace();
+        }
         switchToPostLoginActivity();
         setLoading(false);
         if (ParseUser.getCurrentUser() != null) {
@@ -168,6 +174,11 @@ public class PreLoginActivity extends ActionBarActivity
     @Override
     public void loginAttemptFinished(boolean succeeded) {
         if(succeeded){
+            try {
+                ParseUser.getCurrentUser().pin();
+            } catch (ParseException err) {
+                err.printStackTrace();
+            }
             Toast.makeText(this, "Login Succeeded.", Toast.LENGTH_SHORT).show();
             switchToPostLoginActivity();
             setLoading(false);

@@ -10,6 +10,7 @@ import com.crashlytics.android.Crashlytics;
 import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 import com.wisecityllc.cookedapp.parseClasses.Group;
 import com.wisecityllc.cookedapp.parseClasses.Message;
 
@@ -32,6 +33,10 @@ public class App extends Application {
         ParseObject.registerSubclass(Message.class);
         Parse.initialize(this, "BrndBVrRczElKefgG3TvjCk3JYxtd5GB2GMzKoEP", "Xb7Pcc0lT2I3uJYNNoT6buaCuZ9dcvBMtCx9U5gw");
         ParseInstallation.getCurrentInstallation().saveInBackground();
+        if(ParseUser.getCurrentUser() != null){
+            //Update our current user
+            ParseUser.getCurrentUser().fetchInBackground();
+        }
     }
 
     public static void hideKeyboard(Activity act) {
