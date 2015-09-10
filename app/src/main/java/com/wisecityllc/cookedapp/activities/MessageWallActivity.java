@@ -12,10 +12,11 @@ import android.widget.Toast;
 
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.adapters.MessageWallAdapter;
-import com.wisecityllc.cookedapp.parseClasses.Message;
+import com.wisecityllc.cookedapp.fragments.PostMessageUIFragment;
 import com.wisecityllc.cookedapp.parseClasses.Group;
+import com.wisecityllc.cookedapp.parseClasses.Message;
 
-public class MessageWallActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
+public class MessageWallActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, PostMessageUIFragment.OnPostMessageUIInteractionListener {
 
     private MessageWallAdapter mMessagesAdapter;
     private ListView mMessagesListView;
@@ -70,4 +71,11 @@ public class MessageWallActivity extends AppCompatActivity implements AdapterVie
         Toast.makeText(this, "Tapped " + ((Message) mMessagesAdapter.getItem(i)).getBody(), Toast.LENGTH_SHORT).show();
         Message selectedMessage = mMessagesAdapter.getItem(i);
     }
+
+    @Override
+    public void postNewMessage(String message) {
+        //TODO: Overwrite this to actually post a message
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
 }
