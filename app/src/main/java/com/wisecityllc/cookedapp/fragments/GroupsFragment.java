@@ -60,8 +60,6 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
         // Initialize main ParseQueryAdapter
         mGroupsAdapter = new AllGroupsAdapter(getActivity());
 
-
-
     }
 
     @Override
@@ -133,11 +131,12 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Toast.makeText(getActivity(), "Tapped " + ((Group)mGroupsAdapter.getItem(i)).getName(), Toast.LENGTH_SHORT).show();
         Group selectedGroup = mGroupsAdapter.getItem(i);
-//        startCreateNewGroupActivity(selectedGroup);
+
+//        startGroupDetailActivity(selectedGroup);
         startMessageWallActivityForGroup(selectedGroup);
     }
 
-    private void startCreateNewGroupActivity(Group group){
+    private void startGroupDetailActivity(Group group){
         Intent viewGroupDetailsIntent = new Intent(getActivity(), GroupDetailsActivity.class);
         viewGroupDetailsIntent.putExtra("id", group.getObjectId());
         viewGroupDetailsIntent.putExtra("groupHashId", group.getGroupHashId());
