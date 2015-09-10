@@ -132,8 +132,15 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
         Toast.makeText(getActivity(), "Tapped " + ((Group)mGroupsAdapter.getItem(i)).getName(), Toast.LENGTH_SHORT).show();
         Group selectedGroup = mGroupsAdapter.getItem(i);
 
-//        startGroupDetailActivity(selectedGroup);
-        startMessageWallActivityForGroup(selectedGroup);
+        boolean isMember = selectedGroup.isCurrentUserMember();
+        boolean isAdmin = selectedGroup.isCurrentUserAdmin();
+
+        if(isAdmin || isMember) {
+            startMessageWallActivityForGroup(selectedGroup);
+        }else{
+            startGroupDetailActivity(selectedGroup);
+        }
+
     }
 
     private void startGroupDetailActivity(Group group){
