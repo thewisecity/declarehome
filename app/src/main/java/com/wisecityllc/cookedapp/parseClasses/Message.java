@@ -26,7 +26,7 @@ public class Message extends ParseObject {
         // A default constructor is required.
     }
 
-    public static void createMessage(String author, String group, String body){
+    public static void postNewMessage(ParseUser author, Group group, String body){
         Message msg = new Message();
         msg.put(_AUTHOR, author);
         msg.put(_GROUP, group);
@@ -50,7 +50,7 @@ public class Message extends ParseObject {
         });
     }
 
-    public static Message createMessageSynchronous (String author, String group, String body){
+    public static Message postNewMessageSynchronous (String author, String group, String body){
         Message msg = new Message();
         msg.put(_AUTHOR, author);
         msg.put(_GROUP, group);

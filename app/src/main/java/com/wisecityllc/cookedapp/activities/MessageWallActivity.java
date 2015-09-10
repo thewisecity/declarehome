@@ -10,6 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.adapters.MessageWallAdapter;
 import com.wisecityllc.cookedapp.fragments.PostMessageUIFragment;
@@ -74,8 +76,8 @@ public class MessageWallActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void postNewMessage(String message) {
-        //TODO: Overwrite this to actually post a message
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Group grp = ParseObject.createWithoutData(Group.class, getIntent().getStringExtra("groupId"));
+        Message.postNewMessage(ParseUser.getCurrentUser(), grp, message);
     }
 
 }

@@ -175,6 +175,8 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
         if (mListener != null && mMessageBodyEditText != null) {
             mListener.postNewMessage(mMessageBodyEditText.getText().toString());
         }
+        // Resets our views
+        cancelMessageCreation();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
