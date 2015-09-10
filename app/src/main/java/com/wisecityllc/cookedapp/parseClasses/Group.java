@@ -5,13 +5,19 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.wisecityllc.cookedapp.App;
 import com.wisecityllc.cookedapp.R;
+
+import java.util.List;
 
 /**
  * Created by dexterlohnes on 6/30/15.
@@ -94,7 +100,7 @@ public class Group extends ParseObject {
 
     public String getGroupHashId() {
         Number hashId = getNumber("groupHashId");
-        Log.d("Dex",hashId.toString());
+        Log.d("Dex", hashId.toString());
         return hashId.toString();
     }
 
@@ -174,5 +180,107 @@ public class Group extends ParseObject {
 
     public void setTwitter(String twitter) {
         put("twitter", twitter);
+    }
+
+    public static void refreshLocalGroupPermissions() {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        currentUser.fetchInBackground(new GetCallback<ParseUser>() {
+            @Override
+            public void done(ParseUser currentUser, ParseException e) {
+                ParseRelation<Group> adminOf = currentUser.getRelation("adminOf");
+                adminOf.getQuery().findInBackground(new FindCallback<Group>() {
+                    @Override
+                    public void done(List<Group> list, ParseException e) {
+                        for(Group group : list){
+                            try{
+                                group.pin();
+                            } catch (ParseException err) {
+                                err.printStackTrace();
+                            }
+
+                        }
+                    }
+                });
+
+                ParseRelation<Group> memberOf = currentUser.getRelation("memberOf");
+                memberOf.getQuery().findInBackground(new FindCallback<Group>() {
+                    @Override
+                    public void done(List<Group> list, ParseException e) {
+                        for(Group group : list){
+                            try{
+                                group.pin();
+                            } catch (ParseException err) {
+                                err.printStackTrace();
+                            }
+
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+
+    public boolean isCurrentUserMember() {
+        ParseUser currentUser;
+        try {
+            currentUser = ParseUser.getCurrentUser();
+            currentUser.fetchFromLocalDatastore();
+
+        } catch (ParseException e) {
+            Toast.makeText(App.getContext(), "Couldn't find local version of user", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+            return false;
+        }
+        try {
+
+            ParseRelation<Group> memberOf = currentUser.getRelation("memberOf");
+
+            ParseQuery memberQuery = memberOf.getQuery().
+                    fromLocalDatastore().
+                    whereEqualTo("objectId", this.getObjectId());
+
+            Group memberGroup =  (Group) memberQuery.getFirst();
+            if(memberGroup != null)
+                return true;
+            else
+                return false;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean isCurrentUserAdmin() {
+        ParseUser currentUser;
+        try {
+            currentUser = ParseUser.getCurrentUser();
+            currentUser.fetchFromLocalDatastore();
+
+        } catch (ParseException e) {
+            Toast.makeText(App.getContext(), "Couldn't find local version of user", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+            return false;
+        }
+
+        try{
+
+            ParseRelation<Group> adminOf = currentUser.getRelation("adminOf");
+
+            ParseQuery adminQuery = adminOf.getQuery().
+                    fromLocalDatastore().
+                    whereEqualTo("objectId", this.getObjectId());
+
+            Group adminGroup =  (Group) adminQuery.getFirst();
+            if(adminGroup != null)
+                return true;    
+            else
+                return false;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
