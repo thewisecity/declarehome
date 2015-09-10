@@ -35,7 +35,7 @@ public class App extends Application {
         ParseInstallation.getCurrentInstallation().saveInBackground();
         if(ParseUser.getCurrentUser() != null){
             //Update our current user
-            ParseUser.getCurrentUser().fetchInBackground();
+            Group.refreshLocalGroupPermissions();
         }
     }
 
