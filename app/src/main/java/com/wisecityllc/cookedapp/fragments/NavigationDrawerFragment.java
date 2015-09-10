@@ -30,7 +30,9 @@ import com.wisecityllc.cookedapp.R;
  */
 public class NavigationDrawerFragment extends Fragment {
 
-    public static final int NAV_DRAWER_CREATE_GROUP_POSITION = 0;
+    public static final int NAV_DRAWER_VIEW_ALL_GROUPS_POSITION = 0;
+    public static final int NAV_DRAWER_CREATE_GROUP_POSITION = 1;
+
 
     /**
      * Remember the position of the selected item.
@@ -107,6 +109,7 @@ public class NavigationDrawerFragment extends Fragment {
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
                 new String[]{
+                        getString(R.string.nav_section_view_all_groups),
                         getString(R.string.nav_section_create_new_group)
                 }));
         //mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);

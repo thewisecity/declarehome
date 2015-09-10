@@ -219,8 +219,9 @@ public class PostLoginActivity extends ActionBarActivity
 
         if(position == NavigationDrawerFragment.NAV_DRAWER_CREATE_GROUP_POSITION){
             startCreateNewGroupActivity();
+        }else if (position == NavigationDrawerFragment.NAV_DRAWER_VIEW_ALL_GROUPS_POSITION){
+            Toast.makeText(this, "View all groups", Toast.LENGTH_SHORT).show();
         }
-
 
     }
 
