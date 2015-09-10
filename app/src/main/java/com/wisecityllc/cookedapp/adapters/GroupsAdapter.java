@@ -7,8 +7,12 @@ import android.widget.TextView;
 
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseUser;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.parseClasses.Group;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dexterlohnes on 6/30/15.
@@ -19,11 +23,31 @@ public class GroupsAdapter extends ParseQueryAdapter<Group>{
     public static final int MEMBER_AND_ADMIN_ONLY = 1;
     public static final int ADMIN_ONLY = 2;
 
-    public GroupsAdapter(Context context) {
+    public GroupsAdapter(Context context, final int mode) {
         super(context, new ParseQueryAdapter.QueryFactory<Group>() {
             public ParseQuery<Group> create() {
-                ParseQuery query = new ParseQuery("Group");
-                query.orderByDescending("city");
+
+                ParseQuery query = null;
+
+                if (mode == ALL_GROUPS){
+                    query = new ParseQuery("Group");
+
+                } else if (mode == MEMBER_AND_ADMIN_ONLY) {
+                    ParseQuery adminOfQuery = ParseUser.getCurrentUser().getRelation("adminOf").getQuery();
+                    ParseQuery memberOfQuery = ParseUser.getCurrentUser().getRelation("memberOf").getQuery();
+
+                    List<ParseQuery<Group>> queries = new ArrayList<ParseQuery<Group>>();
+                    queries.add(adminOfQuery);
+                    queries.add(memberOfQuery);
+
+                    query = (ParseQuery<Group>) ParseQuery.or(queries);
+                } else if (mode == ADMIN_ONLY) {
+                    query = ParseUser.getCurrentUser().getRelation("adminOf").getQuery();
+                }
+
+                if (query != null) {
+                    query.orderByDescending("city");
+                }
                 return query;
             }
         });

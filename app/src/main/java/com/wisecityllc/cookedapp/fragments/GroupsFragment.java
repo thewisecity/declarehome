@@ -58,7 +58,7 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
         super.onCreate(savedInstanceState);
 
         // Initialize main ParseQueryAdapter
-        mGroupsAdapter = new GroupsAdapter(getActivity());
+        mGroupsAdapter = new GroupsAdapter(getActivity(), GroupsAdapter.MEMBER_AND_ADMIN_ONLY);
 
     }
 
