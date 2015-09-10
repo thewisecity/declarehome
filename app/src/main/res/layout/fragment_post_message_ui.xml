@@ -4,12 +4,13 @@
     tools:context="com.wisecityllc.cookedapp.fragments.PostMessageUIFragment">
 
     <View
+        android:id="@+id/post_message_ui_grey_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#99333333"/>
+        android:background="#44333333"/>
 
     <!-- Our '+' button which when hit darkens the background and lets us post new messages-->
-    <Button
+    <ToggleButton
         android:id="@+id/post_message_ui_plus_button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
@@ -18,7 +19,9 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         style="@style/RoundPlusButton"
-        android:text="+"
+        android:checked="false"
+        android:textOff="+"
+        android:textOn="+"
         android:textSize="36sp"
         android:layout_gravity="center"
         android:textColor="#666666"/>
@@ -41,7 +44,7 @@
             android:text="Post Action Alert"/>
 
         <Button
-            android:id="@+id/post_message_ui_post_action_event_notice"
+            android:id="@+id/post_message_ui_post_event_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/PostMessageButton"
@@ -49,11 +52,11 @@
 
 
         <Button
-            android:id="@+id/post_message_ui_post_message"
+            android:id="@+id/post_message_ui_post_message_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/PostMessageButton"
-            android:text="Post Action Alert"/>
+            android:text="Post Message"/>
 
     </LinearLayout>
 
@@ -73,18 +76,13 @@
             android:layout_gravity="bottom|right"
             android:text="Post"/>
 
-        <EditText
+        <com.wisecityllc.cookedapp.misc.ExtendedEditText
             android:id="@+id/post_message_ui_message_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Send Message"
             android:layout_marginRight="100dp" />
 
-
-
     </FrameLayout>
-
-
-
 
 </RelativeLayout>
