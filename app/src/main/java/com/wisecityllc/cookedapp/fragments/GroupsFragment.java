@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.activities.GroupDetailsActivity;
 import com.wisecityllc.cookedapp.activities.MessageWallActivity;
-import com.wisecityllc.cookedapp.adapters.AllGroupsAdapter;
+import com.wisecityllc.cookedapp.adapters.GroupsAdapter;
 import com.wisecityllc.cookedapp.parseClasses.Group;
 
 /**
@@ -29,7 +29,7 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
 
     private GroupsFragmentInteractionListener mListener;
 
-    private AllGroupsAdapter mGroupsAdapter;
+    private GroupsAdapter mGroupsAdapter;
     private ListView mGroupsListView;
 
     /**
@@ -58,7 +58,7 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
         super.onCreate(savedInstanceState);
 
         // Initialize main ParseQueryAdapter
-        mGroupsAdapter = new AllGroupsAdapter(getActivity());
+        mGroupsAdapter = new GroupsAdapter(getActivity());
 
     }
 

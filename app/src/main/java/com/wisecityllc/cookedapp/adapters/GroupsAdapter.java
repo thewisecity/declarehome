@@ -13,9 +13,13 @@ import com.wisecityllc.cookedapp.parseClasses.Group;
 /**
  * Created by dexterlohnes on 6/30/15.
  */
-public class AllGroupsAdapter extends ParseQueryAdapter<Group>{
+public class GroupsAdapter extends ParseQueryAdapter<Group>{
 
-    public AllGroupsAdapter(Context context) {
+    public static final int ALL_GROUPS = 0;
+    public static final int MEMBER_AND_ADMIN_ONLY = 1;
+    public static final int ADMIN_ONLY = 2;
+
+    public GroupsAdapter(Context context) {
         super(context, new ParseQueryAdapter.QueryFactory<Group>() {
             public ParseQuery<Group> create() {
                 ParseQuery query = new ParseQuery("Group");
