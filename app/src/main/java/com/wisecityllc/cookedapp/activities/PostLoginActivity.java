@@ -29,6 +29,7 @@ import com.wisecityllc.cookedapp.fragments.EventsFragment;
 import com.wisecityllc.cookedapp.fragments.GroupsFragment;
 import com.wisecityllc.cookedapp.fragments.NavigationDrawerFragment;
 import com.wisecityllc.cookedapp.fragments.WellnessFragment;
+import com.wisecityllc.cookedapp.parseClasses.Group;
 
 
 public class PostLoginActivity extends ActionBarActivity
@@ -87,6 +88,11 @@ public class PostLoginActivity extends ActionBarActivity
         parseObjectUpdates.addAction(getString(R.string.broadcast_group_saved_success));
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mParseObjectUpdatesReceiver, parseObjectUpdates);
+
+        if(ParseUser.getCurrentUser() != null){
+            //Update our current user
+            Group.refreshLocalGroupPermissions();
+        }
 
         //DEBUG: Associate ourselves with all notifs
         //Notifications.setSubscriptionForAllNotifs(true);
@@ -256,8 +262,6 @@ public class PostLoginActivity extends ActionBarActivity
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
         }
-
-
 
     }
 }
