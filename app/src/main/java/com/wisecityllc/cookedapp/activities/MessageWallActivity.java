@@ -8,9 +8,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseObject;
+import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.adapters.MessageWallAdapter;
@@ -18,10 +21,14 @@ import com.wisecityllc.cookedapp.fragments.PostMessageUIFragment;
 import com.wisecityllc.cookedapp.parseClasses.Group;
 import com.wisecityllc.cookedapp.parseClasses.Message;
 
+import java.util.List;
+
 public class MessageWallActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, PostMessageUIFragment.OnPostMessageUIInteractionListener {
 
     private MessageWallAdapter mMessagesAdapter;
     private ListView mMessagesListView;
+    private TextView mNoMessagesTextView;
+    private ProgressBar mLoadingIndicator;
     private Group mGroup;
 
     @Override
@@ -36,6 +43,19 @@ public class MessageWallActivity extends AppCompatActivity implements AdapterVie
         String groupId = intent.getStringExtra("groupId");
         mMessagesAdapter = new MessageWallAdapter(this, groupId);
 
+        mMessagesAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Message>() {
+            @Override
+            public void onLoading() {
+
+            }
+
+            @Override
+            public void onLoaded(List<Message> list, Exception e) {
+                mLoadingIndicator.setVisibility(View.GONE);
+                mNoMessagesTextView.setVisibility(list.isEmpty() ? View.VISIBLE : View.GONE);
+            }
+        });
+
         if(mMessagesListView == null){
             mMessagesListView = (ListView)findViewById(R.id.messages_list_view);
         }
@@ -43,7 +63,12 @@ public class MessageWallActivity extends AppCompatActivity implements AdapterVie
         mMessagesListView.setAdapter(mMessagesAdapter);
         mMessagesListView.setOnItemClickListener(this);
 
+        mNoMessagesTextView = (TextView) findViewById(R.id.messages_activity_no_messages_text_view);
+
+        mLoadingIndicator = (ProgressBar) findViewById(R.id.messages_activity_loading_indicator);
+
         mMessagesAdapter.loadObjects();
+
     }
 
     @Override
