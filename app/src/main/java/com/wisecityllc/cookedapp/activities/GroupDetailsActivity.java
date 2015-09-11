@@ -1,5 +1,6 @@
 package com.wisecityllc.cookedapp.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -14,6 +15,7 @@ import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.wisecityllc.cookedapp.R;
+import com.wisecityllc.cookedapp.parseClasses.Group;
 
 import java.util.HashMap;
 
@@ -206,6 +208,19 @@ public class GroupDetailsActivity extends ActionBarActivity {
         openActivity.putExtra("groupId", getIntent().getStringExtra("id"));
         openActivity.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(openActivity);
+    }
+
+    public static void startGroupDetailActivity(Context context, Group group){
+        Intent viewGroupDetailsIntent = new Intent(context, GroupDetailsActivity.class);
+        viewGroupDetailsIntent.putExtra("id", group.getObjectId());
+        viewGroupDetailsIntent.putExtra("groupHashId", group.getGroupHashId());
+        viewGroupDetailsIntent.putExtra("name", group.getName());
+        viewGroupDetailsIntent.putExtra("purpose", group.getPurpose());
+        viewGroupDetailsIntent.putExtra("neighberhoods", group.getNeighberhoods());
+        viewGroupDetailsIntent.putExtra("city", group.getCity());
+        viewGroupDetailsIntent.putExtra("state", group.getState());
+        viewGroupDetailsIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        context.startActivity(viewGroupDetailsIntent);
     }
 
 }

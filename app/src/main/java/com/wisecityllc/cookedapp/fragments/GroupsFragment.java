@@ -1,7 +1,6 @@
 package com.wisecityllc.cookedapp.fragments;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -141,36 +140,10 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
         boolean isAdmin = selectedGroup.isCurrentUserAdmin();
 
         if(isAdmin || isMember) {
-            startMessageWallActivityForGroup(selectedGroup);
+            MessageWallActivity.startMessageWallActivityForGroup(getActivity(), selectedGroup);
         }else{
-            startGroupDetailActivity(selectedGroup);
+            GroupDetailsActivity.startGroupDetailActivity(getActivity(), selectedGroup);
         }
-
     }
 
-    private void startGroupDetailActivity(Group group){
-        Intent viewGroupDetailsIntent = new Intent(getActivity(), GroupDetailsActivity.class);
-        viewGroupDetailsIntent.putExtra("id", group.getObjectId());
-        viewGroupDetailsIntent.putExtra("groupHashId", group.getGroupHashId());
-        viewGroupDetailsIntent.putExtra("name", group.getName());
-        viewGroupDetailsIntent.putExtra("purpose", group.getPurpose());
-        viewGroupDetailsIntent.putExtra("neighberhoods", group.getNeighberhoods());
-        viewGroupDetailsIntent.putExtra("city", group.getCity());
-        viewGroupDetailsIntent.putExtra("state", group.getState());
-        viewGroupDetailsIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(viewGroupDetailsIntent);
-    }
-
-    private void startMessageWallActivityForGroup (Group group){
-        Intent viewGroupMessageWallIntent = new Intent(getActivity(), MessageWallActivity.class);
-        viewGroupMessageWallIntent.putExtra("groupId", group.getObjectId());
-        viewGroupMessageWallIntent.putExtra("groupName", group.getName());
-        viewGroupMessageWallIntent.putExtra("city", group.getCity());
-        viewGroupMessageWallIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(viewGroupMessageWallIntent);
-    }
-
-    public void setAdapterMode(int mode) {
-        mAdapterMode = mode;
-    }
 }

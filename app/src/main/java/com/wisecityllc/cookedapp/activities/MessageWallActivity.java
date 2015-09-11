@@ -1,5 +1,6 @@
 package com.wisecityllc.cookedapp.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -103,6 +104,15 @@ public class MessageWallActivity extends AppCompatActivity implements AdapterVie
     public void postNewMessage(String message) {
         Group grp = ParseObject.createWithoutData(Group.class, getIntent().getStringExtra("groupId"));
         Message.postNewMessage(ParseUser.getCurrentUser(), grp, message);
+    }
+
+    public static void startMessageWallActivityForGroup (Context context, Group group){
+        Intent viewGroupMessageWallIntent = new Intent(context, MessageWallActivity.class);
+        viewGroupMessageWallIntent.putExtra("groupId", group.getObjectId());
+        viewGroupMessageWallIntent.putExtra("groupName", group.getName());
+        viewGroupMessageWallIntent.putExtra("city", group.getCity());
+        viewGroupMessageWallIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        context.startActivity(viewGroupMessageWallIntent);
     }
 
 }
