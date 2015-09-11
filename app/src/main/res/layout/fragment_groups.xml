@@ -1,19 +1,41 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.wisecityllc.cookedapp.fragments.GroupsFragment">
 
-    <TextView android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_groups" />
 
     <ListView
         android:id="@+id/groups_frag_list_view"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:background="@android:color/darker_gray"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
     </ListView>
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/groups_frag_loading_layout"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:id="@+id/groups_frag_loading_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/groups_frag_no_groups_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Looks like there are no groups here"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

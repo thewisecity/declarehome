@@ -7,9 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.parse.ParseQueryAdapter;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.adapters.GroupsAdapter;
+import com.wisecityllc.cookedapp.parseClasses.Group;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +31,8 @@ public class GroupsFragment extends Fragment {
 
     private GroupsAdapter mGroupsAdapter;
     private ListView mGroupsListView;
+    private ProgressBar mLoadingIndicator;
+    private TextView mNoGroupsTextView;
 
     private int mAdapterMode;
 
@@ -44,7 +52,7 @@ public class GroupsFragment extends Fragment {
     }
 
     public GroupsFragment() {
-        mAdapterMode = GroupsAdapter.ALL_GROUPS;
+
     }
 
     public void notifyGroupsDataUpdated() {
@@ -56,8 +64,11 @@ public class GroupsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mAdapterMode = getArguments().getInt("mode", 0);
+
         // Initialize main ParseQueryAdapter
-        mGroupsAdapter = new GroupsAdapter(getActivity(), getArguments().getInt("mode", 0));
+        mGroupsAdapter = new GroupsAdapter(getActivity(), mAdapterMode);
+
 
     }
 
@@ -69,6 +80,30 @@ public class GroupsFragment extends Fragment {
         }
 
         mGroupsListView.setAdapter(mGroupsAdapter);
+
+
+        mNoGroupsTextView = (TextView)view.findViewById(R.id.groups_frag_no_groups_text_view);
+
+        if(mAdapterMode == GroupsAdapter.ALL_GROUPS)
+            mNoGroupsTextView.setText("Looks like no Groups exist yet\nWhy not create one from the navigation drawer?");
+        else if(mAdapterMode == GroupsAdapter.MEMBER_AND_ADMIN_ONLY)
+            mNoGroupsTextView.setText("You aren't yet a member of any groups\nOpen the navigation drawer to create a Group or join a group in your city");
+
+        mLoadingIndicator = (ProgressBar)view.findViewById(R.id.groups_frag_loading_indicator);
+
+        mGroupsAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Group>() {
+            @Override
+            public void onLoading() {
+                mLoadingIndicator.setVisibility(View.VISIBLE);
+                mNoGroupsTextView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onLoaded(List<Group> list, Exception e) {
+                mLoadingIndicator.setVisibility(View.GONE);
+                mNoGroupsTextView.setVisibility(list.size() == 0 ? View.VISIBLE : View.GONE);
+            }
+        });
 
         mGroupsAdapter.loadObjects();
 
