@@ -51,6 +51,7 @@ public class GroupsAdapter extends ParseQueryAdapter<Group>{
                 return query;
             }
         });
+
     }
 
     @Override

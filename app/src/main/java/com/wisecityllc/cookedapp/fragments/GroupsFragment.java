@@ -32,6 +32,8 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
     private GroupsAdapter mGroupsAdapter;
     private ListView mGroupsListView;
 
+    private int mAdapterMode;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -39,13 +41,16 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
      * @return A new instance of fragment GroupsFragment.
      */
 
-    public static GroupsFragment newInstance() {
+    public static GroupsFragment newInstance(int mode) {
         GroupsFragment fragment = new GroupsFragment();
+        Bundle argsBundle = new Bundle();
+        argsBundle.putInt("mode", mode);
+        fragment.setArguments(argsBundle);
         return fragment;
     }
 
     public GroupsFragment() {
-        // Required empty public constructor
+        mAdapterMode = GroupsAdapter.ALL_GROUPS;
     }
 
     public void notifyGroupsDataUpdated() {
@@ -58,7 +63,7 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
         super.onCreate(savedInstanceState);
 
         // Initialize main ParseQueryAdapter
-        mGroupsAdapter = new GroupsAdapter(getActivity(), GroupsAdapter.MEMBER_AND_ADMIN_ONLY);
+        mGroupsAdapter = new GroupsAdapter(getActivity(), getArguments().getInt("mode", 0));
 
     }
 
@@ -163,5 +168,9 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
         viewGroupMessageWallIntent.putExtra("city", group.getCity());
         viewGroupMessageWallIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(viewGroupMessageWallIntent);
+    }
+
+    public void setAdapterMode(int mode) {
+        mAdapterMode = mode;
     }
 }
