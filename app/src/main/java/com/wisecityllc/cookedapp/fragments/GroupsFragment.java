@@ -6,15 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.wisecityllc.cookedapp.R;
-import com.wisecityllc.cookedapp.activities.GroupDetailsActivity;
-import com.wisecityllc.cookedapp.activities.MessageWallActivity;
 import com.wisecityllc.cookedapp.adapters.GroupsAdapter;
-import com.wisecityllc.cookedapp.parseClasses.Group;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,7 +19,7 @@ import com.wisecityllc.cookedapp.parseClasses.Group;
  * Use the {@link GroupsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GroupsFragment extends Fragment implements AdapterView.OnItemClickListener{
+public class GroupsFragment extends Fragment {
 
     private GroupsFragmentInteractionListener mListener;
 
@@ -74,7 +69,6 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
         }
 
         mGroupsListView.setAdapter(mGroupsAdapter);
-        mGroupsListView.setOnItemClickListener(this);
 
         mGroupsAdapter.loadObjects();
 
@@ -131,19 +125,6 @@ public class GroupsFragment extends Fragment implements AdapterView.OnItemClickL
 //        public void onFragmentInteraction(Uri uri);
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Toast.makeText(getActivity(), "Tapped " + ((Group)mGroupsAdapter.getItem(i)).getName(), Toast.LENGTH_SHORT).show();
-        Group selectedGroup = mGroupsAdapter.getItem(i);
 
-        boolean isMember = selectedGroup.isCurrentUserMember();
-        boolean isAdmin = selectedGroup.isCurrentUserAdmin();
-
-        if(isAdmin || isMember) {
-            MessageWallActivity.startMessageWallActivityForGroup(getActivity(), selectedGroup);
-        }else{
-            GroupDetailsActivity.startGroupDetailActivity(getActivity(), selectedGroup);
-        }
-    }
 
 }

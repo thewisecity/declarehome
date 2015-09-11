@@ -3,12 +3,16 @@ package com.wisecityllc.cookedapp.adapters;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.wisecityllc.cookedapp.R;
+import com.wisecityllc.cookedapp.activities.GroupDetailsActivity;
+import com.wisecityllc.cookedapp.activities.MessageWallActivity;
 import com.wisecityllc.cookedapp.parseClasses.Group;
 
 import java.util.ArrayList;
@@ -22,6 +26,8 @@ public class GroupsAdapter extends ParseQueryAdapter<Group>{
     public static final int ALL_GROUPS = 0;
     public static final int MEMBER_AND_ADMIN_ONLY = 1;
     public static final int ADMIN_ONLY = 2;
+
+    private int mMode;
 
     public GroupsAdapter(Context context, final int mode) {
         super(context, new ParseQueryAdapter.QueryFactory<Group>() {
@@ -51,11 +57,11 @@ public class GroupsAdapter extends ParseQueryAdapter<Group>{
                 return query;
             }
         });
-
+        mMode = mode;
     }
 
     @Override
-    public View getItemView(Group group, View v, ViewGroup parent) {
+    public View getItemView(final Group group, View v, ViewGroup parent) {
 
         if (v == null) {
             v = View.inflate(getContext(), R.layout.item_list_group, null);
@@ -69,6 +75,42 @@ public class GroupsAdapter extends ParseQueryAdapter<Group>{
         TextView purposeTextView = (TextView) v
                 .findViewById(R.id.group_list_purpose);
         purposeTextView.setText(group.getPurpose());
+
+
+        LinearLayout body = (LinearLayout) v
+                .findViewById(R.id.group_list_item_body);
+
+        body.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                boolean isMember = group.isCurrentUserMember();
+                boolean isAdmin = group.isCurrentUserAdmin();
+
+                if(isAdmin || isMember) {
+                    MessageWallActivity.startMessageWallActivityForGroup(getContext(), group);
+                }else{
+                    GroupDetailsActivity.startGroupDetailActivity(getContext(), group);
+                }
+            }
+        });
+
+
+        // We only want to show this button if we're in ALL mode and we are a member or admin
+
+        if(mMode == ALL_GROUPS && (group.isCurrentUserMember() || group.isCurrentUserAdmin())){
+            Button detailsButton = (Button) v
+                    .findViewById(R.id.group_list_item_details_button);
+            detailsButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GroupDetailsActivity.startGroupDetailActivity(getContext(), group);
+                }
+            });
+            detailsButton.setVisibility(View.VISIBLE);
+        }
+
+
         return v;
     }
 
