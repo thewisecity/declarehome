@@ -1,0 +1,12 @@
+<resources>
+    <declare-styleable name="GroupMemberListView">
+        <attr name="includeMembers" format="boolean"/>
+        <attr name="includeAdmins" format="boolean"/>
+        <attr name="includePendingInvitationSent" format="boolean"/>
+        <attr name="includePendingAwaitingApproval" format="boolean"/>
+        <attr name="exampleString" format="string" />
+        <attr name="exampleDimension" format="dimension" />
+        <attr name="exampleColor" format="color" />
+        <attr name="exampleDrawable" format="color|reference" />
+    </declare-styleable>
+</resources>

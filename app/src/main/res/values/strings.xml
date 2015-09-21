@@ -22,6 +22,7 @@
     <!-- Cloud Code functions-->
     <string name="cloud_code_get_user_status_within_group">getUserStatusForGroup</string>
     <string name="cloud_code_send_invite_to_individual_user">inviteToGroup</string>
+    <string name="cloud_code_approve_membership_for_group">approveMembershipForGroup</string>
     <string name="cloud_code_request_membership_to_group">requestMembershipToGroup</string>
 
 
