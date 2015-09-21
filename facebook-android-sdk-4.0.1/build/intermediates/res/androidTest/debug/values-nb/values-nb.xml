@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/Users/dexterlohnes/Documents/Contracts/Daniel%20Latorre/Cooked%20App/Code/Android/CookedApp/facebook-android-sdk-4.0.1/build/intermediates/bundles/debug/res/values-nb/values-nb.xml -->
+    <eat-comment/>
+    <string name="messenger_send_button_text">Send</string>
+</resources>

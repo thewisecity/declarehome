@@ -36,7 +36,12 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile fileTree(dir: 'libs', include: 'Parse-*.jar')
+    compile fileTree(dir: 'libs', include: 'Parse-*.jar ')
+
+    // Module dependency on ParseLoginUI library sources
+    compile project(':ParseLoginUI')
+
+
     //    compile('com.segment.analytics.android:analytics:+@aar') {
     //        transitive = true
     //    }
@@ -51,5 +56,5 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.0@aar') {
         transitive = true;
     }
-    compile files('libs/Parse-1.9.4.jar')
+//    compile files('libs/Parse-1.10.2.jar')
 }
