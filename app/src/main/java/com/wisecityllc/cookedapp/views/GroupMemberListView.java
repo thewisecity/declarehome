@@ -3,18 +3,12 @@ package com.wisecityllc.cookedapp.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ListView;
 
-import com.parse.ParseException;
-import com.parse.ParseQueryAdapter;
-import com.parse.ParseUser;
 import com.wisecityllc.cookedapp.App;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.adapters.GroupMemberListAdapter;
 import com.wisecityllc.cookedapp.parseClasses.Group;
-
-import java.util.List;
 
 /**
  * TODO: document your custom view class.
@@ -80,28 +74,28 @@ public class GroupMemberListView extends ListView {
 
         mAdapter.loadObjects();
 
-        mAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<ParseUser>() {
-            @Override
-            public void onLoading() {
-                Log.d("DEX", "Loading");
-            }
-
-            @Override
-            public void onLoaded(List<ParseUser> objects, Exception e) {
-                if(e != null)
-                    e.printStackTrace();
-                else {
-                    for(ParseUser user : objects) {
-                        try {
-                            user.pin();
-                        } catch (ParseException err) {
-                            err.printStackTrace();
-                        }
-                    }
-                    Log.d("DEX", objects.toString());
-                }
-            }
-        });
+//        mAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<ParseUser>() {
+//            @Override
+//            public void onLoading() {
+//                Log.d("DEX", "Loading");
+//            }
+//
+//            @Override
+//            public void onLoaded(List<ParseUser> objects, Exception e) {
+//                if(e != null)
+//                    e.printStackTrace();
+//                else {
+//                    for(ParseUser user : objects) {
+//                        try {
+//                            user.pin();
+//                        } catch (ParseException err) {
+//                            err.printStackTrace();
+//                        }
+//                    }
+//                    Log.d("DEX", objects.toString());
+//                }
+//            }
+//        });
     }
 
 }
