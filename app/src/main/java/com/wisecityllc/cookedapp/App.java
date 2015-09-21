@@ -12,6 +12,7 @@ import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.wisecityllc.cookedapp.parseClasses.Group;
+import com.wisecityllc.cookedapp.parseClasses.GroupContract;
 import com.wisecityllc.cookedapp.parseClasses.Message;
 
 import io.fabric.sdk.android.Fabric;
@@ -29,6 +30,7 @@ public class App extends Application {
         Fabric.with(this, new Crashlytics());
         instance = this;
         Parse.enableLocalDatastore(this);
+        ParseObject.registerSubclass(GroupContract.class);
         ParseObject.registerSubclass(Group.class);
         ParseObject.registerSubclass(Message.class);
         Parse.initialize(this, "BrndBVrRczElKefgG3TvjCk3JYxtd5GB2GMzKoEP", "Xb7Pcc0lT2I3uJYNNoT6buaCuZ9dcvBMtCx9U5gw");
