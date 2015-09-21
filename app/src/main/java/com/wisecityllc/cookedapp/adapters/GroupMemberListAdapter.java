@@ -15,8 +15,6 @@ import com.parse.ParseException;
 import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
-import com.parse.ParseRelation;
-import com.parse.ParseRole;
 import com.parse.ParseUser;
 import com.wisecityllc.cookedapp.App;
 import com.wisecityllc.cookedapp.R;
@@ -80,29 +78,35 @@ public class GroupMemberListAdapter extends ParseQueryAdapter<ParseUser> {
     }
 
     private static ParseQuery<ParseUser> getQueryForMembersOfGroup(Group group) {
-        ParseRole membersRole = group.getMembersRole();
-        try {
-            membersRole.fetchIfNeeded();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+//        ParseRole membersRole = group.getMembersRole();
+//        try {
+//            membersRole.fetchIfNeeded();
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        ParseRelation<ParseUser> memberRelation = membersRole.getUsers();
+//        ParseQuery<ParseUser> membersQuery = (ParseQuery<ParseUser>) memberRelation.getQuery();
 
-        ParseRelation<ParseUser> memberRelation = membersRole.getUsers();
-        ParseQuery<ParseUser> membersQuery = (ParseQuery<ParseUser>) memberRelation.getQuery();
+        ParseQuery<ParseUser> membersQuery = new ParseQuery<ParseUser>(ParseUser.class);
+        membersQuery.whereEqualTo("memberOfArray", group);
 
 
         return membersQuery;
     }
 
     private static ParseQuery<ParseUser> getQueryForAdminsOfGroup(Group group) {
-        ParseRole adminsRole = group.getAdminsRole();
-        try {
-            adminsRole.fetchIfNeeded();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        ParseRelation<ParseUser> adminRelation = adminsRole.getUsers();
-        ParseQuery<ParseUser> adminsQuery = (ParseQuery<ParseUser>) adminRelation.getQuery();
+//        ParseRole adminsRole = group.getAdminsRole();
+//        try {
+//            adminsRole.fetchIfNeeded();
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        ParseRelation<ParseUser> adminRelation = adminsRole.getUsers();
+//        ParseQuery<ParseUser> adminsQuery = (ParseQuery<ParseUser>) adminRelation.getQuery();
+
+        ParseQuery<ParseUser> adminsQuery = new ParseQuery<ParseUser>(ParseUser.class);
+        adminsQuery.whereEqualTo("adminOfArray", group);
 
         return adminsQuery;
     }
