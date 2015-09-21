@@ -169,17 +169,18 @@ public class PostLoginActivity extends ActionBarActivity
 
     private void attemptLogout() {
         if(ParseUser.getCurrentUser() != null){
+            try {
+                ParseUser.getCurrentUser().unpin();
+            } catch (ParseException err) {
+                err.printStackTrace();
+            }
             ParseUser.logOutInBackground(new LogOutCallback() {
                 @Override
                 public void done(ParseException e) {
                     if (e == null) {
                         // Hooray! We've logged out
                         switchToLoginActivity();
-                        try {
-                            ParseUser.getCurrentUser().unpin();
-                        } catch (ParseException err) {
-                            err.printStackTrace();
-                        }
+
                     } else {
                         // Logout didn't succeed. Look at the ParseException
                         // to figure out what went wrong
