@@ -15,7 +15,7 @@ import android.widget.ToggleButton;
 
 import com.wisecityllc.cookedapp.App;
 import com.wisecityllc.cookedapp.R;
-import com.wisecityllc.cookedapp.misc.ExtendedEditText;
+import com.wisecityllc.cookedapp.views.ExtendedEditText;
 
 /**
  * A simple {@link Fragment} subclass.

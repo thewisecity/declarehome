@@ -76,7 +76,7 @@
             android:layout_gravity="bottom|right"
             android:text="Post"/>
 
-        <com.wisecityllc.cookedapp.misc.ExtendedEditText
+        <com.wisecityllc.cookedapp.views.ExtendedEditText
             android:id="@+id/post_message_ui_message_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
