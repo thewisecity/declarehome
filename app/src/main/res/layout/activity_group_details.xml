@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.wisecityllc.cookedapp.activities.GroupDetailsActivity">
 
@@ -70,9 +71,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginBottom="40dp"
         android:text="City: San Francisco, CA"
         android:id="@+id/group_details_activity_group_city" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="2dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Members:"
+        android:layout_marginLeft="16dp"/>
+
+    <com.wisecityllc.cookedapp.views.GroupMemberListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:includeMembers="true"
+        app:includeAdmins="true"
+        app:includePendingAwaitingApproval="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
+        android:id="@+id/group_details_activity_member_list_view" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="2dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="40dp"
+        android:background="@android:color/darker_gray" />
+
 
     <ProgressBar
         android:layout_width="wrap_content"

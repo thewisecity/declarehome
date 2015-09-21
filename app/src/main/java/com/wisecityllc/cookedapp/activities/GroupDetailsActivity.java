@@ -14,8 +14,10 @@ import android.widget.TextView;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.parseClasses.Group;
+import com.wisecityllc.cookedapp.views.GroupMemberListView;
 
 import java.util.HashMap;
 
@@ -54,14 +56,23 @@ public class GroupDetailsActivity extends ActionBarActivity {
         mButton = (Button) findViewById(R.id.group_details_activity_button);
         mButton.setVisibility(View.GONE);
 
+        GroupMemberListView membersLV = (GroupMemberListView) findViewById(R.id.group_details_activity_member_list_view);
+//        Group group = ParseObject.createWithoutData(Group.class, getIntent().getStringExtra("id"));
+        ParseQuery<Group> q = new ParseQuery<Group>(Group.class);
+//        q.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
+//        q.fromLocalDatastore();
+        Group group = null;
+        try {
+            group = q.get(getIntent().getStringExtra("id"));
+        } catch (ParseException e){
+            e.printStackTrace();
+        }
+        membersLV.setGroup(group);
+
         setupUIForCurrentUserStatusWithinGroup();
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -91,7 +102,7 @@ public class GroupDetailsActivity extends ActionBarActivity {
         setIsLoadingMemberStatus();
 
         HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("groupId", getIntent().getStringExtra("id"));
+        params.put("group", getIntent().getStringExtra("id"));
         ParseCloud.callFunctionInBackground(getString(R.string.cloud_code_get_user_status_within_group),
                 params,
                 new FunctionCallback<Number>() {
