@@ -67,6 +67,9 @@ public class GroupsAdapter extends ParseQueryAdapter<Group>{
             v = View.inflate(getContext(), R.layout.item_list_group, null);
         }
 
+
+
+
         super.getItemView(group, v, parent);
 
         TextView titleTextView = (TextView) v.findViewById(R.id.group_list_title);
@@ -98,9 +101,10 @@ public class GroupsAdapter extends ParseQueryAdapter<Group>{
 
         // We only want to show this button if we're in ALL mode and we are a member or admin
 
+        Button detailsButton = (Button) v
+                .findViewById(R.id.group_list_item_details_button);
         if(mMode == ALL_GROUPS && (group.isCurrentUserMember() || group.isCurrentUserAdmin())){
-            Button detailsButton = (Button) v
-                    .findViewById(R.id.group_list_item_details_button);
+
             detailsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -108,6 +112,9 @@ public class GroupsAdapter extends ParseQueryAdapter<Group>{
                 }
             });
             detailsButton.setVisibility(View.VISIBLE);
+        } else {
+            // Sometimes we are recycling an old view so we ALWAYS want to remove the details button or we get funky beavior
+            detailsButton.setVisibility(View.GONE);
         }
 
 
