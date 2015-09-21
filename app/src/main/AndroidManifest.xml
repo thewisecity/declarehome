@@ -38,6 +38,8 @@
     <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
     <!-- <uses-feature android:name="android.hardware.camera" /> -->
     <!-- <uses-feature android:name="android.hardware.camera.autofocus" /> -->
+    <!-- This used to be the name of the applicaiton tag-->
+    <!--android:name=".App"-->
     <application
         android:name=".App"
         android:allowBackup="true"

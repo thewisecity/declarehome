@@ -101,7 +101,15 @@ public class GroupsFragment extends Fragment {
             @Override
             public void onLoaded(List<Group> list, Exception e) {
                 mLoadingIndicator.setVisibility(View.GONE);
-                mNoGroupsTextView.setVisibility(list.size() == 0 ? View.VISIBLE : View.GONE);
+                mNoGroupsTextView.setVisibility((list != null && list.size() == 0) ? View.VISIBLE : View.GONE);
+//                for(Group group : list){
+//                    try {
+//                        group.pin();
+//                    } catch (ParseException err){
+//                        err.printStackTrace();
+//                    }
+//                }
+
             }
         });
 
