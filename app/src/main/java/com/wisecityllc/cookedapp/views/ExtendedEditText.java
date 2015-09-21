@@ -1,4 +1,4 @@
-package com.wisecityllc.cookedapp.misc;
+package com.wisecityllc.cookedapp.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
