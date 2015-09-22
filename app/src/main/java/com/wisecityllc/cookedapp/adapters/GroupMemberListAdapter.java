@@ -159,9 +159,9 @@ public class GroupMemberListAdapter extends ParseQueryAdapter<ParseUser> {
             @Override
             public void onClick(View v) {
                 HashMap<String, Object> params = new HashMap<String, Object>();
-                params.put("group", mGroup.getObjectId());
+                params.put("groupId", mGroup.getObjectId());
 //        Log.d("DEX", "GroupHashId: " + getIntent().getStringExtra("groupHashId"));
-                params.put("invitee", user.getObjectId());
+                params.put("inviteeId", user.getObjectId());
                 ParseCloud.callFunctionInBackground(getContext().getString(R.string.cloud_code_approve_membership_for_group),
                         params,
                         new FunctionCallback<String>() {
@@ -174,6 +174,8 @@ public class GroupMemberListAdapter extends ParseQueryAdapter<ParseUser> {
                                 } else { // Success!
 
                                     Toast.makeText(App.getContext(), "Approved", Toast.LENGTH_SHORT).show();
+                                    user.add("memberOfArray", mGroup);
+                                    loadObjects();
 
                                 }
                             }

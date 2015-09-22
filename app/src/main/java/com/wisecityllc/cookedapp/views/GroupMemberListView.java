@@ -74,28 +74,6 @@ public class GroupMemberListView extends ListView {
 
         mAdapter.loadObjects();
 
-//        mAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<ParseUser>() {
-//            @Override
-//            public void onLoading() {
-//                Log.d("DEX", "Loading");
-//            }
-//
-//            @Override
-//            public void onLoaded(List<ParseUser> objects, Exception e) {
-//                if(e != null)
-//                    e.printStackTrace();
-//                else {
-//                    for(ParseUser user : objects) {
-//                        try {
-//                            user.pin();
-//                        } catch (ParseException err) {
-//                            err.printStackTrace();
-//                        }
-//                    }
-//                    Log.d("DEX", objects.toString());
-//                }
-//            }
-//        });
     }
 
 }

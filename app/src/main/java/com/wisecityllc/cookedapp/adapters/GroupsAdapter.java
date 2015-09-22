@@ -67,9 +67,6 @@ public class GroupsAdapter extends ParseQueryAdapter<Group>{
             v = View.inflate(getContext(), R.layout.item_list_group, null);
         }
 
-
-
-
         super.getItemView(group, v, parent);
 
         TextView titleTextView = (TextView) v.findViewById(R.id.group_list_title);
