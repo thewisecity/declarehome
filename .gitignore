@@ -19,3 +19,5 @@ ParseLoginUI/build/intermediates/manifests/tmp/manifestMerger7331593512312627845
 ParseLoginUI/build/intermediates/resources/resources-debug-androidTest.ap_
 ParseLoginUI/build/outputs/aar/ParseLoginUI-debug.aar
 ParseLoginUI/build/outputs/aar/ParseLoginUI-release.aar
+facebook-android-sdk-4.0.1/build/intermediates/incremental/mergeAssets/androidTest/debug/merger.xml
+ParseLoginUI/build/intermediates/incremental/mergeAssets/androidTest/debug/merger.xml

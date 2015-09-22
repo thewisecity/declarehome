@@ -30,7 +30,6 @@ import com.wisecityllc.cookedapp.fragments.EventsFragment;
 import com.wisecityllc.cookedapp.fragments.GroupsFragment;
 import com.wisecityllc.cookedapp.fragments.NavigationDrawerFragment;
 import com.wisecityllc.cookedapp.fragments.WellnessFragment;
-import com.wisecityllc.cookedapp.parseClasses.Group;
 
 
 public class PostLoginActivity extends ActionBarActivity
