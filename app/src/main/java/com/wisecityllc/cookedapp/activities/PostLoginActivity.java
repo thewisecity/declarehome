@@ -90,10 +90,10 @@ public class PostLoginActivity extends ActionBarActivity
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mParseObjectUpdatesReceiver, parseObjectUpdates);
 
-        if(ParseUser.getCurrentUser() != null){
-            //Update our current user
-            Group.refreshLocalGroupPermissions();
-        }
+//        if(ParseUser.getCurrentUser() != null){
+//            //Update our current user
+//            Group.refreshLocalGroupPermissions();
+//        }
 
         //DEBUG: Associate ourselves with all notifs
         //Notifications.setSubscriptionForAllNotifs(true);

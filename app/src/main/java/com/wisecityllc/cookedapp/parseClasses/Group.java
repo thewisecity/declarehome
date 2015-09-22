@@ -194,8 +194,8 @@ public class Group extends ParseObject {
     public ParseRole getAdminsRole() { return (ParseRole)getParseObject("adminsRole"); }
 
     public static void refreshLocalGroupPermissions() {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        currentUser.fetchInBackground();
+//        ParseUser currentUser = ParseUser.getCurrentUser();
+//        currentUser.fetchInBackground();
 //        ParseUser currentUser = ParseUser.getCurrentUser();
 //        currentUser.fetchInBackground(new GetCallback<ParseUser>() {
 //            @Override
