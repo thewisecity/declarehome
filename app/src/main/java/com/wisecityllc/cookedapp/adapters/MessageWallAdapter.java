@@ -29,6 +29,8 @@ public class MessageWallAdapter extends ParseQueryAdapter<Message>{
 
                 ParseObject groupProxy = ParseObject.createWithoutData("Group", groupId);
                 query.whereEqualTo("group", groupProxy);
+
+                query.include(Message._AUTHOR);
                 return query;
             }
         });

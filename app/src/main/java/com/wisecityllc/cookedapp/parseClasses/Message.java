@@ -18,9 +18,9 @@ import com.wisecityllc.cookedapp.R;
 @ParseClassName("Message")
 public class Message extends ParseObject {
 
-    final static String _AUTHOR = "author";
-    final static String _GROUP = "group";
-    final static String _BODY = "body";
+    final public static String _AUTHOR = "author";
+    final public static String _GROUP = "group";
+    final public static String _BODY = "body";
 
     public Message() {
         // A default constructor is required.
