@@ -1,1 +1,1 @@
-include ':app', ':ParseLoginUI', ':facebook-android-sdk-4.0.1'
+include ':app'
