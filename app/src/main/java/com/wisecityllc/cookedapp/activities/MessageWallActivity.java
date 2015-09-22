@@ -1,8 +1,11 @@
 package com.wisecityllc.cookedapp.activities;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +35,8 @@ public class MessageWallActivity extends AppCompatActivity implements AdapterVie
     private ProgressBar mLoadingIndicator;
     private Group mGroup;
 
+    BroadcastReceiver mReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,19 +46,24 @@ public class MessageWallActivity extends AppCompatActivity implements AdapterVie
 
         Intent intent = getIntent();
 
+        mLoadingIndicator = (ProgressBar) findViewById(R.id.messages_activity_loading_indicator);
+
         String groupId = intent.getStringExtra("groupId");
         mMessagesAdapter = new MessageWallAdapter(this, groupId);
 
         mMessagesAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Message>() {
             @Override
             public void onLoading() {
-
+                mMessagesListView.setVisibility(View.GONE);
+                mLoadingIndicator.setVisibility(View.VISIBLE);
+                mNoMessagesTextView.setVisibility(View.GONE);
             }
 
             @Override
             public void onLoaded(List<Message> list, Exception e) {
                 mLoadingIndicator.setVisibility(View.GONE);
                 mNoMessagesTextView.setVisibility(list.isEmpty() ? View.VISIBLE : View.GONE);
+                mMessagesListView.setVisibility(View.VISIBLE);
             }
         });
 
@@ -61,12 +71,28 @@ public class MessageWallActivity extends AppCompatActivity implements AdapterVie
             mMessagesListView = (ListView)findViewById(R.id.messages_list_view);
         }
 
-        mMessagesListView.setAdapter(mMessagesAdapter);
-        mMessagesListView.setOnItemClickListener(this);
+
 
         mNoMessagesTextView = (TextView) findViewById(R.id.messages_activity_no_messages_text_view);
 
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.messages_activity_loading_indicator);
+
+
+
+
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equalsIgnoreCase(getString(R.string.broadcast_message_saved_success))) {
+                    mMessagesAdapter.loadObjects();
+                }
+            }
+        };
+
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(getString(R.string.broadcast_message_saved_success)));
+
+        mMessagesListView.setAdapter(mMessagesAdapter);
+        mMessagesListView.setOnItemClickListener(this);
 
         mMessagesAdapter.loadObjects();
 
@@ -77,6 +103,12 @@ public class MessageWallActivity extends AppCompatActivity implements AdapterVie
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_message_wall, menu);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+        super.onDestroy();
     }
 
     @Override

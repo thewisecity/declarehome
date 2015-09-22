@@ -63,6 +63,7 @@ public class MessageWallAdapter extends ParseQueryAdapter<Message>{
                 }
             }
         });
+
         return v;
     }
 
