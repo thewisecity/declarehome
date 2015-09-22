@@ -34,13 +34,14 @@ public class GroupMemberListAdapter extends ParseQueryAdapter<ParseUser> {
     private static ParseQuery<ParseUser> sMembersQuery;
     private static ParseQuery<ParseUser> sAdminsQuery;
     private static ParseQuery<ParseUser> sInviteesQuery;
+    private static ParseQuery<ParseUser> sRequestersQuery;
 
     public GroupMemberListAdapter(Context context,
                                   final Group membersOfGroup,
                                   final boolean includeMembers,
                                   final boolean includeAdmins,
                                   final boolean includePendingNeedsApproval,
-                                  boolean includePendingNeedsToAccept) {
+                                  final boolean includePendingNeedsToAccept) {
         super(context, new ParseQueryAdapter.QueryFactory<ParseUser>() {
             public ParseQuery<ParseUser> create() {
 
@@ -59,15 +60,17 @@ public class GroupMemberListAdapter extends ParseQueryAdapter<ParseUser> {
                 }
 
                 if(includePendingNeedsApproval) {
+                    sRequestersQuery = getQueryForOutstandingRequestersOfGroup(membersOfGroup);
+                    queryList.add(sRequestersQuery);
+                }
+
+                if(includePendingNeedsToAccept) {
                     sInviteesQuery = getQueryForOutstandingInviteesOfGroup(membersOfGroup);
                     queryList.add(sInviteesQuery);
                 }
 
                 if(queryList.size() > 0)
                     assembledQuery = ParseQuery.or(queryList);
-
-                //TODO: If we want to ever implement showing members who still need to accept, this is where we should do it
-
 
                 return assembledQuery;
             }
@@ -115,11 +118,23 @@ public class GroupMemberListAdapter extends ParseQueryAdapter<ParseUser> {
 
         ParseQuery<GroupContract> contractsQuery = new ParseQuery<>(GroupContract.class);
         contractsQuery.whereEqualTo(GroupContract._GROUP, group);
-        contractsQuery.whereEqualTo(GroupContract._STATUS, GroupContract.STATUS_USER_REQUESTED);
+        contractsQuery.whereEqualTo(GroupContract._STATUS, GroupContract.STATUS_USER_INVITED);
 
         ParseQuery<ParseUser> users = ParseUser.getQuery();
         users.whereMatchesKeyInQuery("email", "inviteeEmail", contractsQuery);
 
+        return users;
+
+    }
+
+    private static ParseQuery<ParseUser> getQueryForOutstandingRequestersOfGroup(Group group) {
+
+        ParseQuery<GroupContract> contractsQuery = new ParseQuery<>(GroupContract.class);
+        contractsQuery.whereEqualTo(GroupContract._GROUP, group);
+        contractsQuery.whereEqualTo(GroupContract._STATUS, GroupContract.STATUS_USER_REQUESTED);
+
+        ParseQuery<ParseUser> users = ParseUser.getQuery();
+        users.whereMatchesKeyInQuery("email", "inviteeEmail", contractsQuery);
 
         return users;
 

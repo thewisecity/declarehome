@@ -194,6 +194,8 @@ public class Group extends ParseObject {
     public ParseRole getAdminsRole() { return (ParseRole)getParseObject("adminsRole"); }
 
     public static void refreshLocalGroupPermissions() {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        currentUser.fetchInBackground();
 //        ParseUser currentUser = ParseUser.getCurrentUser();
 //        currentUser.fetchInBackground(new GetCallback<ParseUser>() {
 //            @Override
@@ -278,7 +280,7 @@ public class Group extends ParseObject {
             if(forceServerContact == true)
                 this.fetch();
 
-            ArrayList<ParseUser> allMembers = getAdminsArray();
+            ArrayList<ParseUser> allMembers = getMembersArray();
             for(ParseUser member : allMembers) {
                 if(member.getObjectId().equalsIgnoreCase(user.getObjectId())) {
                     userIsMember = true;

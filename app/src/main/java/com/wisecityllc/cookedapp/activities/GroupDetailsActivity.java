@@ -15,6 +15,7 @@ import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.parseClasses.Group;
 import com.wisecityllc.cookedapp.views.GroupMemberListView;
@@ -154,7 +155,14 @@ public class GroupDetailsActivity extends ActionBarActivity {
 
         {
             mButton.setVisibility(View.VISIBLE);
-            mButton.setText("Respond To Invitation");
+            mButton.setText("Accept Invitation");
+            mButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    acceptInvitation();
+                    //Update our button
+                }
+            });
         }
 
         else if(response==USER_HAS_NO_ASSOCIATION)
@@ -183,8 +191,39 @@ public class GroupDetailsActivity extends ActionBarActivity {
 
         {
             mButton.setVisibility(View.VISIBLE);
-            mButton.setText("Not sure what happened");
+            mButton.setText("Error");
         }
+    }
+
+    private void acceptInvitation() {
+        setIsLoadingMemberStatus();
+        //Send a request to accept membership
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("groupId", getIntent().getStringExtra("id"));
+        ParseCloud.callFunctionInBackground(getString(R.string.cloud_code_accept_membership_to_group),
+                params,
+                new FunctionCallback<Number>() {
+                    @Override
+                    public void done(Number number, ParseException e) {
+
+                        if (e != null) { // Failure!
+                            Log.e("Error", e.getLocalizedMessage());
+                            updateUIForUserStatusResponse(9999);
+
+                        } else { // Success!
+
+                            int response = 9999;
+                            if (number != null)
+                                response = number.intValue();
+
+                            //Update our user
+                            ParseUser.getCurrentUser().fetchInBackground();
+
+                            updateUIForUserStatusResponse(response);
+
+                        }
+                    }
+                });
     }
 
     private void requestMembership() {

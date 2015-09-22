@@ -24,6 +24,7 @@
     <string name="cloud_code_send_invite_to_individual_user">inviteToGroup</string>
     <string name="cloud_code_approve_membership_for_group">approveMembershipForGroup</string>
     <string name="cloud_code_request_membership_to_group">requestMembershipToGroup</string>
+    <string name="cloud_code_accept_membership_to_group">acceptMembershipToGroup</string>
 
 
     <string name="title_activity_nonsenseactivity">nonsenseactivity</string>

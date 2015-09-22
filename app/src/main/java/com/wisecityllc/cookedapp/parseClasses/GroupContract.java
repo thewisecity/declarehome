@@ -19,6 +19,7 @@ public class GroupContract extends ParseObject {
 
     //String consts for Status
     public final static String STATUS_USER_REQUESTED = "UserRequested";
+    public final static String STATUS_USER_INVITED = "UserInvited";
     public final static String STATUS_SIGNED = "Signed";
 
     public GroupContract() {
