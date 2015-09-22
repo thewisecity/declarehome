@@ -32,6 +32,10 @@ public class Group extends ParseObject {
     final static String _WEBSITE = "website";
     final static String _FACEBOOK = "facebook";
     final static String _TWITTER = "twitter";
+    final static String _MEMBERS_ARRAY = "membersArray";
+    final static String _ADMINS_ARRAY = "adminsArray";
+    final static String _MEMBERS_ROLE = "membersRole";
+    final static String _ADMINS_ROLE = "adminsRole";
 
     private boolean mUseLocalStorageForMembers = false;
     private boolean mUseLocalStorageForAdmins = false;
@@ -174,7 +178,7 @@ public class Group extends ParseObject {
     }
 
     public ArrayList<ParseUser> getAdminsArray() {
-        List<ParseUser> admins = getList("adminsArray");
+        List<ParseUser> admins = getList(_ADMINS_ARRAY);
         if(admins!= null)
             return new ArrayList<ParseUser>(admins);
         else
@@ -182,16 +186,16 @@ public class Group extends ParseObject {
     }
 
     public ArrayList<ParseUser> getMembersArray() {
-        List<ParseUser> members = getList("membersArray");
+        List<ParseUser> members = getList(_MEMBERS_ARRAY);
         if(members != null)
             return new ArrayList<ParseUser>(members);
         else
             return new ArrayList<ParseUser>();
     }
 
-    public ParseRole getMembersRole() { return (ParseRole)getParseObject("membersRole"); }
+    public ParseRole getMembersRole() { return (ParseRole)getParseObject(_MEMBERS_ROLE); }
 
-    public ParseRole getAdminsRole() { return (ParseRole)getParseObject("adminsRole"); }
+    public ParseRole getAdminsRole() { return (ParseRole)getParseObject(_ADMINS_ROLE); }
 
     public static void refreshLocalGroupPermissions() {
 //        ParseUser currentUser = ParseUser.getCurrentUser();
@@ -269,6 +273,10 @@ public class Group extends ParseObject {
         }
 
         return userIsAdmin;
+    }
+
+    public void addMember(ParseUser user) {
+        add(_MEMBERS_ARRAY, user);
     }
 
     public boolean isUserMember(ParseUser user, boolean forceServerContact) {

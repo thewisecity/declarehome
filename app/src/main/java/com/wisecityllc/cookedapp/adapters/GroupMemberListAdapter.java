@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -153,15 +154,19 @@ public class GroupMemberListAdapter extends ParseQueryAdapter<ParseUser> {
             v = View.inflate(getContext(), R.layout.item_list_group_members, null);
         }
 
-        Button approveButton = (Button) v.findViewById(R.id.group_member_list_approve_button);
+        final ProgressBar loadingIndicator = (ProgressBar) v.findViewById(R.id.group_member_list_loading_indicator);
+        loadingIndicator.setVisibility(View.GONE);
+
+        final Button approveButton = (Button) v.findViewById(R.id.group_member_list_approve_button);
 
         approveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 HashMap<String, Object> params = new HashMap<String, Object>();
                 params.put("groupId", mGroup.getObjectId());
-//        Log.d("DEX", "GroupHashId: " + getIntent().getStringExtra("groupHashId"));
                 params.put("inviteeId", user.getObjectId());
+                loadingIndicator.setVisibility(View.VISIBLE);
+                approveButton.setVisibility(View.GONE);
                 ParseCloud.callFunctionInBackground(getContext().getString(R.string.cloud_code_approve_membership_for_group),
                         params,
                         new FunctionCallback<String>() {
@@ -169,17 +174,22 @@ public class GroupMemberListAdapter extends ParseQueryAdapter<ParseUser> {
                             public void done(String string, ParseException e) {
 
                                 if (e != null) { // Failure!
+                                    Toast.makeText(App.getContext(), "Error while approving. Try again.", Toast.LENGTH_SHORT).show();
+                                    notifyDataSetChanged();
                                     Log.e("Error", e.getLocalizedMessage());
 
                                 } else { // Success!
 
                                     Toast.makeText(App.getContext(), "Approved", Toast.LENGTH_SHORT).show();
-                                    user.add("memberOfArray", mGroup);
-                                    loadObjects();
+                                    mGroup.addMember(user);
+                                    notifyDataSetChanged();
+//                                    loadObjects();
 
                                 }
                             }
                         });
+
+
 
             }
         });
