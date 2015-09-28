@@ -28,72 +28,63 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="@string/group_name"
-            android:layout_marginTop="4dp"
-            android:text="Test Group" />
+            android:layout_marginTop="4dp"/>
 
         <EditText
             android:id="@+id/create_group_group_purpose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/group_purpose"
-            android:layout_marginTop="4dp"
-            android:text="Test Purpose" />
+            android:layout_marginTop="4dp"/>
 
         <EditText
             android:id="@+id/create_group_neighberhoods"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/neighberhoods_areas_districts"
-            android:layout_marginTop="4dp"
-            android:text="Test Neighberhoods" />
+            android:layout_marginTop="4dp"/>
 
         <EditText
             android:id="@+id/create_group_group_street_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/group_street_address"
-            android:layout_marginTop="4dp"
-            android:text="1 Test Ave." />
+            android:layout_marginTop="4dp" />
 
         <EditText
             android:id="@+id/create_group_city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/city"
-            android:layout_marginTop="4dp"
-            android:text="Test City" />
+            android:layout_marginTop="4dp"/>
 
         <EditText
             android:id="@+id/create_group_state"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/state_province_territory_department"
-            android:layout_marginTop="4dp"
-            android:text="TS" />
+            android:layout_marginTop="4dp" />
 
         <EditText
             android:id="@+id/create_group_website"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/group_website"
-            android:layout_marginTop="4dp"
-            android:text="http://www.test.com" />
+            android:layout_marginTop="4dp" />
 
         <EditText
             android:id="@+id/create_group_facebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/facebook_page"
-            android:layout_marginTop="4dp"
-            android:text="test" />
+            android:layout_marginTop="4dp" />
 
         <EditText
             android:id="@+id/create_group_twitter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/twitter_name"
-            android:layout_marginTop="4dp"
-            android:text="test" />
+            android:layout_marginTop="4dp"/>
 
             <Button
                 android:layout_width="fill_parent"

@@ -47,9 +47,9 @@
     <string name="group_street_address">Group Street Address</string>
     <string name="city">City</string>
     <string name="state_province_territory_department">State/Province/Territory/Department</string>
-    <string name="group_website">Group website</string>
-    <string name="facebook_page">Facebook page</string>
-    <string name="twitter_name">Twitter name</string>
+    <string name="group_website">http://www.groupwebsite.com</string>
+    <string name="facebook_page">Group's facebook page</string>
+    <string name="twitter_name">\@groupsTwitterHandle</string>
     <string name="add_email_address">Add email address</string>
     <string name="invite_new_members">Invite New Members</string>
 
