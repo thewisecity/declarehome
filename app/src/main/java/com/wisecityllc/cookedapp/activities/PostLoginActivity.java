@@ -30,6 +30,7 @@ import com.wisecityllc.cookedapp.fragments.EventsFragment;
 import com.wisecityllc.cookedapp.fragments.GroupsFragment;
 import com.wisecityllc.cookedapp.fragments.NavigationDrawerFragment;
 import com.wisecityllc.cookedapp.fragments.WellnessFragment;
+import com.wisecityllc.cookedapp.utilities.Notifications;
 
 
 public class PostLoginActivity extends ActionBarActivity
@@ -95,7 +96,7 @@ public class PostLoginActivity extends ActionBarActivity
 //        }
 
         //DEBUG: Associate ourselves with all notifs
-        //Notifications.setSubscriptionForAllNotifs(true);
+        Notifications.setSubscriptionForAllNotifs(true);
     }
 
     @Override

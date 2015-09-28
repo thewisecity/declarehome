@@ -13,6 +13,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.wisecityllc.cookedapp.App;
 import com.wisecityllc.cookedapp.R;
+import com.wisecityllc.cookedapp.utilities.Notifications;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ public class Group extends ParseObject {
     }
 
     public static void createGroup(String name, String purpose, String neighberhoods, String address, String city, String state, String website, String facebook, String twitter){
-        Group group = new Group();
+        final Group group = new Group();
         group.put(_NAME, name);
         group.put(_PURPOSE, purpose);
         group.put(_NEIGHBERHOODS, neighberhoods);
@@ -69,6 +70,9 @@ public class Group extends ParseObject {
                     Toast.makeText(App.getContext(), "Group saved", Toast.LENGTH_SHORT).show();
                     Intent groupSavedIntent = new Intent(App.getContext().getString(R.string.broadcast_group_saved_success));
                     LocalBroadcastManager.getInstance(App.getContext()).sendBroadcast(groupSavedIntent);
+
+                    //Update notifications
+                    Notifications.subscribeToNotifsForNewGroup(group);
                 }
             }
         });

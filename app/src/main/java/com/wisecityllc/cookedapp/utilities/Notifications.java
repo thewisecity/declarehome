@@ -23,6 +23,7 @@ public class Notifications {
     public static final String ALERTS = "Alert";
     public static final String INVITATION_ACCEPTED = "InvitationAccepted";
     public static final String MEMBERSHIP_REQUEST = "MembershipRequest";
+    public static final String INVITED_TO_GROUP = "InvitedToGroup";
 
     public static void setSubscriptionForAllNotifs(final boolean subscribed) {
         setSubscriptionForNewEvents(subscribed);
@@ -30,6 +31,7 @@ public class Notifications {
         setSubscriptionForAlerts(subscribed);
         setSubscriptionForInvitationAcceptedChannel(subscribed);
         setSubscriptionForMembershipRequested(subscribed);
+        setSubscriptionForInvitedToGroup(subscribed);
     }
 
     public static void setSubscriptionForNewMessages(final boolean subscribed){
@@ -43,7 +45,7 @@ public class Notifications {
                     Log.d("ERROR", e.getMessage());
                 } else {
                     // results contains all of the groups of which our user is either an admin or a member
-                    for(Group group : results){
+                    for (Group group : results) {
                         setSubscriptionForNewMessagesChannelForGroup(subscribed, group);
                     }
                 }
@@ -95,6 +97,14 @@ public class Notifications {
             ParsePush.unsubscribeInBackground(channel);
     }
 
+    public static void setSubscriptionForInvitedToGroup(boolean subscribed){
+        String channel = INVITED_TO_GROUP + "_" + ParseUser.getCurrentUser().getObjectId();
+        if(subscribed)
+            ParsePush.subscribeInBackground(channel);
+        else
+            ParsePush.unsubscribeInBackground(channel);
+    }
+
     public static void setSubscriptionForMembershipRequested(final boolean subscribed){
         ParseQuery<Group> allGroupsQuery = getAllGroupsQuery();
 
@@ -112,8 +122,6 @@ public class Notifications {
             }
         });
     }
-
-
 
 
     private static void setSubscriptionForNewMessagesChannelForGroup(boolean subscribed, Group group){
@@ -174,5 +182,12 @@ public class Notifications {
         ParseQuery<Group> allGroupsQuery = ParseQuery.or(queries); //Combines our queries together
 
         return allGroupsQuery;
+    }
+
+    public static void subscribeToNotifsForNewGroup (Group group) {
+        setSubscriptionForAlertsChannelForGroup(true, group);
+        setSubscriptionForMemberShipRequestedForGroup(true, group);
+        setSubscriptionForNewEventsChannelForGroup(true, group);
+        setSubscriptionForNewMessagesChannelForGroup(true, group);
     }
 }

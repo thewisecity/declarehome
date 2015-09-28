@@ -6,12 +6,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Traits;
 import com.wisecityllc.cookedapp.R;
@@ -162,6 +165,7 @@ public class PreLoginActivity extends ActionBarActivity
         } catch (ParseException err) {
             err.printStackTrace();
         }
+        ParseInstallation.getCurrentInstallation().saveInBackground();
         switchToPostLoginActivity();
         setLoading(false);
         if (ParseUser.getCurrentUser() != null) {
@@ -179,6 +183,16 @@ public class PreLoginActivity extends ActionBarActivity
             } catch (ParseException err) {
                 err.printStackTrace();
             }
+            ParseInstallation cInstallation = ParseInstallation.getCurrentInstallation();
+            cInstallation.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if(e != null)
+                        e.printStackTrace();
+                    else
+                        Log.d("DEX", "installation saved");
+                }
+            });
             Toast.makeText(this, "Login Succeeded.", Toast.LENGTH_SHORT).show();
             switchToPostLoginActivity();
             setLoading(false);
