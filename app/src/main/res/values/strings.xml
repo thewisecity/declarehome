@@ -48,12 +48,13 @@
     <string name="city">City</string>
     <string name="state_province_territory_department">State/Province/Territory/Department</string>
     <string name="group_website">http://www.groupwebsite.com</string>
-    <string name="facebook_page">Group's facebook page</string>
+    <string name="facebook_page">Group\'s facebook page</string>
     <string name="twitter_name">\@groupsTwitterHandle</string>
     <string name="add_email_address">Add email address</string>
     <string name="invite_new_members">Invite New Members</string>
 
     <!-- Broadcast Notification Constants Strings -->
+    <string name="broadcast_force_refresh_groups">RefreshGroupsListIntent</string>
     <string name="broadcast_group_saved_success">GroupSavedIntent</string>
     <string name="title_activity_group_details">GroupDetailsActivity</string>
     <string name="broadcast_message_saved_success">MessageSavedIntent</string>

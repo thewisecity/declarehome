@@ -1,6 +1,7 @@
 package com.wisecityllc.cookedapp.fragments;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -33,6 +34,8 @@ public class GroupsFragment extends Fragment {
     private ListView mGroupsListView;
     private ProgressBar mLoadingIndicator;
     private TextView mNoGroupsTextView;
+
+    private BroadcastReceiver mBroadcastReceiver;
 
     private int mAdapterMode;
 
@@ -94,12 +97,14 @@ public class GroupsFragment extends Fragment {
         mGroupsAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Group>() {
             @Override
             public void onLoading() {
+                mGroupsListView.setVisibility(View.GONE);
                 mLoadingIndicator.setVisibility(View.VISIBLE);
                 mNoGroupsTextView.setVisibility(View.GONE);
             }
 
             @Override
             public void onLoaded(List<Group> list, Exception e) {
+                mGroupsListView.setVisibility(View.VISIBLE);
                 mLoadingIndicator.setVisibility(View.GONE);
                 mNoGroupsTextView.setVisibility((list != null && list.size() == 0) ? View.VISIBLE : View.GONE);
 //                for(Group group : list){
@@ -165,9 +170,8 @@ public class GroupsFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface GroupsFragmentInteractionListener {
-//        public void onFragmentInteraction(Uri uri);
+//        public void onUserAcceptedInvitationToGroup();
     }
-
 
 
 }

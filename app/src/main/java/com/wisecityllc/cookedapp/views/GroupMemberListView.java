@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.ListView;
 
-import com.wisecityllc.cookedapp.App;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.adapters.GroupMemberListAdapter;
 import com.wisecityllc.cookedapp.parseClasses.Group;
@@ -63,7 +62,7 @@ public class GroupMemberListView extends ListView {
     private void updateAdapter() {
         mAdapter =
                 new GroupMemberListAdapter(
-                        App.getContext(),
+                        getContext(),
                         mGroup,
                         mIncludeMembers,
                         mIncludeAdmins,

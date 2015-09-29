@@ -1,6 +1,7 @@
 package com.wisecityllc.cookedapp.adapters;
 
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,8 @@ import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
-import com.wisecityllc.cookedapp.App;
 import com.wisecityllc.cookedapp.R;
+import com.wisecityllc.cookedapp.activities.GroupsListActivity;
 import com.wisecityllc.cookedapp.parseClasses.Group;
 import com.wisecityllc.cookedapp.parseClasses.GroupContract;
 
@@ -174,13 +175,13 @@ public class GroupMemberListAdapter extends ParseQueryAdapter<ParseUser> {
                             public void done(String string, ParseException e) {
 
                                 if (e != null) { // Failure!
-                                    Toast.makeText(App.getContext(), "Error while approving. Try again.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Error while approving. Try again.", Toast.LENGTH_SHORT).show();
                                     notifyDataSetChanged();
                                     Log.e("Error", e.getLocalizedMessage());
 
                                 } else { // Success!
 
-                                    Toast.makeText(App.getContext(), "Approved", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Approved", Toast.LENGTH_SHORT).show();
                                     mGroup.addMember(user);
                                     notifyDataSetChanged();
 //                                    loadObjects();

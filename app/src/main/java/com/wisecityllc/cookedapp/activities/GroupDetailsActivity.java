@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,8 @@ import com.wisecityllc.cookedapp.views.GroupMemberListView;
 import java.util.HashMap;
 
 public class GroupDetailsActivity extends ActionBarActivity {
+
+    public final static int REQUEST_CODE = 10485;
 
     private final int USER_IS_ADMIN = 1;
     private final int USER_IS_MEMBER = 2;
@@ -209,6 +212,7 @@ public class GroupDetailsActivity extends ActionBarActivity {
                         if (e != null) { // Failure!
                             Log.e("Error", e.getLocalizedMessage());
                             updateUIForUserStatusResponse(9999);
+                            setResult(0);
 
                         } else { // Success!
 
@@ -221,9 +225,12 @@ public class GroupDetailsActivity extends ActionBarActivity {
 
                             updateUIForUserStatusResponse(response);
 
+
                         }
                     }
                 });
+        // Hopeful
+        setResult(GroupsListActivity.JOINED_GROUP_RESULT_CODE);
     }
 
     private void requestMembership() {
@@ -270,7 +277,7 @@ public class GroupDetailsActivity extends ActionBarActivity {
         viewGroupDetailsIntent.putExtra("city", group.getCity());
         viewGroupDetailsIntent.putExtra("state", group.getState());
         viewGroupDetailsIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        context.startActivity(viewGroupDetailsIntent);
+        ((AppCompatActivity) context).startActivityForResult(viewGroupDetailsIntent, GroupDetailsActivity.REQUEST_CODE);
     }
 
 }
