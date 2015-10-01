@@ -19,6 +19,7 @@ import com.example.android.common.view.SlidingTabLayout;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.adapters.GroupsAdapter;
 import com.wisecityllc.cookedapp.adapters.PostLoginPageAdapter;
@@ -245,6 +246,25 @@ public class PostLoginActivity extends ActionBarActivity
                 mPageAdapter.notifyGroupsDataUpdated();
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        postCurrentScreenToAnalytics();
+    }
+
+    private String postCurrentScreenToAnalytics() {
+        int currentItem = mViewPager.getCurrentItem();
+        String currentScreen = "";
+        if(currentItem == 0) {
+            // We are on the Groups fragment
+            Analytics.with(this).screen(null, GroupsFragment.MY_GROUPS_SCREEN);
+        } else if (currentItem == 1) {
+            // We are on Events fragment
+            Analytics.with(this).screen(null, EventsFragment.EVENTS_SCREEN);
+        }
+        return currentScreen;
     }
 
     //endregion

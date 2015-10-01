@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ToggleButton;
 
+import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.App;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.views.ExtendedEditText;
@@ -87,8 +88,10 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    Analytics.with(App.getContext()).track("Opened New Message Menu");
                     showPostMessageButtons(true);
                 } else {
+                    Analytics.with(App.getContext()).track("Closed New Message Menu");
                     cancelMessageCreation();
                 }
             }
@@ -167,6 +170,7 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
             InputMethodManager imm = (InputMethodManager) App.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(mMessageBodyEditText, InputMethodManager.SHOW_IMPLICIT);
         }
+        Analytics.with(App.getContext()).track("Began Message Creation");
     }
 
 
@@ -212,6 +216,7 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
     @Override
     public void pressedBackWithFocus(){
         cancelMessageCreation();
+        Analytics.with(App.getContext()).track("Cancelled Message Creation");
     }
 
     /**

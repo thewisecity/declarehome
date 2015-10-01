@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.R;
 
 /**
@@ -18,6 +19,9 @@ import com.wisecityllc.cookedapp.R;
  * create an instance of this fragment.
  */
 public class EventsFragment extends Fragment {
+
+    public static final String EVENTS_SCREEN = "EventsScreen";
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -86,6 +90,16 @@ public class EventsFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -101,4 +115,12 @@ public class EventsFragment extends Fragment {
 //        public void onFragmentInteraction(Uri uri);
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser) {
+            // Has become visible
+            Analytics.with(getActivity()).screen(null, EVENTS_SCREEN);
+        }
+    }
 }

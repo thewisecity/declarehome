@@ -7,10 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.parseClasses.Group;
 
 public class CreateGroupActivity extends ActionBarActivity {
+
+    private static String CREATE_GROUP_SCREEN = "Create Group Screen";
 
     private EditText field_name;
     private EditText field_purpose;
@@ -68,8 +71,20 @@ public class CreateGroupActivity extends ActionBarActivity {
 
     protected void submitGroupForCreation() {
         //TODO: Do validation / error checking here
-
+        Analytics.with(this).track("Attempting Group Creation");
         Group.createGroup(field_name.getText().toString(), field_purpose.getText().toString(), field_neighberhoods.getText().toString(), field_address.getText().toString(), field_city.getText().toString(), field_state.getText().toString(), field_website.getText().toString(), field_facebook.getText().toString(), field_twitter.getText().toString());
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Analytics.with(this).screen(null, CREATE_GROUP_SCREEN);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Analytics.with(this).track("Group Creation Cancelled");
     }
 }

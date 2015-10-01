@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.parse.ParseQueryAdapter;
+import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.adapters.GroupsAdapter;
 import com.wisecityllc.cookedapp.parseClasses.Group;
@@ -27,6 +28,11 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class GroupsFragment extends Fragment {
+
+    public static final String MY_GROUPS_SCREEN = "My_Groups_Screen";
+    public static final String ALL_GROUPS_SCREEN = "All_Groups_Screen";
+
+    public static boolean sShouldIgnoreFirstAnalyticsCall = false;
 
     private GroupsFragmentInteractionListener mListener;
 
@@ -173,5 +179,15 @@ public class GroupsFragment extends Fragment {
 //        public void onUserAcceptedInvitationToGroup();
     }
 
-
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser) {
+            // Has become visible
+            // If the app has just opened, avoid making this call since the View Pager will repeat it
+            if(sShouldIgnoreFirstAnalyticsCall == false)
+                Analytics.with(getActivity()).screen(null, MY_GROUPS_SCREEN);
+            sShouldIgnoreFirstAnalyticsCall = false;
+        }
+    }
 }

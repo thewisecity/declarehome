@@ -26,12 +26,17 @@ import com.wisecityllc.cookedapp.utilities.Installation;
 public class PreLoginActivity extends ActionBarActivity
         implements LoginFragment.LoginFragmentInteractionListener, RegistrationFragment.RegistrationFragmentInteractionListener {
 
+    private static String LOGIN_SCREEN = "LoginScreen";
 
     //================================================================================
     //region Properties
     //================================================================================
 
 
+    /**
+     * Set to true once we are actually showing the login fragment
+     */
+    private boolean mIsShowingLoginFragment = false;
 
     /**
      * Tells us whether this is the first time starting up the activity or not
@@ -67,6 +72,7 @@ public class PreLoginActivity extends ActionBarActivity
 
         if(savedInstanceState != null){
             mHasInitializedFirstFragment = savedInstanceState.getBoolean("hasInitializedFirstFragment");
+            mIsShowingLoginFragment = savedInstanceState.getBoolean("isShowingLoginFragment");
         }
 
     }
@@ -86,8 +92,6 @@ public class PreLoginActivity extends ActionBarActivity
                 //Make sure our current installation is associated with our current user
                 Installation.associateCurrentUserWithCurrentInstallation();
 
-
-
                 mHasInitializedFirstFragment = true;
             } else {
                 //Unassociate our current Installation from any user
@@ -101,6 +105,13 @@ public class PreLoginActivity extends ActionBarActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(mIsShowingLoginFragment == true)
+            Analytics.with(this).screen(null, LOGIN_SCREEN);
+    }
+
+    @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
     }
@@ -108,6 +119,7 @@ public class PreLoginActivity extends ActionBarActivity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean("hasInitializedFirstFragment", mHasInitializedFirstFragment);
+        outState.putBoolean("isShowingLoginFragment", mIsShowingLoginFragment);
         super.onSaveInstanceState(outState);
     }
 
@@ -143,6 +155,8 @@ public class PreLoginActivity extends ActionBarActivity
         trans.add(R.id.container, loginFrag, null);
         trans.commit();
 
+        mIsShowingLoginFragment = true;
+
 //        if(mNavigationDrawerFragment != null)
 //            mNavigationDrawerFragment.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
@@ -170,8 +184,8 @@ public class PreLoginActivity extends ActionBarActivity
         setLoading(false);
         if (ParseUser.getCurrentUser() != null) {
             //We are already logged in, go to main activity after registering user
+            Analytics.with(this).alias(ParseUser.getCurrentUser().getObjectId(), null);
             Analytics.with(this).identify(ParseUser.getCurrentUser().getObjectId(), new Traits().putName(ParseUser.getCurrentUser().getString("displayName")).putEmail(ParseUser.getCurrentUser().getEmail()), null);
-
         }
     }
 
@@ -196,8 +210,12 @@ public class PreLoginActivity extends ActionBarActivity
             Toast.makeText(this, "Login Succeeded.", Toast.LENGTH_SHORT).show();
             switchToPostLoginActivity();
             setLoading(false);
+            Analytics.with(this).alias(ParseUser.getCurrentUser().getObjectId(), null);
+            Analytics.with(this).identify(ParseUser.getCurrentUser().getObjectId(), new Traits().putName(ParseUser.getCurrentUser().getString("displayName")).putEmail(ParseUser.getCurrentUser().getEmail()), null);
+            Analytics.with(this).track("Login Success");
         }else{
             Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show();
+            Analytics.with(this).track("Login Failed");
             setLoading(false);
         }
     }

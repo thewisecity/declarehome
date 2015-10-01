@@ -8,8 +8,9 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.crashlytics.android.Crashlytics;
 import com.parse.Parse;
-import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.segment.analytics.Analytics;
+import com.wisecityllc.cookedapp.fragments.GroupsFragment;
 import com.wisecityllc.cookedapp.parseClasses.Group;
 import com.wisecityllc.cookedapp.parseClasses.GroupContract;
 import com.wisecityllc.cookedapp.parseClasses.Message;
@@ -34,6 +35,13 @@ public class App extends Application {
         ParseObject.registerSubclass(Message.class);
         Parse.initialize(this, "BrndBVrRczElKefgG3TvjCk3JYxtd5GB2GMzKoEP", "Xb7Pcc0lT2I3uJYNNoT6buaCuZ9dcvBMtCx9U5gw");
 
+        Analytics analytics = new Analytics.Builder(this, getString(R.string.analytics_write_key)).build();
+        Analytics.setSingletonInstance(analytics);
+
+        // Safely call Analytics.with(context) from anywhere within your app!
+        Analytics.with(this).track("Application Started");
+
+        GroupsFragment.sShouldIgnoreFirstAnalyticsCall = true;
 
     }
 

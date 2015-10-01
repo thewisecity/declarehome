@@ -9,6 +9,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.App;
 import com.wisecityllc.cookedapp.R;
 
@@ -39,17 +40,19 @@ public class Message extends ParseObject {
                 if(e != null){ //Saving failed
 
                     Toast.makeText(App.getContext(), "Error while saving message", Toast.LENGTH_SHORT).show();
-
+                    Analytics.with(App.getContext()).track("Message Creation Failed");
                 }else{ //Saving succeeded
 
                     Toast.makeText(App.getContext(), "Message created", Toast.LENGTH_SHORT).show();
                     Intent messageSavedIntent = new Intent(App.getContext().getString(R.string.broadcast_message_saved_success));
                     LocalBroadcastManager.getInstance(App.getContext()).sendBroadcast(messageSavedIntent);
+                    Analytics.with(App.getContext()).track("Message Created");
                 }
             }
         });
     }
 
+    // Unused
     public static Message postNewMessageSynchronous (String author, String group, String body){
         Message msg = new Message();
         msg.put(_AUTHOR, author);

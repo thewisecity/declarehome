@@ -13,8 +13,9 @@ import android.widget.EditText;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.wisecityllc.cookedapp.activities.PreLoginActivity;
+import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.R;
+import com.wisecityllc.cookedapp.activities.PreLoginActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -131,6 +132,8 @@ public class LoginFragment extends Fragment {
     private void attemptLogin(){
         mLoadingOverlay.setVisibility(View.VISIBLE);
 
+        Analytics.with(getActivity()).track("Login Attempt");
+
         ParseUser.logInInBackground(mEmailField.getText().toString(), mPasswordField.getText().toString(), new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
@@ -142,6 +145,7 @@ public class LoginFragment extends Fragment {
                 }
                 //No matter what happens, stop showing our lo//ading indicator
                 mLoadingOverlay.setVisibility(View.INVISIBLE);
+
             }
         });
     }
