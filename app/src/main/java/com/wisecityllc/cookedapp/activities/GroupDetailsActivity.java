@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
@@ -68,15 +68,9 @@ public class GroupDetailsActivity extends ActionBarActivity {
 
         GroupMemberListView membersLV = (GroupMemberListView) findViewById(R.id.group_details_activity_member_list_view);
 //        Group group = ParseObject.createWithoutData(Group.class, getIntent().getStringExtra("id"));
-        ParseQuery<Group> q = new ParseQuery<Group>(Group.class);
 //        q.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
 //        q.fromLocalDatastore();
-        Group group = null;
-        try {
-            group = q.get(getIntent().getStringExtra("id"));
-        } catch (ParseException e){
-            e.printStackTrace();
-        }
+        Group group = ParseObject.createWithoutData(Group.class, getIntent().getStringExtra("id"));
         membersLV.setGroup(group);
 
         setupUIForCurrentUserStatusWithinGroup();
