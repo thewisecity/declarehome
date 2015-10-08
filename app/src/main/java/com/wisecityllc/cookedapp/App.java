@@ -15,6 +15,7 @@ import com.wisecityllc.cookedapp.parseClasses.AlertCategory;
 import com.wisecityllc.cookedapp.parseClasses.Group;
 import com.wisecityllc.cookedapp.parseClasses.GroupContract;
 import com.wisecityllc.cookedapp.parseClasses.Message;
+import com.wisecityllc.cookedapp.parseClasses.User;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -33,6 +34,7 @@ public class App extends Application {
         Parse.enableLocalDatastore(this);
         ParseObject.registerSubclass(GroupContract.class);
         ParseObject.registerSubclass(Group.class);
+        ParseObject.registerSubclass(User.class);
         ParseObject.registerSubclass(Message.class);
         ParseObject.registerSubclass(AlertCategory.class);
         Parse.initialize(this, "BrndBVrRczElKefgG3TvjCk3JYxtd5GB2GMzKoEP", "Xb7Pcc0lT2I3uJYNNoT6buaCuZ9dcvBMtCx9U5gw");

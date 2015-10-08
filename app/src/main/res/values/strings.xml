@@ -4,6 +4,7 @@
     <string name="enter_up_to_four_new_members_at_a_time">Enter up to four new members at a time</string>
 
     <!-- Navigation drawer sections -->
+    <string name="nav_section_view_edit_my_profile">View/Edit My Profile</string>
     <string name="nav_section_view_all_groups">View All Groups</string>
     <string name="nav_section_create_new_group">Create A New Group</string>
 

@@ -30,8 +30,9 @@ import com.wisecityllc.cookedapp.R;
  */
 public class NavigationDrawerFragment extends Fragment {
 
-    public static final int NAV_DRAWER_VIEW_ALL_GROUPS_POSITION = 0;
-    public static final int NAV_DRAWER_CREATE_GROUP_POSITION = 1;
+    public static final int NAV_DRAWER_VIEW_EDIT_MY_PROFILE_POSITION = 0;
+    public static final int NAV_DRAWER_VIEW_ALL_GROUPS_POSITION = 1;
+    public static final int NAV_DRAWER_CREATE_GROUP_POSITION = 2;
 
 
     /**
@@ -109,6 +110,7 @@ public class NavigationDrawerFragment extends Fragment {
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
                 new String[]{
+                        getString(R.string.nav_section_view_edit_my_profile),
                         getString(R.string.nav_section_view_all_groups),
                         getString(R.string.nav_section_create_new_group)
                 }));

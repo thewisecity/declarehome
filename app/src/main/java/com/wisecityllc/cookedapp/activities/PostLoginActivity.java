@@ -218,6 +218,8 @@ public class PostLoginActivity extends ActionBarActivity
             startCreateNewGroupActivity();
         }else if (position == NavigationDrawerFragment.NAV_DRAWER_VIEW_ALL_GROUPS_POSITION){
             startViewAllGroupsListActivity(GroupsAdapter.ALL_GROUPS);
+        }else if (position == NavigationDrawerFragment.NAV_DRAWER_VIEW_EDIT_MY_PROFILE_POSITION) {
+            startViewEditMyProfileActivity();
         }
 
     }
@@ -226,6 +228,12 @@ public class PostLoginActivity extends ActionBarActivity
         Intent allGroupsActivityIntent = new Intent(this, GroupsListActivity.class);
         allGroupsActivityIntent.putExtra("mode", mode);
         startActivityForResult(allGroupsActivityIntent, GroupsListActivity.REQUEST_CODE);
+    }
+
+    private void startViewEditMyProfileActivity() {
+        Intent editProfileActivityIntent = new Intent(this, EditUserDetailsActivity.class);
+        editProfileActivityIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(editProfileActivityIntent);
     }
 
     private void startCreateNewGroupActivity(){
