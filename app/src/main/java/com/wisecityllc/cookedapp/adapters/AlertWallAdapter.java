@@ -1,8 +1,6 @@
 package com.wisecityllc.cookedapp.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,29 +8,47 @@ import android.widget.TextView;
 
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseImageView;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseUser;
 import com.wisecityllc.cookedapp.R;
+import com.wisecityllc.cookedapp.parseClasses.Group;
 import com.wisecityllc.cookedapp.parseClasses.Message;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dexterlohnes on 6/30/15.
  */
-public class MessageWallAdapter extends ParseQueryAdapter<Message>{
+public class AlertWallAdapter extends ParseQueryAdapter<Message>{
 
-    public MessageWallAdapter(Context context, final String groupId) {
+    public AlertWallAdapter(Context context) {
 
-        super(context, new ParseQueryAdapter.QueryFactory<Message>() {
+        super(context, new QueryFactory<Message>() {
             public ParseQuery<Message> create() {
                 ParseQuery query = new ParseQuery("Message");
                 query.orderByDescending("createdAt");
 
-                ParseObject groupProxy = ParseObject.createWithoutData("Group", groupId);
-                query.whereEqualTo(Message._GROUPS, groupProxy);
 
+                query.whereEqualTo("isAlert", true);
+                ParseQuery adminOfQuery = ParseUser.getCurrentUser().getRelation("adminOf").getQuery();
+                ParseQuery memberOfQuery = ParseUser.getCurrentUser().getRelation("memberOf").getQuery();
+
+                List<ParseQuery<Group>> queries = new ArrayList<ParseQuery<Group>>();
+                queries.add(adminOfQuery);
+                queries.add(memberOfQuery);
+
+                //A query of all the groups of which currentUser is an admin or member
+                ParseQuery< Group> groupsQuery = (ParseQuery<Group>) ParseQuery.or(queries);
+
+
+                query.whereMatchesQuery("groups", groupsQuery);
+
+
+//              ParseObject groupProxy = ParseObject.createWithoutData("Group", groupId);
+//                query.whereEqualTo("group", groupProxy);
 
                 query.include(Message._AUTHOR);
                 return query;
@@ -57,31 +73,15 @@ public class MessageWallAdapter extends ParseQueryAdapter<Message>{
         bodyTextView.setText(message.getBody());
 
         ParseImageView authorImage = (ParseImageView) v.findViewById(R.id.message_item_author_image);
-        ParseFile file = message.getAuthor().getParseFile("profilePic");
-
-
-        // I think / hope that this is helping to avoid multiple calls to the same thing when we've already loaded a file before
-        if(file.isDataAvailable()){
-            try {
-                byte[] bitmapdata = file.getData();
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
-                authorImage.setImageBitmap(bitmap);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-        }else {
-            authorImage.setParseFile(message.getAuthor().getParseFile("profilePic"));
-            authorImage.loadInBackground(new GetDataCallback() {
-                @Override
-                public void done(byte[] bytes, ParseException e) {
-                    if (e != null) {
-                        Log.e("DEX", e.getMessage());
-                    }
+        authorImage.setParseFile(message.getAuthor().getParseFile("profilePic"));
+        authorImage.loadInBackground(new GetDataCallback() {
+            @Override
+            public void done(byte[] bytes, ParseException e) {
+                if (e != null) {
+                    Log.e("DEX", e.getMessage());
                 }
-            });
-        }
-
+            }
+        });
 
         return v;
     }

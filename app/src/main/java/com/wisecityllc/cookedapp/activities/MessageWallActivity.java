@@ -24,9 +24,11 @@ import com.segment.analytics.Properties;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.adapters.MessageWallAdapter;
 import com.wisecityllc.cookedapp.fragments.PostMessageUIFragment;
+import com.wisecityllc.cookedapp.parseClasses.AlertCategory;
 import com.wisecityllc.cookedapp.parseClasses.Group;
 import com.wisecityllc.cookedapp.parseClasses.Message;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessageWallActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, PostMessageUIFragment.OnPostMessageUIInteractionListener {
@@ -142,6 +144,11 @@ public class MessageWallActivity extends AppCompatActivity implements AdapterVie
     public void postNewMessage(String message) {
         Group grp = ParseObject.createWithoutData(Group.class, getIntent().getStringExtra("groupId"));
         Message.postNewMessage(ParseUser.getCurrentUser(), grp, message);
+    }
+
+    @Override
+    public void postNewAlert(String message, ArrayList<Group> groups, AlertCategory category) {
+        Message.postNewAlert(ParseUser.getCurrentUser(), groups, message, category);
     }
 
     public static void startMessageWallActivityForGroup (Context context, Group group){

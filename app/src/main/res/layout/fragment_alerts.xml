@@ -1,15 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.wisecityllc.cookedapp.activities.MessageWallActivity">
+    tools:context="com.wisecityllc.cookedapp.fragments.AlertsFragment">
 
     <ListView
-        android:id="@+id/messages_list_view"
+        android:id="@+id/alerts_list_view"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -19,17 +14,9 @@
 
     </ListView>
 
-    <fragment android:name="com.wisecityllc.cookedapp.fragments.PostMessageUIFragment"
-        android:id="@+id/post_message_ui_fragment"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/fragment_post_message_ui" />
 
     <TextView
-        android:id="@+id/messages_activity_no_messages_text_view"
+        android:id="@+id/alerts_fragment_no_messages_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -39,7 +26,7 @@
         android:textSize="18sp"/>
 
     <ProgressBar
-        android:id="@+id/messages_activity_loading_indicator"
+        android:id="@+id/alerts_fragment_loading_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

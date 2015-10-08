@@ -3,7 +3,16 @@ package com.wisecityllc.cookedapp.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.text.InputFilter;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +20,23 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.App;
 import com.wisecityllc.cookedapp.R;
+import com.wisecityllc.cookedapp.adapters.AlertCategoryAdapter;
+import com.wisecityllc.cookedapp.adapters.GroupsCheckboxAdapter;
+import com.wisecityllc.cookedapp.adapters.delegates.AlertCategoryAdapterDelegate;
+import com.wisecityllc.cookedapp.adapters.delegates.GroupsCheckboxAdapterDelegate;
+import com.wisecityllc.cookedapp.parseClasses.AlertCategory;
+import com.wisecityllc.cookedapp.parseClasses.Group;
 import com.wisecityllc.cookedapp.views.ExtendedEditText;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +46,7 @@ import com.wisecityllc.cookedapp.views.ExtendedEditText;
  * Use the {@link PostMessageUIFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PostMessageUIFragment extends Fragment implements ExtendedEditText.OnBackButtonPressedWhileHasFocusListener {
+public class PostMessageUIFragment extends Fragment implements ExtendedEditText.OnBackButtonPressedWhileHasFocusListener, AlertCategoryAdapterDelegate, GroupsCheckboxAdapterDelegate {
 
     private int NEW_MESSAGE = 0;
     private int NEW_ALERT = 1;
@@ -36,6 +56,12 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
 
     private FrameLayout mEditTextLayout;
 
+    private RelativeLayout mPickAlertTypeLayout;
+    private RelativeLayout mPickGroupsForAlertLayout;
+
+    private ListView mAlertCategoryListView;
+    private ListView mGroupsForAlertListView;
+
     private View mGreyBackground;
     private ToggleButton mPlusButton;
     private Button mPostAlertButton;
@@ -44,7 +70,12 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
 
     private Button mFinishPostButton;
 
+    private Button mFinishedChoosingGroupsButton;
+
     private ExtendedEditText mMessageBodyEditText;
+
+    private AlertCategory mChosenAlertCategory;
+    private ArrayList<Group> mSelectedGroupsForAlert;
 
     /**
      * Use this factory method to create a new instance of
@@ -66,7 +97,7 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mSelectedGroupsForAlert = new ArrayList<>();
     }
 
     @Override
@@ -119,6 +150,13 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
             }
         });
 
+        mPostAlertButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                beginMessageCreation(NEW_ALERT);
+            }
+        });
+
         mMessageBodyEditText = (ExtendedEditText) view.findViewById(R.id.post_message_ui_message_edit_text);
 
 
@@ -134,21 +172,57 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
         });
 
         mPlusButton.setChecked(false);
-        cancelMessageCreation();
 
         // Tells our ExtendedEditText that it should tell this fragment when the back
         // button is pressed while it has focus.
         mMessageBodyEditText.setListener(this);
 
+        mPickAlertTypeLayout = (RelativeLayout) view.findViewById(R.id.post_message_ui_choose_category_area);
+        mPickGroupsForAlertLayout = (RelativeLayout) view.findViewById(R.id.post_message_ui_choose_groups_area);
+
+        mAlertCategoryListView = (ListView) view.findViewById(R.id.post_message_ui_category_list_view);
+        mGroupsForAlertListView = (ListView) view.findViewById(R.id.post_message_ui_groups_list_view);
+
+        mAlertCategoryListView.setAdapter(new AlertCategoryAdapter(this.getActivity(), this));
+
+        mGroupsForAlertListView.setAdapter(new GroupsCheckboxAdapter(this.getActivity(), this));
+
+        mFinishedChoosingGroupsButton = (Button) view.findViewById(R.id.post_message_ui_finish_choosing_groups_button);
+
+        mFinishedChoosingGroupsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Make sure at least one group is checked here
+                if(mSelectedGroupsForAlert.size() > 0)
+                    groupsFinished();
+                else
+                    Toast.makeText(getActivity(), "Must select at least one group for alert", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        cancelMessageCreation();
+
     }
 
     private void cancelMessageCreation() {
+        mChosenAlertCategory = null;
+        unselectAllCheckedGroups();
+//        mSelectedGroupsForAlert.clear();
+        hidePickGroupsForAlert();
+        hidePickAlertTypeForAlert();
+        configureMessageCompositionAreaForAlertCategory(null);
         clearMessageText();
         App.hideKeyboard(this.getActivity());
         mPlusButton.setVisibility(View.VISIBLE);
         mEditTextLayout.setVisibility(View.GONE);
         showPostMessageButtons(false);
+    }
 
+    private void unselectAllCheckedGroups() {
+        mSelectedGroupsForAlert.clear();
+        GroupsCheckboxAdapter adapter = (GroupsCheckboxAdapter) mGroupsForAlertListView.getAdapter();
+        adapter.notifyDataSetChanged();
     }
 
     private void clearMessageText() {
@@ -165,30 +239,38 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
     private void beginMessageCreation(int messageType) {
         mPlusButton.setVisibility(View.GONE);
         showPostMessageButtons(false);
-        mEditTextLayout.setVisibility(View.VISIBLE);
-        if(mMessageBodyEditText.requestFocus()) {
-            InputMethodManager imm = (InputMethodManager) App.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(mMessageBodyEditText, InputMethodManager.SHOW_IMPLICIT);
+
+        if(messageType == NEW_MESSAGE) {
+            mEditTextLayout.setVisibility(View.VISIBLE);
+            if(mMessageBodyEditText.requestFocus()) {
+                InputMethodManager imm = (InputMethodManager) App.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(mMessageBodyEditText, InputMethodManager.SHOW_IMPLICIT);
+            }
+            Analytics.with(App.getContext()).track("Began Message Creation");
+        }else if(messageType == NEW_ALERT) {
+            showPickAlertTypeForAlert();
+            Analytics.with(App.getContext()).track("Began Alert Creation");
         }
-        Analytics.with(App.getContext()).track("Began Message Creation");
+
     }
-
-
 
     private void onPostButtonPressed() {
         if (mListener != null && mMessageBodyEditText != null) {
-            mListener.postNewMessage(mMessageBodyEditText.getText().toString());
+            if(mChosenAlertCategory == null) {
+                // Post a new message
+                mListener.postNewMessage(mMessageBodyEditText.getText().toString());
+            }else{
+                // Post a new alert
+                String finalText = mMessageBodyEditText.getText().toString();
+                finalText = finalText.replace(mChosenAlertCategory.getTitle(), "");
+                finalText.trim();
+                mListener.postNewAlert(finalText, mSelectedGroupsForAlert, mChosenAlertCategory);
+            }
         }
         // Resets our views
         cancelMessageCreation();
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -219,6 +301,75 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
         Analytics.with(App.getContext()).track("Cancelled Message Creation");
     }
 
+    private void showPickAlertTypeForAlert() {
+        mPickAlertTypeLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void hidePickAlertTypeForAlert() {
+        mPickAlertTypeLayout.setVisibility(View.GONE);
+    }
+
+    private void showPickGroupsForAlert(@NonNull AlertCategory chosenCategory) {
+        mPickGroupsForAlertLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void hidePickGroupsForAlert() {
+        mPickGroupsForAlertLayout.setVisibility(View.GONE);
+    }
+
+    private void showAlertComposition(@NonNull AlertCategory chosenCategory) {
+
+        configureMessageCompositionAreaForAlertCategory(chosenCategory);
+
+        mPlusButton.setVisibility(View.GONE);
+        showPostMessageButtons(false);
+        mEditTextLayout.setVisibility(View.VISIBLE);
+        if(mMessageBodyEditText.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager) App.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mMessageBodyEditText, InputMethodManager.SHOW_IMPLICIT);
+        }
+        Analytics.with(App.getContext()).track("Began Message Creation");
+    }
+
+    private void configureMessageCompositionAreaForAlertCategory(@Nullable final AlertCategory chosenCategory) {
+        mMessageBodyEditText.setHint(chosenCategory == null ? "Send Message" : "Send Alert");
+        insertColoredTextForCategoryTitle(chosenCategory);
+        preventDeletionOfCategoryTitle(chosenCategory);
+    }
+
+    private void insertColoredTextForCategoryTitle(AlertCategory chosenCategory){
+        mMessageBodyEditText.getText().clear();
+        if(chosenCategory!= null) {
+            Spannable modifiedText = new SpannableString(chosenCategory.getTitle());
+            modifiedText.setSpan(new ForegroundColorSpan(Color.rgb(chosenCategory.getTextColorR().intValue(), chosenCategory.getTextColorG().intValue(), chosenCategory.getTextColorB().intValue())), 0, chosenCategory.getTitle().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            modifiedText.setSpan(new BackgroundColorSpan(Color.rgb(80, 80, 80)), 0, chosenCategory.getTitle().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            mMessageBodyEditText.setText(modifiedText);
+        }
+    }
+
+    private void preventDeletionOfCategoryTitle(final AlertCategory chosenCategory) {
+        if(chosenCategory != null){
+            mMessageBodyEditText.setFilters(new InputFilter[]{
+                    new InputFilter() {
+                        public CharSequence filter(CharSequence src, int start,
+                                                   int end, Spanned dst, int dstart, int dend) {
+
+                            // If dstart intrudes anywhere before the end of our category title,
+                            // replace what already exists there with what already exists there
+
+                            if(dstart < chosenCategory.getTitle().length())
+                                return dst.subSequence(dstart, dend);
+                            else
+                                return null;
+
+                        }
+                    }
+            });
+        }else{
+            mMessageBodyEditText.setFilters(new InputFilter[]{});
+        }
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -230,9 +381,36 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnPostMessageUIInteractionListener {
-        public void postNewMessage(String message);
+        void postNewMessage(String message);
+        void postNewAlert(String message, ArrayList<Group> groups, AlertCategory category);
+//        public void postNewAlert(String alert);
     }
 
+    @Override
+    public void categoryTapped(AlertCategory category) {
+        hidePickAlertTypeForAlert();
+        showPickGroupsForAlert(category);
+        mChosenAlertCategory = category;
+    }
 
+    @Override
+    public void groupChecked(Group group) {
+        mSelectedGroupsForAlert.add(group);
+    }
 
+    @Override
+    public void groupUnchecked(Group group) {
+        mSelectedGroupsForAlert.remove(group);
+    }
+
+    @Override
+    public void groupsFinished() {
+        hidePickGroupsForAlert();
+        showAlertComposition(mChosenAlertCategory);
+    }
+
+    @Override
+    public boolean isGroupChecked(Group group) {
+        return mSelectedGroupsForAlert.contains(group);
+    }
 }

@@ -11,6 +11,7 @@ import com.parse.Parse;
 import com.parse.ParseObject;
 import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.fragments.GroupsFragment;
+import com.wisecityllc.cookedapp.parseClasses.AlertCategory;
 import com.wisecityllc.cookedapp.parseClasses.Group;
 import com.wisecityllc.cookedapp.parseClasses.GroupContract;
 import com.wisecityllc.cookedapp.parseClasses.Message;
@@ -33,6 +34,7 @@ public class App extends Application {
         ParseObject.registerSubclass(GroupContract.class);
         ParseObject.registerSubclass(Group.class);
         ParseObject.registerSubclass(Message.class);
+        ParseObject.registerSubclass(AlertCategory.class);
         Parse.initialize(this, "BrndBVrRczElKefgG3TvjCk3JYxtd5GB2GMzKoEP", "Xb7Pcc0lT2I3uJYNNoT6buaCuZ9dcvBMtCx9U5gw");
 
         Analytics analytics = new Analytics.Builder(this, getString(R.string.analytics_write_key)).build();

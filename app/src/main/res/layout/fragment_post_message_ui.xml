@@ -86,4 +86,88 @@
 
     </FrameLayout>
 
+    <RelativeLayout
+        android:id="@+id/post_message_ui_choose_category_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="false"
+        android:background="@android:color/white"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/post_message_ui_choose_category_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pick alert type"
+            android:textStyle="bold"
+            android:textSize="36sp"
+            android:textColor="@android:color/black"
+            android:layout_alignParentTop="true" />
+
+        <ListView
+            android:id="@+id/post_message_ui_category_list_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/post_message_ui_choose_category_header">
+
+        </ListView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/post_message_ui_choose_groups_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="false"
+        android:background="@android:color/white"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/post_message_ui_choose_group_header_category_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alert type: "
+            android:textStyle="bold"
+            android:textSize="21sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/post_message_ui_choose_group_header_choose_groups"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/post_message_ui_choose_group_header_category_type"
+            android:text="Choose Groups:"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="8dp"/>
+
+        <Button
+            android:id="@+id/post_message_ui_finish_choosing_groups_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="Next"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            style="@style/PostMessageButton"/>
+
+        <ListView
+            android:id="@+id/post_message_ui_groups_list_view"
+            android:layout_below="@id/post_message_ui_choose_group_header_choose_groups"
+            android:layout_above="@id/post_message_ui_finish_choosing_groups_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ListView>
+
+
+    </RelativeLayout>
+
 </RelativeLayout>
