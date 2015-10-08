@@ -3,6 +3,11 @@ package com.wisecityllc.cookedapp.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +21,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.wisecityllc.cookedapp.R;
+import com.wisecityllc.cookedapp.parseClasses.AlertCategory;
 import com.wisecityllc.cookedapp.parseClasses.Message;
 
 /**
@@ -35,6 +41,7 @@ public class MessageWallAdapter extends ParseQueryAdapter<Message>{
 
 
                 query.include(Message._AUTHOR);
+                query.include(Message._CATEGORY);
                 return query;
             }
         });
@@ -52,9 +59,22 @@ public class MessageWallAdapter extends ParseQueryAdapter<Message>{
         TextView titleTextView = (TextView) v.findViewById(R.id.message_item_author_name);
         titleTextView.setText(message.getAuthor().getString("displayName"));
 
+
+
+
         TextView bodyTextView = (TextView) v
                 .findViewById(R.id.message_item_body_text);
-        bodyTextView.setText(message.getBody());
+
+        AlertCategory alertCategory = message.getCategory();
+        if(alertCategory != null) {
+            Spannable modifiedText = new SpannableString(alertCategory.getTitle() + " " + message.getBody());
+            modifiedText.setSpan(new ForegroundColorSpan(Color.rgb(alertCategory.getTextColorR().intValue(), alertCategory.getTextColorG().intValue(), alertCategory.getTextColorB().intValue())), 0, alertCategory.getTitle().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            modifiedText.setSpan(new BackgroundColorSpan(Color.rgb(80, 80, 80)), 0, alertCategory.getTitle().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            bodyTextView.setText(modifiedText);
+        }else{
+            bodyTextView.setText(message.getBody());
+        }
+
 
         ParseImageView authorImage = (ParseImageView) v.findViewById(R.id.message_item_author_image);
         ParseFile file = message.getAuthor().getParseFile("profilePic");

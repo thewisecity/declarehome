@@ -340,7 +340,7 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
     private void insertColoredTextForCategoryTitle(AlertCategory chosenCategory){
         mMessageBodyEditText.getText().clear();
         if(chosenCategory!= null) {
-            Spannable modifiedText = new SpannableString(chosenCategory.getTitle());
+            Spannable modifiedText = new SpannableString(chosenCategory.getTitle() + " ");
             modifiedText.setSpan(new ForegroundColorSpan(Color.rgb(chosenCategory.getTextColorR().intValue(), chosenCategory.getTextColorG().intValue(), chosenCategory.getTextColorB().intValue())), 0, chosenCategory.getTitle().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             modifiedText.setSpan(new BackgroundColorSpan(Color.rgb(80, 80, 80)), 0, chosenCategory.getTitle().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             mMessageBodyEditText.setText(modifiedText);

@@ -126,6 +126,10 @@ public class Message extends ParseObject {
         addAllUnique(_GROUPS, groups);
     }
 
+    public AlertCategory getCategory() {
+        return (AlertCategory)getParseObject(_CATEGORY);
+    }
+
     public String getBody() {
         return getString(_BODY);
     }
