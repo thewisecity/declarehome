@@ -174,11 +174,11 @@ public class PreLoginActivity extends ActionBarActivity
     @Override
     public void registrationSucceeded() {
         Toast.makeText(this, "Account Created", Toast.LENGTH_SHORT).show();
-        try {
-            ParseUser.getCurrentUser().pin();
-        } catch (ParseException err) {
-            err.printStackTrace();
-        }
+//        try {
+//            ParseUser.getCurrentUser().pin();
+//        } catch (ParseException err) {
+//            err.printStackTrace();
+//        }
         ParseInstallation.getCurrentInstallation().saveInBackground();
         switchToPostLoginActivity();
         setLoading(false);
@@ -192,11 +192,11 @@ public class PreLoginActivity extends ActionBarActivity
     @Override
     public void loginAttemptFinished(boolean succeeded) {
         if(succeeded){
-            try {
-                ParseUser.getCurrentUser().pin();
-            } catch (ParseException err) {
-                err.printStackTrace();
-            }
+//            try {
+//                ParseUser.getCurrentUser().pin();
+//            } catch (ParseException err) {
+//                err.printStackTrace();
+//            }
             ParseInstallation cInstallation = ParseInstallation.getCurrentInstallation();
             cInstallation.saveInBackground(new SaveCallback() {
                 @Override

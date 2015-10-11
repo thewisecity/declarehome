@@ -21,7 +21,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.R;
-import com.wisecityllc.cookedapp.adapters.GroupsAdapter;
+import com.wisecityllc.cookedapp.adapters.GroupsQueryAdapter;
 import com.wisecityllc.cookedapp.adapters.PostLoginPageAdapter;
 import com.wisecityllc.cookedapp.fragments.EventsFragment;
 import com.wisecityllc.cookedapp.fragments.GroupsFragment;
@@ -166,11 +166,11 @@ public class PostLoginActivity extends ActionBarActivity
 
     private void attemptLogout() {
         if(ParseUser.getCurrentUser() != null){
-            try {
-                ParseUser.getCurrentUser().unpin();
-            } catch (ParseException err) {
-                err.printStackTrace();
-            }
+//            try {
+//                ParseUser.getCurrentUser().unpin();
+//            } catch (ParseException err) {
+//                err.printStackTrace();
+//            }
             ParseUser.logOutInBackground(new LogOutCallback() {
                 @Override
                 public void done(ParseException e) {
@@ -217,7 +217,7 @@ public class PostLoginActivity extends ActionBarActivity
         if(position == NavigationDrawerFragment.NAV_DRAWER_CREATE_GROUP_POSITION){
             startCreateNewGroupActivity();
         }else if (position == NavigationDrawerFragment.NAV_DRAWER_VIEW_ALL_GROUPS_POSITION){
-            startViewAllGroupsListActivity(GroupsAdapter.ALL_GROUPS);
+            startViewAllGroupsListActivity(GroupsQueryAdapter.ALL_GROUPS);
         }else if (position == NavigationDrawerFragment.NAV_DRAWER_VIEW_EDIT_MY_PROFILE_POSITION) {
             startViewEditMyProfileActivity();
         }

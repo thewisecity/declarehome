@@ -31,7 +31,7 @@ public class App extends Application {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
         instance = this;
-        Parse.enableLocalDatastore(this);
+//        Parse.enableLocalDatastore(this);
         ParseObject.registerSubclass(GroupContract.class);
         ParseObject.registerSubclass(Group.class);
         ParseObject.registerSubclass(User.class);
