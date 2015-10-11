@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.parse.ParseQueryAdapter;
+import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.adapters.AlertWallAdapter;
 import com.wisecityllc.cookedapp.parseClasses.Message;
@@ -27,6 +28,10 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class AlertsFragment extends Fragment {
+
+    public static final String ALERTS_SCREEN = "AlertsScreen";
+
+    private boolean mHasMadeInitialLoad = false;
 
     private AlertWallAdapter mAlertsAdapter;
     private ListView mAlertsListView;
@@ -90,22 +95,10 @@ public class AlertsFragment extends Fragment {
 
 
 
-//        mReceiver = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                if (intent.getAction().equalsIgnoreCase(getString(R.string.broadcast_message_saved_success))) {
-//                    mMessagesAdapter.loadObjects();
-//                }
-//            }
-//        };
-//
-//
-//        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(getString(R.string.broadcast_message_saved_success)));
-
-        mAlertsListView.setAdapter(mAlertsAdapter);
 //        mAlertsListView.setOnItemClickListener(this);
 
-        mAlertsAdapter.loadObjects();
+
+
     }
 
     @Override
@@ -137,6 +130,24 @@ public class AlertsFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser) {
+
+            // Has become visible
+            Analytics.with(getActivity()).screen(null, ALERTS_SCREEN);
+
+            // Delay our loading until we become visible
+            if(mHasMadeInitialLoad == false && mAlertsAdapter != null) {
+                mAlertsListView.setAdapter(mAlertsAdapter);
+                mHasMadeInitialLoad = true;
+            }
+
+        }
+
     }
 
 }

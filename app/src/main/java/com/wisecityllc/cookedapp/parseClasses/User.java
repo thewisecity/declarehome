@@ -13,15 +13,18 @@ import java.util.List;
 @ParseClassName("_User")
 public class User extends ParseUser {
 
-    final static String _DISPLAY_NAME = "displayName";
-    final static String _PROFILE_PIC = "profilePic";
-    final static String _ADMIN_OF_ARRAY = "adminOfArray";
-    final static String _MEMBER_OF_ARRAY = "memberOfArray";
-    final static String _PHONE_NUMBER = "phoneNumber";
-    final static String _LINK_ONE = "linkOne";
-    final static String _LINK_TWO = "linkTwo";
-    final static String _LINK_THREE = "linkThree";
-    final static String _DESCRIPTION = "description";
+    final public static int _MINIMUM_NAME_LENGTH = 1;
+    final public static int _MINIMUM_PHONE_NUMBER_LENGTH = 7;
+
+    final public static String _DISPLAY_NAME = "displayName";
+    final public static String _PROFILE_PIC = "profilePic";
+    final public static String _ADMIN_OF_ARRAY = "adminOfArray";
+    final public static String _MEMBER_OF_ARRAY = "memberOfArray";
+    final public static String _PHONE_NUMBER = "phoneNumber";
+    final public static String _LINK_ONE = "linkOne";
+    final public static String _LINK_TWO = "linkTwo";
+    final public static String _LINK_THREE = "linkThree";
+    final public static String _DESCRIPTION = "description";
 
     public User() {
         // A default constructor is required.

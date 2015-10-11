@@ -117,10 +117,6 @@ public class Group extends ParseObject {
         return getString("name");
     }
 
-    public void setGroupHashId(Number groupHashId) {
-        put("groupHashId", groupHashId);
-    }
-
     public String getGroupHashId() {
         Number hashId = getNumber("groupHashId");
         Log.d("Dex", hashId.toString());
@@ -214,48 +210,6 @@ public class Group extends ParseObject {
     public ParseRole getMembersRole() { return (ParseRole)getParseObject(_MEMBERS_ROLE); }
 
     public ParseRole getAdminsRole() { return (ParseRole)getParseObject(_ADMINS_ROLE); }
-
-    public static void refreshLocalGroupPermissions() {
-//        ParseUser currentUser = ParseUser.getCurrentUser();
-//        currentUser.fetchInBackground();
-//        ParseUser currentUser = ParseUser.getCurrentUser();
-//        currentUser.fetchInBackground(new GetCallback<ParseUser>() {
-//            @Override
-//            public void done(ParseUser currentUser, ParseException e) {
-//                if(currentUser != null) {
-//                    ParseRelation<Group> adminOf = currentUser.getRelation("adminOf");
-//                    adminOf.getQuery().findInBackground(new FindCallback<Group>() {
-//                        @Override
-//                        public void done(List<Group> list, ParseException e) {
-//                            for(Group group : list){
-//                                try{
-//                                    group.pin();
-//                                } catch (ParseException err) {
-//                                    err.printStackTrace();
-//                                }
-//
-//                            }
-//                        }
-//                    });
-//
-//                    ParseRelation<Group> memberOf = currentUser.getRelation("memberOf");
-//                    memberOf.getQuery().findInBackground(new FindCallback<Group>() {
-//                        @Override
-//                        public void done(List<Group> list, ParseException e) {
-//                            for(Group group : list){
-//                                try{
-//                                    group.pin();
-//                                } catch (ParseException err) {
-//                                    err.printStackTrace();
-//                                }
-//
-//                            }
-//                        }
-//                    });
-//                }
-//            }
-//        });
-    }
 
 
     public boolean isCurrentUserMember() {

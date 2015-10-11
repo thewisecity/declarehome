@@ -1,28 +1,22 @@
 package com.wisecityllc.cookedapp.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.parse.GetDataCallback;
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.parseClasses.AlertCategory;
 import com.wisecityllc.cookedapp.parseClasses.Message;
+import com.wisecityllc.cookedapp.views.ClickableUserPortrait;
 
 /**
  * Created by dexterlohnes on 6/30/15.
@@ -60,8 +54,6 @@ public class MessageWallAdapter extends ParseQueryAdapter<Message>{
         titleTextView.setText(message.getAuthor().getString("displayName"));
 
 
-
-
         TextView bodyTextView = (TextView) v
                 .findViewById(R.id.message_item_body_text);
 
@@ -76,32 +68,8 @@ public class MessageWallAdapter extends ParseQueryAdapter<Message>{
         }
 
 
-        ParseImageView authorImage = (ParseImageView) v.findViewById(R.id.message_item_author_image);
-        ParseFile file = message.getAuthor().getParseFile("profilePic");
-
-
-        // I think / hope that this is helping to avoid multiple calls to the same thing when we've already loaded a file before
-        if(file.isDataAvailable()){
-            try {
-                byte[] bitmapdata = file.getData();
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
-                authorImage.setImageBitmap(bitmap);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-        }else {
-            authorImage.setParseFile(message.getAuthor().getParseFile("profilePic"));
-            authorImage.loadInBackground(new GetDataCallback() {
-                @Override
-                public void done(byte[] bytes, ParseException e) {
-                    if (e != null) {
-                        Log.e("DEX", e.getMessage());
-                    }
-                }
-            });
-        }
-
+        ClickableUserPortrait authorImage = (ClickableUserPortrait) v.findViewById(R.id.message_item_author_image);
+        authorImage.setUser(message.getAuthor(), true);
 
         return v;
     }

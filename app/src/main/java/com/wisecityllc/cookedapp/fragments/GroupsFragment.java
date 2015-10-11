@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.parse.ParseQueryAdapter;
 import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.R;
-import com.wisecityllc.cookedapp.adapters.GroupsAdapter;
+import com.wisecityllc.cookedapp.adapters.GroupsQueryAdapter;
 import com.wisecityllc.cookedapp.parseClasses.Group;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class GroupsFragment extends Fragment {
 
     private GroupsFragmentInteractionListener mListener;
 
-    private GroupsAdapter mGroupsAdapter;
+    private GroupsQueryAdapter mGroupsQueryAdapter;
     private ListView mGroupsListView;
     private ProgressBar mLoadingIndicator;
     private TextView mNoGroupsTextView;
@@ -65,8 +65,8 @@ public class GroupsFragment extends Fragment {
     }
 
     public void notifyGroupsDataUpdated() {
-        if(mGroupsAdapter != null)
-            mGroupsAdapter.loadObjects();
+        if(mGroupsQueryAdapter != null)
+            mGroupsQueryAdapter.loadObjects();
     }
 
     @Override
@@ -76,7 +76,7 @@ public class GroupsFragment extends Fragment {
         mAdapterMode = getArguments().getInt("mode", 0);
 
         // Initialize main ParseQueryAdapter
-        mGroupsAdapter = new GroupsAdapter(getActivity(), mAdapterMode);
+        mGroupsQueryAdapter = new GroupsQueryAdapter(getActivity(), mAdapterMode);
 
 
     }
@@ -88,29 +88,31 @@ public class GroupsFragment extends Fragment {
             mGroupsListView = (ListView)view.findViewById(R.id.groups_frag_list_view);
         }
 
-        mGroupsListView.setAdapter(mGroupsAdapter);
+        mGroupsListView.setAdapter(mGroupsQueryAdapter);
 
 
         mNoGroupsTextView = (TextView)view.findViewById(R.id.groups_frag_no_groups_text_view);
 
-        if(mAdapterMode == GroupsAdapter.ALL_GROUPS)
+        if(mAdapterMode == GroupsQueryAdapter.ALL_GROUPS)
             mNoGroupsTextView.setText("Looks like no Groups exist yet\nWhy not create one from the navigation drawer?");
-        else if(mAdapterMode == GroupsAdapter.MEMBER_AND_ADMIN_ONLY)
+        else if(mAdapterMode == GroupsQueryAdapter.MEMBER_AND_ADMIN_ONLY)
             mNoGroupsTextView.setText("You aren't yet a member of any groups\nOpen the navigation drawer to create a Group or join a group in your city");
 
         mLoadingIndicator = (ProgressBar)view.findViewById(R.id.groups_frag_loading_indicator);
 
-        mGroupsAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Group>() {
+        mGroupsQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Group>() {
             @Override
             public void onLoading() {
-                mGroupsListView.setVisibility(View.GONE);
+                if(mGroupsListView != null)
+                    mGroupsListView.setVisibility(View.GONE);
                 mLoadingIndicator.setVisibility(View.VISIBLE);
                 mNoGroupsTextView.setVisibility(View.GONE);
             }
 
             @Override
             public void onLoaded(List<Group> list, Exception e) {
-                mGroupsListView.setVisibility(View.VISIBLE);
+                if(mGroupsListView != null)
+                    mGroupsListView.setVisibility(View.VISIBLE);
                 mLoadingIndicator.setVisibility(View.GONE);
                 mNoGroupsTextView.setVisibility((list != null && list.size() == 0) ? View.VISIBLE : View.GONE);
 //                for(Group group : list){
@@ -124,7 +126,7 @@ public class GroupsFragment extends Fragment {
             }
         });
 
-        mGroupsAdapter.loadObjects();
+        mGroupsQueryAdapter.loadObjects();
 
     }
 
@@ -143,7 +145,6 @@ public class GroupsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mGroupsListView = null;
     }
 
     @Override

@@ -20,7 +20,7 @@ import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 import com.wisecityllc.cookedapp.activities.PreLoginActivity;
 import com.wisecityllc.cookedapp.R;
-import com.wisecityllc.cookedapp.utilities.Verification;
+import com.wisecityllc.cookedapp.utilities.Validation;
 
 import java.io.ByteArrayOutputStream;
 
@@ -153,7 +153,7 @@ public class RegistrationFragment extends Fragment {
         String email = mEmailField.getText().toString();
         String password = mPasswordField.getText().toString();
         String displayName = mDisplayNameField.getText().toString();
-        if (Verification.verifyEmail(email) && Verification.verifyPassword(password) && Verification.verifyUsername(displayName) && mProfilePicUploadFile != null) {
+        if (Validation.validateEmail(email) && Validation.validatePassword(password) && Validation.validateDisplayName(displayName) && mProfilePicUploadFile != null) {
             ((PreLoginActivity)getActivity()).setLoading(true);
             final ParseUser user = new ParseUser();
             user.setUsername(email);

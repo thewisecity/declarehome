@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="8dp"
@@ -10,6 +10,7 @@
 
 
         <RelativeLayout
+            android:id="@+id/profile_picture_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -35,6 +36,7 @@
 
         <LinearLayout
             android:id="@+id/user_details_edit_views"
+            android:layout_below="@id/profile_picture_container"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -102,7 +104,12 @@
         </LinearLayout>
 
 
+        <ProgressBar
+            android:id="@+id/user_details_loading_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
 
 
-
-</LinearLayout>
+</RelativeLayout>

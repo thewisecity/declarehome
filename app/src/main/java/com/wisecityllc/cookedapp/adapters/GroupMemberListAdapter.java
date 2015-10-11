@@ -11,17 +11,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FunctionCallback;
-import com.parse.GetDataCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
-import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
-import com.parse.ParseUser;
 import com.wisecityllc.cookedapp.R;
-import com.wisecityllc.cookedapp.activities.GroupsListActivity;
+import com.wisecityllc.cookedapp.activities.UserDetailsActivity;
 import com.wisecityllc.cookedapp.parseClasses.Group;
 import com.wisecityllc.cookedapp.parseClasses.GroupContract;
+import com.wisecityllc.cookedapp.parseClasses.User;
+import com.wisecityllc.cookedapp.views.ClickableUserPortrait;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,14 +28,14 @@ import java.util.HashMap;
 /**
  * Created by dexterlohnes on 9/15/15.
  */
-public class GroupMemberListAdapter extends ParseQueryAdapter<ParseUser> {
+public class GroupMemberListAdapter extends ParseQueryAdapter<User> {
 
     private Group mGroup;
 
-    private static ParseQuery<ParseUser> sMembersQuery;
-    private static ParseQuery<ParseUser> sAdminsQuery;
-    private static ParseQuery<ParseUser> sInviteesQuery;
-    private static ParseQuery<ParseUser> sRequestersQuery;
+    private static ParseQuery<User> sMembersQuery;
+    private static ParseQuery<User> sAdminsQuery;
+    private static ParseQuery<User> sInviteesQuery;
+    private static ParseQuery<User> sRequestersQuery;
 
     public GroupMemberListAdapter(Context context,
                                   final Group membersOfGroup,
@@ -44,12 +43,12 @@ public class GroupMemberListAdapter extends ParseQueryAdapter<ParseUser> {
                                   final boolean includeAdmins,
                                   final boolean includePendingNeedsApproval,
                                   final boolean includePendingNeedsToAccept) {
-        super(context, new ParseQueryAdapter.QueryFactory<ParseUser>() {
-            public ParseQuery<ParseUser> create() {
+        super(context, new ParseQueryAdapter.QueryFactory<User>() {
+            public ParseQuery<User> create() {
 
-                ParseQuery<ParseUser> assembledQuery = null;
+                ParseQuery<User> assembledQuery = null;
 
-                ArrayList<ParseQuery<ParseUser>> queryList = new ArrayList<ParseQuery<ParseUser>>();
+                ArrayList<ParseQuery<User>> queryList = new ArrayList<ParseQuery<User>>();
 
                 if (includeMembers) {
                     sMembersQuery = getQueryForMembersOfGroup(membersOfGroup);
@@ -82,60 +81,43 @@ public class GroupMemberListAdapter extends ParseQueryAdapter<ParseUser> {
 
     }
 
-    private static ParseQuery<ParseUser> getQueryForMembersOfGroup(Group group) {
-//        ParseRole membersRole = group.getMembersRole();
-//        try {
-//            membersRole.fetchIfNeeded();
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//
-//        ParseRelation<ParseUser> memberRelation = membersRole.getUsers();
-//        ParseQuery<ParseUser> membersQuery = (ParseQuery<ParseUser>) memberRelation.getQuery();
+    private static ParseQuery<User> getQueryForMembersOfGroup(Group group) {
 
-        ParseQuery<ParseUser> membersQuery = new ParseQuery<ParseUser>(ParseUser.class);
+        ParseQuery<User> membersQuery = new ParseQuery<>(User.class);
         membersQuery.whereEqualTo("memberOfArray", group);
 
 
         return membersQuery;
     }
 
-    private static ParseQuery<ParseUser> getQueryForAdminsOfGroup(Group group) {
-//        ParseRole adminsRole = group.getAdminsRole();
-//        try {
-//            adminsRole.fetchIfNeeded();
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        ParseRelation<ParseUser> adminRelation = adminsRole.getUsers();
-//        ParseQuery<ParseUser> adminsQuery = (ParseQuery<ParseUser>) adminRelation.getQuery();
+    private static ParseQuery<User> getQueryForAdminsOfGroup(Group group) {
 
-        ParseQuery<ParseUser> adminsQuery = new ParseQuery<ParseUser>(ParseUser.class);
+        ParseQuery<User> adminsQuery = new ParseQuery<>(User.class);
         adminsQuery.whereEqualTo("adminOfArray", group);
 
         return adminsQuery;
     }
 
-    private static ParseQuery<ParseUser> getQueryForOutstandingInviteesOfGroup(Group group) {
+    private static ParseQuery<User> getQueryForOutstandingInviteesOfGroup(Group group) {
 
         ParseQuery<GroupContract> contractsQuery = new ParseQuery<>(GroupContract.class);
         contractsQuery.whereEqualTo(GroupContract._GROUP, group);
         contractsQuery.whereEqualTo(GroupContract._STATUS, GroupContract.STATUS_USER_INVITED);
 
-        ParseQuery<ParseUser> users = ParseUser.getQuery();
+        ParseQuery<User> users = new ParseQuery<>(User.class);
         users.whereMatchesKeyInQuery("email", "inviteeEmail", contractsQuery);
 
         return users;
 
     }
 
-    private static ParseQuery<ParseUser> getQueryForOutstandingRequestersOfGroup(Group group) {
+    private static ParseQuery<User> getQueryForOutstandingRequestersOfGroup(Group group) {
 
         ParseQuery<GroupContract> contractsQuery = new ParseQuery<>(GroupContract.class);
         contractsQuery.whereEqualTo(GroupContract._GROUP, group);
         contractsQuery.whereEqualTo(GroupContract._STATUS, GroupContract.STATUS_USER_REQUESTED);
 
-        ParseQuery<ParseUser> users = ParseUser.getQuery();
+        ParseQuery<User> users = new ParseQuery<>(User.class);
         users.whereMatchesKeyInQuery("email", "inviteeEmail", contractsQuery);
 
         return users;
@@ -145,7 +127,7 @@ public class GroupMemberListAdapter extends ParseQueryAdapter<ParseUser> {
 
 
     @Override
-    public View getItemView(final ParseUser user, View v, ViewGroup parent) {
+    public View getItemView(final User user, View v, ViewGroup parent) {
 
         boolean currentUserIsAdmin = mGroup.isCurrentUserAdmin();
         // If user isn't admin or member, they must be invitee
@@ -202,14 +184,13 @@ public class GroupMemberListAdapter extends ParseQueryAdapter<ParseUser> {
         //If the current user is an invitee, mark them as '(pending)'
         nameTV.setText(user.getString("displayName") + (userIsInvitee ? " (pending)" : ""));
 
-        ParseImageView userImage = (ParseImageView) v.findViewById(R.id.group_member_list_member_photo);
-        userImage.setParseFile(user.getParseFile("profilePic"));
-        userImage.loadInBackground(new GetDataCallback() {
+        ClickableUserPortrait userImage = (ClickableUserPortrait) v.findViewById(R.id.group_member_list_member_photo);
+        userImage.setUser(user, true);
+
+        v.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void done(byte[] bytes, ParseException e) {
-                if (e != null) {
-                    Log.e("DEX", e.getMessage());
-                }
+            public void onClick(View v) {
+                UserDetailsActivity.startUserDetailsActivity((AppCompatActivity) getContext(), user);
             }
         });
 

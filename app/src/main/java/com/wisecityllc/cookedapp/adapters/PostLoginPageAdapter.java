@@ -24,7 +24,7 @@ public class PostLoginPageAdapter extends FragmentPagerAdapter {
 
     public PostLoginPageAdapter (FragmentManager fm) {
         super(fm);
-        mGroupsFragment = GroupsFragment.newInstance(GroupsAdapter.MEMBER_AND_ADMIN_ONLY);
+        mGroupsFragment = GroupsFragment.newInstance(GroupsQueryAdapter.MEMBER_AND_ADMIN_ONLY);
         mAlertsFragment = AlertsFragment.newInstance();
         mEventsFragment = new EventsFragment();
     }
