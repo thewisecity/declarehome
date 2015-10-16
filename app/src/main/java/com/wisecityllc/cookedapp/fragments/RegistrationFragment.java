@@ -15,11 +15,11 @@ import android.widget.ImageButton;
 
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
-import com.wisecityllc.cookedapp.activities.PreLoginActivity;
 import com.wisecityllc.cookedapp.R;
+import com.wisecityllc.cookedapp.activities.PreLoginActivity;
+import com.wisecityllc.cookedapp.parseClasses.User;
 import com.wisecityllc.cookedapp.utilities.Validation;
 
 import java.io.ByteArrayOutputStream;
@@ -155,7 +155,7 @@ public class RegistrationFragment extends Fragment {
         String displayName = mDisplayNameField.getText().toString();
         if (Validation.validateEmail(email) && Validation.validatePassword(password) && Validation.validateDisplayName(displayName) && mProfilePicUploadFile != null) {
             ((PreLoginActivity)getActivity()).setLoading(true);
-            final ParseUser user = new ParseUser();
+            final User user = new User();
             user.setUsername(email);
             user.setPassword(password);
             user.setEmail(email);

@@ -24,7 +24,7 @@ public class User extends ParseUser {
     final public static String _LINK_ONE = "linkOne";
     final public static String _LINK_TWO = "linkTwo";
     final public static String _LINK_THREE = "linkThree";
-    final public static String _DESCRIPTION = "description";
+    final public static String _DESCRIPTION = "userDescription";
 
     public User() {
         // A default constructor is required.
