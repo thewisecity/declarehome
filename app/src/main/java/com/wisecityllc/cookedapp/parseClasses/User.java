@@ -85,15 +85,25 @@ public class User extends ParseUser {
         put(_PROFILE_PIC, profPic);
     }
 
-    public ArrayList<Group> getAdminGroups() {
-
+    public ArrayList<Group> getAdminGroups()
+    {
         List<Group> groups = getList(_ADMIN_OF_ARRAY);
-        ArrayList<Group> adminGroups = new ArrayList<>(groups);
+        ArrayList<Group> adminGroups;
+        if(groups != null)
+            adminGroups = new ArrayList<>(groups);
+        else
+            adminGroups = new ArrayList<>();
         return adminGroups;
     }
 
-    public ArrayList<Group> getMemberGroups() {
+    public ArrayList<Group> getMemberGroups()
+    {
         List<Group> groups = getList(_MEMBER_OF_ARRAY);
-        ArrayList<Group> memberGroups = new ArrayList<>(groups);
-        return memberGroups;    }
+        ArrayList<Group> memberGroups;
+        if(groups != null)
+            memberGroups = new ArrayList<>(groups);
+        else
+            memberGroups = new ArrayList<>();
+        return memberGroups;
+    }
 }
