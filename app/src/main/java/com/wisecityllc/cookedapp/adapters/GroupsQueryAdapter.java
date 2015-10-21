@@ -54,6 +54,9 @@ public class GroupsQueryAdapter extends ParseQueryAdapter<Group>{
 
                 if (query != null) {
                     query.orderByDescending("city");
+                    query.include(Group._MEMBERS_ARRAY);
+                    query.include(Group._ADMINS_ARRAY);
+                    query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ONLY);
                 }
                 return query;
             }
@@ -86,6 +89,9 @@ public class GroupsQueryAdapter extends ParseQueryAdapter<Group>{
 
                 if (query != null) {
                     query.orderByDescending("city");
+                    query.include(Group._MEMBERS_ARRAY);
+                    query.include(Group._ADMINS_ARRAY);
+                    query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ONLY);
                 }
                 return query;
             }
