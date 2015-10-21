@@ -35,8 +35,8 @@ public class Group extends ParseObject {
     final static String _WEBSITE = "website";
     final static String _FACEBOOK = "facebook";
     final static String _TWITTER = "twitter";
-    final static String _MEMBERS_ARRAY = "membersArray";
-    final static String _ADMINS_ARRAY = "adminsArray";
+    final static public String _MEMBERS_ARRAY = "membersArray";
+    final static public String _ADMINS_ARRAY = "adminsArray";
     final static String _MEMBERS_ROLE = "membersRole";
     final static String _ADMINS_ROLE = "adminsRole";
 
@@ -230,7 +230,8 @@ public class Group extends ParseObject {
 
             if(forceServerContact == true)
                 this.fetch();
-
+            else
+                fetchIfNeeded();
             ArrayList<ParseUser> allAdmins = getAdminsArray();
             for(ParseUser admin : allAdmins) {
                 if(admin.getObjectId().equalsIgnoreCase(user.getObjectId())) {
@@ -255,11 +256,13 @@ public class Group extends ParseObject {
 
         boolean userIsMember = false;
 
+
         try{
 
             if(forceServerContact == true)
                 this.fetch();
-
+            else
+                fetchIfNeeded();
             ArrayList<ParseUser> allMembers = getMembersArray();
             for(ParseUser member : allMembers) {
                 if(member.getObjectId().equalsIgnoreCase(user.getObjectId())) {
