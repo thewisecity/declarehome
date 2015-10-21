@@ -81,40 +81,5 @@ public class GroupsAdapter extends ArrayAdapter<Group>{
         return convertView;
     }
 
-//        @Override
-//    public View getView(int position, View v, ViewGroup parent) {
-//
-//        super.getView(position, v, parent);
-//
-//        if (v == null) {
-//            v = View.inflate(getContext(), R.layout.item_list_group, null);
-//        }
-
-
-
-
-
-
-//        // We only want to show this button if we're in ALL mode and we are a member or admin
-//
-//        Button detailsButton = (Button) v
-//                .findViewById(R.id.group_list_item_details_button);
-//        if(mMode == ALL_GROUPS && (group.isCurrentUserMember() || group.isCurrentUserAdmin())){
-//
-//            detailsButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    GroupDetailsActivity.startGroupDetailActivity(getContext(), group);
-//                }
-//            });
-//            detailsButton.setVisibility(View.VISIBLE);
-//        } else {
-//            // Sometimes we are recycling an old view so we ALWAYS want to remove the details button or we get funky beavior
-//            detailsButton.setVisibility(View.GONE);
-//        }
-//
-//
-//        return v;
-//    }
 
 }
