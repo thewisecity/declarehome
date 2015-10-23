@@ -22,6 +22,7 @@ import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -61,6 +62,8 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
 
     private ListView mAlertCategoryListView;
     private ListView mGroupsForAlertListView;
+
+    private TextView mAlertTypeTextView;
 
     private View mGreyBackground;
     private ToggleButton mPlusButton;
@@ -179,6 +182,8 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
 
         mPickAlertTypeLayout = (RelativeLayout) view.findViewById(R.id.post_message_ui_choose_category_area);
         mPickGroupsForAlertLayout = (RelativeLayout) view.findViewById(R.id.post_message_ui_choose_groups_area);
+
+        mAlertTypeTextView = (TextView) view.findViewById(R.id.post_message_ui_choose_group_header_category_type);
 
         mAlertCategoryListView = (ListView) view.findViewById(R.id.post_message_ui_category_list_view);
         mGroupsForAlertListView = (ListView) view.findViewById(R.id.post_message_ui_groups_list_view);
@@ -393,6 +398,7 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
         hidePickAlertTypeForAlert();
         showPickGroupsForAlert(category);
         mChosenAlertCategory = category;
+        mAlertTypeTextView.setText("Alert Category: " + '"' + category.getTitle() + '"');
     }
 
     @Override
