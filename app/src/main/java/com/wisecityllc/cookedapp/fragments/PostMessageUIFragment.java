@@ -231,7 +231,9 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
 
     private void showPostMessageButtons(boolean visible) {
         mPostAlertButton.setVisibility(visible ? View.VISIBLE : View.GONE);
-        mPostEventButton.setVisibility(visible ? View.VISIBLE : View.GONE);
+        // Uncomment this line to re-enable post event button
+        mPostEventButton.setVisibility(View.GONE);
+        // mPostEventButton.setVisibility(visible ? View.VISIBLE : View.GONE);
         mPostMessageButton.setVisibility(visible ? View.VISIBLE : View.GONE);
         mGreyBackground.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
