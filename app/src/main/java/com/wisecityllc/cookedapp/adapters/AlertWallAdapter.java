@@ -95,7 +95,7 @@ public class AlertWallAdapter extends ParseQueryAdapter<Message>{
         if(alertCategory != null) {
             Spannable modifiedText = new SpannableString(alertCategory.getTitle() + " " + message.getBody());
             modifiedText.setSpan(new ForegroundColorSpan(Color.rgb(alertCategory.getTextColorR().intValue(), alertCategory.getTextColorG().intValue(), alertCategory.getTextColorB().intValue())), 0, alertCategory.getTitle().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            modifiedText.setSpan(new BackgroundColorSpan(Color.rgb(80, 80, 80)), 0, alertCategory.getTitle().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            modifiedText.setSpan(new BackgroundColorSpan(Color.rgb(alertCategory.getBGColorR().intValue(), alertCategory.getBGColorG().intValue(), alertCategory.getBGColorB().intValue())), 0, alertCategory.getTitle().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             bodyTextView.setText(modifiedText);
         }else{
             bodyTextView.setText(message.getBody());

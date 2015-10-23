@@ -14,23 +14,31 @@ public class AlertCategory extends ParseObject {
     final static String _TEXT_COLOR_G = "textG";
     final static String _TEXT_COLOR_B = "textB";
 
+    final static String _BG_COLOR_R = "backgroundR";
+    final static String _BG_COLOR_G = "backgroundG";
+    final static String _BG_COLOR_B = "backgroundB";
+
     public AlertCategory() {
         // A default constructor is required.
     }
 
-    public String getTitle() {
-        return getString(_TITLE);
-    }
+    public String getTitle() { return getString(_TITLE); }
 
-    public Number getTextColorR() {
-        return getNumber(_TEXT_COLOR_R);
-    }
+    public Number getTextColorR() { return getNumber(_TEXT_COLOR_R); }
 
-    public Number getTextColorG() {
-        return getNumber(_TEXT_COLOR_G);
-    }
+    public Number getTextColorG() { return getNumber(_TEXT_COLOR_G); }
 
     public Number getTextColorB() {
         return getNumber(_TEXT_COLOR_B);
+    }
+
+    public Number getBGColorR() { return getNumber(_BG_COLOR_R); }
+
+    public Number getBGColorG() {
+        return getNumber(_BG_COLOR_G);
+    }
+
+    public Number getBGColorB() {
+        return getNumber(_BG_COLOR_B);
     }
 }
