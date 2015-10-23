@@ -60,6 +60,14 @@
             android:label="@string/title_activity_post_login" >
         </activity>
         <activity
+            android:name=".activities.FAQActivity"
+            android:label="@string/title_activity_faq" >
+        </activity>
+        <activity
+            android:name=".activities.AboutThisAppActivity"
+            android:label="@string/title_activity_about_this_app" >
+        </activity>
+        <activity
             android:name=".activities.CreateGroupActivity"
             android:label="@string/title_activity_create_group" >
         </activity>

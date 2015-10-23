@@ -220,6 +220,10 @@ public class PostLoginActivity extends ActionBarActivity
             startViewAllGroupsListActivity(GroupsQueryAdapter.ALL_GROUPS);
         }else if (position == NavigationDrawerFragment.NAV_DRAWER_VIEW_EDIT_MY_PROFILE_POSITION) {
             startViewEditMyProfileActivity();
+        }else if (position == NavigationDrawerFragment.NAV_DRAWER_VIEW_FAQ) {
+            startViewFAQActivity();
+        }else if (position == NavigationDrawerFragment.NAV_DRAWER_VIEW_ABOUT) {
+            startViewAboutThisAppActivity();
         }
 
     }
@@ -240,6 +244,18 @@ public class PostLoginActivity extends ActionBarActivity
         Intent startNewGroupIntent = new Intent(this, CreateGroupActivity.class);
         startNewGroupIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(startNewGroupIntent);
+    }
+
+    private void startViewFAQActivity() {
+        Intent viewFAQIntent = new Intent(this, FAQActivity.class);
+        viewFAQIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(viewFAQIntent);
+    }
+
+    private void startViewAboutThisAppActivity() {
+        Intent aboutAppIntent = new Intent(this, AboutThisAppActivity.class);
+        aboutAppIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(aboutAppIntent);
     }
 
     @Override

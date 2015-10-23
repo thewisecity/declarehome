@@ -7,6 +7,8 @@
     <string name="nav_section_view_edit_my_profile">View/Edit My Profile</string>
     <string name="nav_section_view_all_groups">View All Groups</string>
     <string name="nav_section_create_new_group">Create A New Group</string>
+    <string name="nav_section_view_faq">View FAQ</string>
+    <string name="nav_section_about_this_app">About this app</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -30,6 +32,9 @@
 
     <string name="title_activity_nonsenseactivity">nonsenseactivity</string>
     <string name="title_activity_post_login">PostLoginActivity</string>
+
+    <string name="title_activity_faq">FAQ</string>
+    <string name="title_activity_about_this_app">About This App</string>
 
     <string name="hello_world">Hello world!</string>
 
@@ -67,5 +72,6 @@
     <string name="title_activity_groups_list">GroupsListActivity</string>
     <string name="title_activity_user_details">UserDetailsActivity</string>
     <string name="title_activity_edit_user_details">EditUserDetailsActivity</string>
+    <string name="title_activity_web">WebActivity</string>
 
 </resources>
