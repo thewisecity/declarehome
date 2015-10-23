@@ -109,7 +109,7 @@ public class MessageWallActivity extends AppCompatActivity implements AdapterVie
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_message_wall, menu);
+//        getMenuInflater().inflate(R.menu.menu_message_wall, menu);
         return true;
     }
 
