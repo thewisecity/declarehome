@@ -30,6 +30,8 @@ import java.util.List;
  */
 public class AlertsFragment extends Fragment implements AdapterView.OnItemLongClickListener {
 
+    public static boolean shouldReload = true;
+
     public static final String ALERTS_SCREEN = "AlertsScreen";
 
     private boolean mHasMadeInitialLoad = false;
@@ -78,9 +80,14 @@ public class AlertsFragment extends Fragment implements AdapterView.OnItemLongCl
 
             @Override
             public void onLoaded(List<Message> list, Exception e) {
-                mLoadingIndicator.setVisibility(View.GONE);
-                mNoAlertsTextView.setVisibility(e != null || list == null || list.isEmpty() ? View.VISIBLE : View.GONE);
-                mAlertsListView.setVisibility(View.VISIBLE);
+                if(e == null)
+                {
+                    mLoadingIndicator.setVisibility(View.GONE);
+                    mNoAlertsTextView.setVisibility(e != null || list == null || list.isEmpty() ? View.VISIBLE : View.GONE);
+                    mAlertsListView.setVisibility(View.VISIBLE);
+                    shouldReload = false;
+                }
+
             }
         });
 
@@ -141,21 +148,26 @@ public class AlertsFragment extends Fragment implements AdapterView.OnItemLongCl
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
+    public void setUserVisibleHint(boolean isVisibleToUser)
+    {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser) {
+        if(isVisibleToUser)
+        {
 
             // Has become visible
             Analytics.with(getActivity()).screen(null, ALERTS_SCREEN);
 
             // Delay our loading until we become visible
-            if(mHasMadeInitialLoad == false && mAlertsAdapter != null) {
+            if(mHasMadeInitialLoad == false && mAlertsAdapter != null)
+            {
                 mAlertsListView.setAdapter(mAlertsAdapter);
                 mHasMadeInitialLoad = true;
             }
 
-        }
+            if(shouldReload)
+                mAlertsAdapter.loadObjects();
 
+        }
     }
 
 }

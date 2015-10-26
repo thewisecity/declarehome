@@ -13,6 +13,7 @@ import com.parse.SaveCallback;
 import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.App;
 import com.wisecityllc.cookedapp.R;
+import com.wisecityllc.cookedapp.fragments.AlertsFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -84,6 +85,7 @@ public class Message extends ParseObject {
                     Intent messageSavedIntent = new Intent(App.getContext().getString(R.string.broadcast_message_saved_success));
                     LocalBroadcastManager.getInstance(App.getContext()).sendBroadcast(messageSavedIntent);
                     Analytics.with(App.getContext()).track("Alert Created");
+                    AlertsFragment.shouldReload = true;
                 }
             }
         });
