@@ -7,8 +7,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.activities.GroupDetailsActivity;
@@ -36,12 +38,38 @@ public class GroupsQueryAdapter extends ParseQueryAdapter<Group>{
 
                 ParseQuery query = null;
 
+                query = new ParseQuery("Group");
+
+                ParseUser currentUser = ParseUser.getCurrentUser();
+
                 if (mode == ALL_GROUPS){
                     query = new ParseQuery("Group");
 
                 } else if (mode == MEMBER_AND_ADMIN_ONLY) {
-                    ParseQuery adminOfQuery = ParseUser.getCurrentUser().getRelation("adminOf").getQuery();
-                    ParseQuery memberOfQuery = ParseUser.getCurrentUser().getRelation("memberOf").getQuery();
+
+                    ParseRelation adminRel = currentUser.getRelation("adminOf");
+                    ParseRelation memberRel = currentUser.getRelation("memberOf");
+
+                    ParseQuery adminOfQuery = adminRel.getQuery();
+                    ParseQuery memberOfQuery = memberRel.getQuery();
+
+                    String className = adminOfQuery.getClassName();
+                    String otherName = adminOfQuery.getClass().getName();
+
+                    if(adminOfQuery.getClassName().equalsIgnoreCase("Group") == false) {
+                        try {
+                            currentUser.fetch();
+                            adminRel = currentUser.getRelation("adminOf");
+                            memberRel = currentUser.getRelation("memberOf");
+
+                            adminOfQuery = adminRel.getQuery();
+                            memberOfQuery = memberRel.getQuery();
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
 
                     List<ParseQuery<Group>> queries = new ArrayList<ParseQuery<Group>>();
                     queries.add(adminOfQuery);
@@ -49,7 +77,8 @@ public class GroupsQueryAdapter extends ParseQueryAdapter<Group>{
 
                     query = (ParseQuery<Group>) ParseQuery.or(queries);
                 } else if (mode == ADMIN_ONLY) {
-                    query = ParseUser.getCurrentUser().getRelation("adminOf").getQuery();
+                    ParseRelation<Group> rel = currentUser.getRelation("adminOf");
+                    query = rel.getQuery();
                 }
 
                 if (query != null) {
@@ -71,12 +100,35 @@ public class GroupsQueryAdapter extends ParseQueryAdapter<Group>{
 
                 ParseQuery query = null;
 
+                query = new ParseQuery("Group");
+
+                ParseUser currentUser = ParseUser.getCurrentUser();
+
                 if (mode == ALL_GROUPS){
                     query = new ParseQuery("Group");
 
                 } else if (mode == MEMBER_AND_ADMIN_ONLY) {
-                    ParseQuery adminOfQuery = user.getRelation("adminOf").getQuery();
-                    ParseQuery memberOfQuery = user.getRelation("memberOf").getQuery();
+
+                    ParseRelation adminRel = currentUser.getRelation("adminOf");
+                    ParseRelation memberRel = currentUser.getRelation("memberOf");
+
+                    ParseQuery adminOfQuery = adminRel.getQuery();
+                    ParseQuery memberOfQuery = memberRel.getQuery();
+
+                    if(adminOfQuery.getClassName().equalsIgnoreCase("Group") == false) {
+                        try {
+                            currentUser.fetch();
+                            adminRel = currentUser.getRelation("adminOf");
+                            memberRel = currentUser.getRelation("memberOf");
+
+                            adminOfQuery = adminRel.getQuery();
+                            memberOfQuery = memberRel.getQuery();
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
 
                     List<ParseQuery<Group>> queries = new ArrayList<ParseQuery<Group>>();
                     queries.add(adminOfQuery);

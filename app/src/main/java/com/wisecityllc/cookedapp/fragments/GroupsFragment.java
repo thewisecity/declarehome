@@ -84,11 +84,10 @@ public class GroupsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(mGroupsListView == null){
-            mGroupsListView = (ListView)view.findViewById(R.id.groups_frag_list_view);
-        }
 
-        mGroupsListView.setAdapter(mGroupsQueryAdapter);
+        mGroupsListView = (ListView)view.findViewById(R.id.groups_frag_list_view);
+
+
 
 
         mNoGroupsTextView = (TextView)view.findViewById(R.id.groups_frag_no_groups_text_view);
@@ -103,7 +102,7 @@ public class GroupsFragment extends Fragment {
         mGroupsQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Group>() {
             @Override
             public void onLoading() {
-                if(mGroupsListView != null)
+//                if(mGroupsListView != null)
                     mGroupsListView.setVisibility(View.GONE);
                 mLoadingIndicator.setVisibility(View.VISIBLE);
                 mNoGroupsTextView.setVisibility(View.GONE);
@@ -111,7 +110,7 @@ public class GroupsFragment extends Fragment {
 
             @Override
             public void onLoaded(List<Group> list, Exception e) {
-                if(mGroupsListView != null)
+//                if(mGroupsListView != null)
                     mGroupsListView.setVisibility(View.VISIBLE);
                 mLoadingIndicator.setVisibility(View.GONE);
                 mNoGroupsTextView.setVisibility((list != null && list.size() == 0) ? View.VISIBLE : View.GONE);
@@ -125,8 +124,8 @@ public class GroupsFragment extends Fragment {
 
             }
         });
-
-        mGroupsQueryAdapter.loadObjects();
+        mGroupsListView.setAdapter(mGroupsQueryAdapter);
+        //mGroupsQueryAdapter.loadObjects();
 
     }
 
