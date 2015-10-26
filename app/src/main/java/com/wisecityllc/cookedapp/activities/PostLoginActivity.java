@@ -23,6 +23,7 @@ import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.adapters.GroupsQueryAdapter;
 import com.wisecityllc.cookedapp.adapters.PostLoginPageAdapter;
+import com.wisecityllc.cookedapp.fragments.AlertsFragment;
 import com.wisecityllc.cookedapp.fragments.EventsFragment;
 import com.wisecityllc.cookedapp.fragments.GroupsFragment;
 import com.wisecityllc.cookedapp.fragments.NavigationDrawerFragment;
@@ -192,6 +193,7 @@ public class PostLoginActivity extends ActionBarActivity
 
 
     private void switchToLoginActivity() {
+        AlertsFragment.shouldReload = true;
         Intent loginActivityIntent = new Intent(this, PreLoginActivity.class);
         loginActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(loginActivityIntent);
