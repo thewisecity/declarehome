@@ -71,6 +71,8 @@ public class MessageWallAdapter extends ParseQueryAdapter<Message>{
         }
 
 
+
+
         ClickableUserPortrait authorImage = (ClickableUserPortrait) v.findViewById(R.id.message_item_author_image);
         authorImage.setUser(message.getAuthor(), true);
 

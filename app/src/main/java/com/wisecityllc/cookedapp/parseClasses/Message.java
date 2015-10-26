@@ -1,5 +1,6 @@
 package com.wisecityllc.cookedapp.parseClasses;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
@@ -201,5 +202,19 @@ public class Message extends ParseObject {
         long curr = System.currentTimeMillis();
         long diff = curr - time;    //Time difference in milliseconds
         return diff/1000;
+    }
+
+    public void copyMessageText() {
+        int sdk = android.os.Build.VERSION.SDK_INT;
+        if(sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
+            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) App.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            clipboard.setText(this.getBody());
+        } else {
+            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) App.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+
+            android.content.ClipData clip = android.content.ClipData.newPlainText(getCategory() != null ? getCategory().getTitle() : "message", getBody());
+            clipboard.setPrimaryClip(clip);
+        }
+        Toast.makeText(App.getContext(), "Copied message body to clipboard", Toast.LENGTH_SHORT).show();
     }
 }

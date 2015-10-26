@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -27,7 +28,7 @@ import java.util.List;
  * Use the {@link AlertsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AlertsFragment extends Fragment {
+public class AlertsFragment extends Fragment implements AdapterView.OnItemLongClickListener {
 
     public static final String ALERTS_SCREEN = "AlertsScreen";
 
@@ -92,7 +93,7 @@ public class AlertsFragment extends Fragment {
         mNoAlertsTextView = (TextView) view.findViewById(R.id.alerts_fragment_no_messages_text_view);
 
 
-
+        mAlertsListView.setOnItemLongClickListener(this);
 
 
 //        mAlertsListView.setOnItemClickListener(this);
@@ -130,6 +131,13 @@ public class AlertsFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        Message selectedMessage = mAlertsAdapter.getItem(position);
+        selectedMessage.copyMessageText();
+        return true;
     }
 
     @Override

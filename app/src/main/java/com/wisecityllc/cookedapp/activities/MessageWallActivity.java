@@ -31,7 +31,7 @@ import com.wisecityllc.cookedapp.parseClasses.Message;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageWallActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, PostMessageUIFragment.OnPostMessageUIInteractionListener {
+public class MessageWallActivity extends AppCompatActivity implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener, PostMessageUIFragment.OnPostMessageUIInteractionListener {
 
     private static String MESSAGE_WALL_CATEGORY = "GroupDetailsCatergory";
     private static String MESSAGE_WALL_SCREEN = "GroupDetailsScreen";
@@ -101,6 +101,7 @@ public class MessageWallActivity extends AppCompatActivity implements AdapterVie
 
         mMessagesListView.setAdapter(mMessagesAdapter);
         mMessagesListView.setOnItemClickListener(this);
+        mMessagesListView.setOnItemLongClickListener(this);
 
         mMessagesAdapter.loadObjects();
 
@@ -132,6 +133,13 @@ public class MessageWallActivity extends AppCompatActivity implements AdapterVie
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        Message selectedMessage = mMessagesAdapter.getItem(position);
+        selectedMessage.copyMessageText();
+        return true;
     }
 
     @Override
