@@ -13,7 +13,10 @@ import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.App;
 import com.wisecityllc.cookedapp.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -136,5 +139,67 @@ public class Message extends ParseObject {
 
     public void setBody(String body) {
         put(_BODY, body);
+    }
+
+    public String getTimeStamp()
+    {
+
+        long timeDiff = getTimeDifference();
+
+        String timestamp = "";
+
+        if (timeDiff < 60) // Less than 1 minute ago
+        {
+            timestamp = "< 1 minute ago";
+        }
+        else if (timeDiff < 120) // More than 1 minute, less than 2 minutes
+        {
+            timestamp = "1 minute ago";
+        }
+        else if (timeDiff < 3600) // Less than 1 hour ago
+        {
+            int minutes = (int) (timeDiff / 60);
+            timestamp = minutes + " minutes ago";
+        }
+        else if (timeDiff < 31536000) // Less than 1 year ago
+        {
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, hh:mm a");
+            timestamp = sdf.format(getCreatedAt());
+        }
+        else // More than 1 year ago
+        {
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd YYYY, hh:mm a");
+            timestamp = sdf.format(getCreatedAt());
+        }
+
+        //if < 1 minute return "< 1 minute ago"
+
+        // if 1-2 minutes return "1 minute ago"
+
+        //if < 1 hour return "NN minutes ago"
+
+        // if < 1 year ago return "mmm dd, hh:mm pm/am"
+
+        // else return same but with year added
+
+        return timestamp;
+    }
+
+    /**
+     *
+     * @return long representing the time difference between the current time and the creation time of this message in seconds
+     */
+    private long getTimeDifference()
+    {
+//        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy");
+//        Date d = sdf.parse("Mon May 27 11:46:15 IST 2013");
+
+        Calendar c = Calendar.getInstance();
+        Date d = this.getCreatedAt();
+        c.setTime(d);
+        long time = c.getTimeInMillis();
+        long curr = System.currentTimeMillis();
+        long diff = curr - time;    //Time difference in milliseconds
+        return diff/1000;
     }
 }

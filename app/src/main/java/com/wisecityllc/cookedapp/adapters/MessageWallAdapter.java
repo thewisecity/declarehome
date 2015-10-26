@@ -51,11 +51,14 @@ public class MessageWallAdapter extends ParseQueryAdapter<Message>{
         super.getItemView(message, v, parent);
 
         TextView titleTextView = (TextView) v.findViewById(R.id.message_item_author_name);
-        titleTextView.setText(message.getAuthor().getString("displayName"));
-
-
+        TextView timeStampTextView = (TextView) v.findViewById(R.id.message_item_created_at);
         TextView bodyTextView = (TextView) v
                 .findViewById(R.id.message_item_body_text);
+
+
+        titleTextView.setText(message.getAuthor().getString("displayName"));
+        timeStampTextView.setText(message.getTimeStamp());
+
 
         AlertCategory alertCategory = message.getCategory();
         if(alertCategory != null) {
