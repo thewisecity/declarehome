@@ -28,6 +28,7 @@ import com.wisecityllc.cookedapp.fragments.EventsFragment;
 import com.wisecityllc.cookedapp.fragments.GroupsFragment;
 import com.wisecityllc.cookedapp.fragments.NavigationDrawerFragment;
 import com.wisecityllc.cookedapp.fragments.WellnessFragment;
+import com.wisecityllc.cookedapp.parseClasses.User;
 import com.wisecityllc.cookedapp.utilities.Notifications;
 
 
@@ -63,6 +64,7 @@ public class PostLoginActivity extends ActionBarActivity
      */
     private CharSequence mTitle;
 
+    private static boolean hasShownIntroSlides = false;
 
     private BroadcastReceiver mParseObjectUpdatesReceiver;
 
@@ -113,6 +115,13 @@ public class PostLoginActivity extends ActionBarActivity
         if(mSlidingTabLayout == null) {
             mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
             mSlidingTabLayout.setViewPager(mViewPager);
+        }
+
+        if(hasShownIntroSlides == false && ParseUser.getCurrentUser().getBoolean(User._HAS_SEEN_INTRO_SLIDES) == false) {
+            ParseUser.getCurrentUser().put(User._HAS_SEEN_INTRO_SLIDES, true);
+            ParseUser.getCurrentUser().saveInBackground();
+            hasShownIntroSlides = true;
+            startIntroSlidesActivity();
         }
 
     }
@@ -258,6 +267,12 @@ public class PostLoginActivity extends ActionBarActivity
         Intent aboutAppIntent = new Intent(this, AboutThisAppActivity.class);
         aboutAppIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(aboutAppIntent);
+    }
+
+    private void startIntroSlidesActivity() {
+        Intent introSlidesIntent = new Intent(this, IntroSlidesActivity.class);
+        introSlidesIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(introSlidesIntent);
     }
 
     @Override

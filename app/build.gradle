@@ -42,9 +42,7 @@ dependencies {
     compile project(':ParseLoginUI')
 
 
-    //    compile('com.segment.analytics.android:analytics:+@aar') {
-    //        transitive = true
-    //    }
+
     compile('com.segment.analytics.android:analytics-core:+') {
         transitive = true
     }
@@ -56,5 +54,6 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.0@aar') {
         transitive = true;
     }
-//    compile files('libs/Parse-1.10.2.jar')
+    compile 'fr.avianey.com.viewpagerindicator:library:2.4.1@aar'
+
 }

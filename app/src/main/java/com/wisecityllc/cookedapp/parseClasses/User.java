@@ -19,6 +19,7 @@ public class User extends ParseUser {
     final public static String _DISPLAY_NAME = "displayName";
     final public static String _PROFILE_PIC = "profilePic";
     final public static String _ADMIN_OF_ARRAY = "adminOfArray";
+    final public static String _HAS_SEEN_INTRO_SLIDES = "hasSeenIntroSlides";
     final public static String _MEMBER_OF_ARRAY = "memberOfArray";
     final public static String _PHONE_NUMBER = "phoneNumber";
     final public static String _LINK_ONE = "linkOne";

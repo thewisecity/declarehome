@@ -73,5 +73,6 @@
     <string name="title_activity_user_details">UserDetailsActivity</string>
     <string name="title_activity_edit_user_details">EditUserDetailsActivity</string>
     <string name="title_activity_web">WebActivity</string>
+    <string name="title_activity_intro_slides">IntroSlidesActivity</string>
 
 </resources>

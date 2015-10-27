@@ -86,10 +86,7 @@ public class GroupsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mGroupsListView = (ListView)view.findViewById(R.id.groups_frag_list_view);
-
-
-
-
+        
         mNoGroupsTextView = (TextView)view.findViewById(R.id.groups_frag_no_groups_text_view);
 
         if(mAdapterMode == GroupsQueryAdapter.ALL_GROUPS)
