@@ -8,7 +8,7 @@
     <string name="nav_section_view_all_groups">View All Groups</string>
     <string name="nav_section_create_new_group">Create A New Group</string>
     <string name="nav_section_view_faq">View FAQ</string>
-    <string name="nav_section_about_this_app">About this app</string>
+    <string name="nav_section_about_this_app">About Declare Home</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -34,7 +34,7 @@
     <string name="title_activity_post_login">PostLoginActivity</string>
 
     <string name="title_activity_faq">FAQ</string>
-    <string name="title_activity_about_this_app">About This App</string>
+    <string name="title_activity_about_this_app">About Declare Home</string>
 
     <string name="hello_world">Hello world!</string>
 
