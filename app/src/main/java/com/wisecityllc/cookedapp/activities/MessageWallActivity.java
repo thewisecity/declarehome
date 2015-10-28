@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.parse.ParseObject;
 import com.parse.ParseQueryAdapter;
@@ -37,6 +36,7 @@ public class MessageWallActivity extends AppCompatActivity implements AdapterVie
     private static String MESSAGE_WALL_SCREEN = "GroupDetailsScreen";
     private static String GROUP_ID_EXTRA = "GroupId";
 
+    private PostMessageUIFragment mMessageUIFragment;
     private MessageWallAdapter mMessagesAdapter;
     private ListView mMessagesListView;
     private TextView mNoMessagesTextView;
@@ -84,7 +84,8 @@ public class MessageWallActivity extends AppCompatActivity implements AdapterVie
         mNoMessagesTextView = (TextView) findViewById(R.id.messages_activity_no_messages_text_view);
 
 
-
+//        mMessageUIFragment = (PostMessageUIFragment) findViewById(R.id.post_message_ui_fragment);
+        mMessageUIFragment = (PostMessageUIFragment) getFragmentManager().findFragmentById(R.id.post_message_ui_fragment);
 
 
         mReceiver = new BroadcastReceiver() {
@@ -144,8 +145,9 @@ public class MessageWallActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Toast.makeText(this, "Tapped " + ((Message) mMessagesAdapter.getItem(i)).getBody(), Toast.LENGTH_SHORT).show();
-        Message selectedMessage = mMessagesAdapter.getItem(i);
+//        Toast.makeText(this, "Tapped " + ((Message) mMessagesAdapter.getItem(i)).getBody(), Toast.LENGTH_SHORT).show();
+//        Message selectedMessage = mMessagesAdapter.getItem(i);
+        mMessageUIFragment.cancelMessageCreation();
     }
 
     @Override

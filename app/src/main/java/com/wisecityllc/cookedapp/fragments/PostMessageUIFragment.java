@@ -210,16 +210,16 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
 
     }
 
-    private void cancelMessageCreation() {
+    public void cancelMessageCreation() {
         mChosenAlertCategory = null;
         unselectAllCheckedGroups();
-//        mSelectedGroupsForAlert.clear();
         hidePickGroupsForAlert();
         hidePickAlertTypeForAlert();
         configureMessageCompositionAreaForAlertCategory(null);
         clearMessageText();
         App.hideKeyboard(this.getActivity());
         mPlusButton.setVisibility(View.VISIBLE);
+        mPlusButton.setChecked(false);
         mEditTextLayout.setVisibility(View.GONE);
         showPostMessageButtons(false);
     }
