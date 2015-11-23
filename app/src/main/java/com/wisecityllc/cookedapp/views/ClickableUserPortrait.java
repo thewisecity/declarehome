@@ -75,8 +75,13 @@ public class ClickableUserPortrait extends ParseImageView {
         if(mFile.isDataAvailable()){
             try {
                 byte[] bitmapdata = mFile.getData();
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
-                setImageBitmap(bitmap);
+                try {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+                    setImageBitmap(bitmap);
+                } catch (java.lang.OutOfMemoryError error) {
+                    Log.d("DeclareHome", "Out of memory error while loading user image " + mFile.getUrl());
+                }
+
             } catch (ParseException e) {
                 e.printStackTrace();
             }
