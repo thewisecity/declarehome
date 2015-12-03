@@ -17,6 +17,7 @@ import com.wisecityllc.cookedapp.parseClasses.GroupContract;
 import com.wisecityllc.cookedapp.parseClasses.Message;
 import com.wisecityllc.cookedapp.parseClasses.User;
 import com.wisecityllc.cookedapp.parseClasses.WebAddress;
+import com.wisecityllc.cookedapp.utilities.Stats;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -45,7 +46,7 @@ public class App extends Application {
         Analytics.setSingletonInstance(analytics);
 
         // Safely call Analytics.with(context) from anywhere within your app!
-        Analytics.with(this).track("Application Started");
+        Stats.TrackApplicationStarted();
 
         GroupsFragment.sShouldIgnoreFirstAnalyticsCall = true;
 

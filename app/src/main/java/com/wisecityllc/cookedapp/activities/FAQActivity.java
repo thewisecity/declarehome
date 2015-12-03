@@ -53,26 +53,6 @@ public class FAQActivity extends AppCompatActivity {
             }
         });
 
-
-
-//        ParseQuery<User> userQuery = new ParseQuery<>(User.class);
-//        userQuery.whereEqualTo("objectId", getIntent().getStringExtra("id"));
-//        userQuery.include(User._ADMIN_OF_ARRAY);
-//        userQuery.include(User._MEMBER_OF_ARRAY);
-//
-//        mLoadingIndicator.setVisibility(View.VISIBLE);
-//        user.fetchIfNeededInBackground(new GetCallback<User>() {
-//            @Override
-//            public void done(User retrievedUser, ParseException e) {
-//                if (e == null && retrievedUser != null) {
-//                    fillInFieldsWithUser(retrievedUs  er);
-//                } else {
-//                    Toast.makeText(App.getContext(), "Couldn't retrieve user. Try again", Toast.LENGTH_SHORT).show();
-//                }
-//                mLoadingIndicator.setVisibility(View.GONE);
-//            }
-//        });
-
         ParseQuery<WebAddress> q = ParseQuery.getQuery(WebAddress.class);
         q.whereEqualTo(WebAddress._TITLE, WebAddress._FAQ_TITLE);
 

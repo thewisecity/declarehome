@@ -11,11 +11,11 @@ import com.parse.ParseObject;
 import com.parse.ParseRole;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
 import com.wisecityllc.cookedapp.App;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.utilities.Notifications;
+import com.wisecityllc.cookedapp.utilities.Stats;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +48,7 @@ public class Group extends ParseObject {
     }
 
     public static void createGroup(final String name, final String purpose, final String neighberhoods, final String address, final String city, final String state, final String website, final String facebook, final String twitter){
+        Stats.TrackAttemptingGroupCreation();
         final Group group = new Group();
         group.put(_NAME, name);
         group.put(_PURPOSE, purpose);
@@ -66,7 +67,7 @@ public class Group extends ParseObject {
                 if(e != null){ //Saving failed
 
                     Toast.makeText(App.getContext(), "Error while saving group", Toast.LENGTH_SHORT).show();
-                    Analytics.with(App.getContext()).track("Group Creation Failed");
+                    Stats.TrackGroupCreationFailed();
 
                 }else{ //Saving succeeded
 
@@ -76,7 +77,7 @@ public class Group extends ParseObject {
 
                     //Update notifications
                     Notifications.subscribeToNotifsForNewGroup(group);
-                    Analytics.with(App.getContext()).track("Group Created",
+                    Stats.TrackGroupCreated(
                             new Properties().
                                     putValue(_NAME, name).
                                     putValue(_PURPOSE, purpose).
@@ -279,3 +280,4 @@ public class Group extends ParseObject {
         return userIsMember;
     }
 }
+

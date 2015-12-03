@@ -26,7 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.App;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.adapters.AlertCategoryAdapter;
@@ -35,6 +34,7 @@ import com.wisecityllc.cookedapp.adapters.delegates.AlertCategoryAdapterDelegate
 import com.wisecityllc.cookedapp.adapters.delegates.GroupsCheckboxAdapterDelegate;
 import com.wisecityllc.cookedapp.parseClasses.AlertCategory;
 import com.wisecityllc.cookedapp.parseClasses.Group;
+import com.wisecityllc.cookedapp.utilities.Stats;
 import com.wisecityllc.cookedapp.views.ExtendedEditText;
 
 import java.util.ArrayList;
@@ -122,10 +122,10 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Analytics.with(App.getContext()).track("Opened New Message Menu");
+                    Stats.TrackOpenedNewMessageMenu();
                     showPostMessageButtons(true);
                 } else {
-                    Analytics.with(App.getContext()).track("Closed New Message Menu");
+                    Stats.TrackClosedNewMessageMenu();
                     cancelMessageCreation();
                 }
             }
@@ -253,10 +253,10 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
                 InputMethodManager imm = (InputMethodManager) App.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(mMessageBodyEditText, InputMethodManager.SHOW_IMPLICIT);
             }
-            Analytics.with(App.getContext()).track("Began Message Creation");
+            Stats.TrackBeganMessageCreation();
         }else if(messageType == NEW_ALERT) {
             showPickAlertTypeForAlert();
-            Analytics.with(App.getContext()).track("Began Alert Creation");
+            Stats.TrackBeganAlertCreation();
         }
 
     }
@@ -305,7 +305,7 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
     @Override
     public void pressedBackWithFocus(){
         cancelMessageCreation();
-        Analytics.with(App.getContext()).track("Cancelled Message Creation");
+        Stats.TrackEndedMessageCreation();
     }
 
     private void showPickAlertTypeForAlert() {
@@ -335,7 +335,7 @@ public class PostMessageUIFragment extends Fragment implements ExtendedEditText.
             InputMethodManager imm = (InputMethodManager) App.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(mMessageBodyEditText, InputMethodManager.SHOW_IMPLICIT);
         }
-        Analytics.with(App.getContext()).track("Began Message Creation");
+        Stats.TrackBeganAlertComposition();
     }
 
     private void configureMessageCompositionAreaForAlertCategory(@Nullable final AlertCategory chosenCategory) {

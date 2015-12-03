@@ -17,19 +17,19 @@ import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.parseClasses.Group;
+import com.wisecityllc.cookedapp.utilities.Stats;
 import com.wisecityllc.cookedapp.views.GroupMemberListView;
 
 import java.util.HashMap;
 
 public class GroupDetailsActivity extends ActionBarActivity {
 
-    private static String GROUP_DETAILS_CATEGORY = "GroupDetailsCatergory";
-    private static String GROUP_DETAILS_SCREEN = "GroupDetailsScreen";
+
     private static String GROUP_ID_EXTRA = "GroupId";
+    private static String GROUP_NAME_EXTRA = "GroupName";
 
     public final static int REQUEST_CODE = 10485;
 
@@ -283,6 +283,6 @@ public class GroupDetailsActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Analytics.with(this).screen(GROUP_DETAILS_CATEGORY, GROUP_DETAILS_SCREEN, new Properties().putValue(GROUP_ID_EXTRA, getIntent().getStringExtra("id")));
+        Stats.ScreenGroupDetails(new Properties().putValue(GROUP_ID_EXTRA, getIntent().getStringExtra("id")).putValue(GROUP_NAME_EXTRA, getIntent().getStringExtra("name")));
     }
 }

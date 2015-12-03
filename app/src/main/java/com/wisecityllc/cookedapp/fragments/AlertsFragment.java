@@ -1,9 +1,9 @@
 package com.wisecityllc.cookedapp.fragments;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +13,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.parse.ParseQueryAdapter;
-import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.adapters.AlertWallAdapter;
 import com.wisecityllc.cookedapp.parseClasses.Message;
+import com.wisecityllc.cookedapp.utilities.Stats;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class AlertsFragment extends Fragment implements AdapterView.OnItemLongCl
 
     public static boolean shouldReload = true;
 
-    public static final String ALERTS_SCREEN = "AlertsScreen";
+
 
     private boolean mHasMadeInitialLoad = false;
 
@@ -155,7 +155,7 @@ public class AlertsFragment extends Fragment implements AdapterView.OnItemLongCl
         {
 
             // Has become visible
-            Analytics.with(getActivity()).screen(null, ALERTS_SCREEN);
+            Stats.ScreenAlerts();
 
             // Delay our loading until we become visible
             if(mHasMadeInitialLoad == false && mAlertsAdapter != null)

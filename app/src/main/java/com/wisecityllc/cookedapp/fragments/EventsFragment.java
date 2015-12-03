@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.R;
+import com.wisecityllc.cookedapp.utilities.Stats;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -120,7 +120,7 @@ public class EventsFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser) {
             // Has become visible
-            Analytics.with(getActivity()).screen(null, EVENTS_SCREEN);
+            Stats.ScreenEvents();
         }
     }
 }

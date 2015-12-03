@@ -20,6 +20,7 @@ import com.parse.SignUpCallback;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.activities.PreLoginActivity;
 import com.wisecityllc.cookedapp.parseClasses.User;
+import com.wisecityllc.cookedapp.utilities.Stats;
 import com.wisecityllc.cookedapp.utilities.Validation;
 
 import java.io.ByteArrayOutputStream;
@@ -153,6 +154,7 @@ public class RegistrationFragment extends Fragment {
         String email = mEmailField.getText().toString();
         String password = mPasswordField.getText().toString();
         String displayName = mDisplayNameField.getText().toString();
+        Stats.TrackRegistrationAttempt();
         if (Validation.validateEmail(email) && Validation.validatePassword(password) && Validation.validateDisplayName(displayName) && mProfilePicUploadFile != null) {
             ((PreLoginActivity)getActivity()).setLoading(true);
             final User user = new User();
@@ -173,6 +175,7 @@ public class RegistrationFragment extends Fragment {
                                     // Hooray! Let them use the app now.
                                     mListener.registrationSucceeded();
                                 } else {
+                                    mListener.registrationFailed();
                                     // Sign up didn't succeed. Look at the ParseException
                                     // to figure out what went wrong
                                 }
@@ -187,6 +190,9 @@ public class RegistrationFragment extends Fragment {
             });
 
 
+        }else{
+            //Invalid something or other here
+            Stats.TrackInvalidRegistrationInfo();
         }
 
     }
@@ -208,7 +214,7 @@ public class RegistrationFragment extends Fragment {
      */
     public interface RegistrationFragmentInteractionListener {
         public void registrationSucceeded();
-        //public void registrationFailed();
+        public void registrationFailed();
     }
 
 }

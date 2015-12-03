@@ -10,10 +10,10 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.App;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.fragments.AlertsFragment;
+import com.wisecityllc.cookedapp.utilities.Stats;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,13 +51,13 @@ public class Message extends ParseObject {
                 if(e != null){ //Saving failed
 
                     Toast.makeText(App.getContext(), "Error while saving message", Toast.LENGTH_SHORT).show();
-                    Analytics.with(App.getContext()).track("Message Creation Failed");
+                    Stats.TrackMessageCreationFailed();//port
                 }else{ //Saving succeeded
 
                     Toast.makeText(App.getContext(), "Message created", Toast.LENGTH_SHORT).show();
                     Intent messageSavedIntent = new Intent(App.getContext().getString(R.string.broadcast_message_saved_success));
                     LocalBroadcastManager.getInstance(App.getContext()).sendBroadcast(messageSavedIntent);
-                    Analytics.with(App.getContext()).track("Message Created");
+                    Stats.TrackMessageCreated();//port
                 }
             }
         });
@@ -77,14 +77,14 @@ public class Message extends ParseObject {
 
                 if(e != null){ //Saving failed
 
-                    Toast.makeText(App.getContext(), "Error while saving message", Toast.LENGTH_SHORT).show();
-                    Analytics.with(App.getContext()).track("Message Creation Failed");
+                    Toast.makeText(App.getContext(), "Error while saving alert", Toast.LENGTH_SHORT).show();
+                    Stats.TrackAlertCreationFailed();
                 }else{ //Saving succeeded
 
                     Toast.makeText(App.getContext(), "Alert created", Toast.LENGTH_SHORT).show();
                     Intent messageSavedIntent = new Intent(App.getContext().getString(R.string.broadcast_message_saved_success));
                     LocalBroadcastManager.getInstance(App.getContext()).sendBroadcast(messageSavedIntent);
-                    Analytics.with(App.getContext()).track("Alert Created");
+                    Stats.TrackAlertCreated();
                     AlertsFragment.shouldReload = true;
                 }
             }

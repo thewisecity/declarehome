@@ -13,9 +13,9 @@ import android.widget.EditText;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.activities.PreLoginActivity;
+import com.wisecityllc.cookedapp.utilities.Stats;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -132,7 +132,7 @@ public class LoginFragment extends Fragment {
     private void attemptLogin(){
         mLoadingOverlay.setVisibility(View.VISIBLE);
 
-        Analytics.with(getActivity()).track("Login Attempt");
+        Stats.TrackLoginAttempt();
 
         ParseUser.logInInBackground(mEmailField.getText().toString(), mPasswordField.getText().toString(), new LogInCallback() {
             public void done(ParseUser user, ParseException e) {

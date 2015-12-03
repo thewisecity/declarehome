@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.parse.ParseObject;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
-import com.segment.analytics.Analytics;
 import com.segment.analytics.Properties;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.adapters.MessageWallAdapter;
@@ -26,14 +25,13 @@ import com.wisecityllc.cookedapp.fragments.PostMessageUIFragment;
 import com.wisecityllc.cookedapp.parseClasses.AlertCategory;
 import com.wisecityllc.cookedapp.parseClasses.Group;
 import com.wisecityllc.cookedapp.parseClasses.Message;
+import com.wisecityllc.cookedapp.utilities.Stats;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MessageWallActivity extends AppCompatActivity implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener, PostMessageUIFragment.OnPostMessageUIInteractionListener {
 
-    private static String MESSAGE_WALL_CATEGORY = "GroupDetailsCatergory";
-    private static String MESSAGE_WALL_SCREEN = "GroupDetailsScreen";
     private static String GROUP_ID_EXTRA = "GroupId";
 
     private PostMessageUIFragment mMessageUIFragment;
@@ -173,6 +171,6 @@ public class MessageWallActivity extends AppCompatActivity implements AdapterVie
     @Override
     protected void onResume() {
         super.onResume();
-        Analytics.with(this).screen(MESSAGE_WALL_CATEGORY, MESSAGE_WALL_SCREEN, new Properties().putValue(GROUP_ID_EXTRA, getIntent().getStringExtra("groupId")));
+        Stats.ScreenMessageWall(new Properties().putValue(GROUP_ID_EXTRA, getIntent().getStringExtra("groupId")));
     }
 }

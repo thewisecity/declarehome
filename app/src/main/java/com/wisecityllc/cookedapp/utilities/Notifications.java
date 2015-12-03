@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
@@ -26,12 +27,20 @@ public class Notifications {
     public static final String INVITED_TO_GROUP = "InvitedToGroup";
 
     public static void setSubscriptionForAllNotifs(final boolean subscribed) {
-        setSubscriptionForNewEvents(subscribed);
-        setSubscriptionForNewMessages(subscribed);
-        setSubscriptionForAlerts(subscribed);
-        setSubscriptionForInvitationAcceptedChannel(subscribed);
-        setSubscriptionForMembershipRequested(subscribed);
-        setSubscriptionForInvitedToGroup(subscribed);
+        if(subscribed == false){
+            ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+            installation.put("channels", new ArrayList<String>());
+        } else {
+            ParseInstallation i = ParseInstallation.getCurrentInstallation();
+            i.put("user", ParseUser.getCurrentUser());
+            i.saveInBackground();
+            setSubscriptionForNewEvents(subscribed);
+            setSubscriptionForNewMessages(subscribed);
+            setSubscriptionForAlerts(subscribed);
+            setSubscriptionForInvitationAcceptedChannel(subscribed);
+            setSubscriptionForMembershipRequested(subscribed);
+            setSubscriptionForInvitedToGroup(subscribed);
+        }
     }
 
     public static void setSubscriptionForNewMessages(final boolean subscribed){

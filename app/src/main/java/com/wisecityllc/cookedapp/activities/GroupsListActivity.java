@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
-import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.fragments.GroupsFragment;
+import com.wisecityllc.cookedapp.utilities.Stats;
 
 public class GroupsListActivity extends ActionBarActivity implements GroupsFragment.GroupsFragmentInteractionListener {
 
@@ -37,6 +37,6 @@ public class GroupsListActivity extends ActionBarActivity implements GroupsFragm
     @Override
     protected void onResume() {
         super.onResume();
-        Analytics.with(this).screen(null, GroupsFragment.ALL_GROUPS_SCREEN);
+        Stats.ScreenAllGroups();
     }
 }

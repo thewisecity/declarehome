@@ -15,18 +15,18 @@ import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-import com.segment.analytics.Analytics;
-import com.segment.analytics.Traits;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.fragments.LoginFragment;
 import com.wisecityllc.cookedapp.fragments.RegistrationFragment;
 import com.wisecityllc.cookedapp.utilities.Installation;
+import com.wisecityllc.cookedapp.utilities.Notifications;
+import com.wisecityllc.cookedapp.utilities.Stats;
 
 
 public class PreLoginActivity extends ActionBarActivity
         implements LoginFragment.LoginFragmentInteractionListener, RegistrationFragment.RegistrationFragmentInteractionListener {
 
-    private static String LOGIN_SCREEN = "LoginScreen";
+
 
     //================================================================================
     //region Properties
@@ -108,7 +108,7 @@ public class PreLoginActivity extends ActionBarActivity
     protected void onResume() {
         super.onResume();
         if(mIsShowingLoginFragment == true)
-            Analytics.with(this).screen(null, LOGIN_SCREEN);
+            Stats.ScreenLogin();
     }
 
     @Override
@@ -174,19 +174,32 @@ public class PreLoginActivity extends ActionBarActivity
     @Override
     public void registrationSucceeded() {
         Toast.makeText(this, "Account Created", Toast.LENGTH_SHORT).show();
+        Stats.TrackRegistrationSuccess();
 //        try {
 //            ParseUser.getCurrentUser().pin();
 //        } catch (ParseException err) {
 //            err.printStackTrace();
 //        }
-        ParseInstallation.getCurrentInstallation().saveInBackground();
+        try{
+            ParseInstallation.getCurrentInstallation().save();
+        } catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+        Notifications.setSubscriptionForAllNotifs(true);
         switchToPostLoginActivity();
         setLoading(false);
         if (ParseUser.getCurrentUser() != null) {
             //We are already logged in, go to main activity after registering user
-            Analytics.with(this).alias(ParseUser.getCurrentUser().getObjectId(), null);
-            Analytics.with(this).identify(ParseUser.getCurrentUser().getObjectId(), new Traits().putName(ParseUser.getCurrentUser().getString("displayName")).putEmail(ParseUser.getCurrentUser().getEmail()), null);
+            Stats.AliasAndIdentifyUser();
         }
+    }
+
+    @Override
+    public void registrationFailed() {
+        Toast.makeText(this, "Error while registering. Check your info and try again", Toast.LENGTH_SHORT).show();
+        Stats.TrackRegistrationFailed();
     }
 
     @Override
@@ -203,19 +216,20 @@ public class PreLoginActivity extends ActionBarActivity
                 public void done(ParseException e) {
                     if(e != null)
                         e.printStackTrace();
-                    else
+                    else {
                         Log.d("DEX", "installation saved");
+                        Notifications.setSubscriptionForAllNotifs(true);
+                    }
                 }
             });
             Toast.makeText(this, "Login Succeeded.", Toast.LENGTH_SHORT).show();
             switchToPostLoginActivity();
             setLoading(false);
-            Analytics.with(this).alias(ParseUser.getCurrentUser().getObjectId(), null);
-            Analytics.with(this).identify(ParseUser.getCurrentUser().getObjectId(), new Traits().putName(ParseUser.getCurrentUser().getString("displayName")).putEmail(ParseUser.getCurrentUser().getEmail()), null);
-            Analytics.with(this).track("Login Success");
+            Stats.AliasAndIdentifyUser();
+            Stats.TrackLoginSuccess();
         }else{
             Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show();
-            Analytics.with(this).track("Login Failed");
+            Stats.TrackLoginFailed();
             setLoading(false);
         }
     }

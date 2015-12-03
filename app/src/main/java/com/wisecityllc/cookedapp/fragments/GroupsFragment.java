@@ -12,10 +12,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.parse.ParseQueryAdapter;
-import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.adapters.GroupsQueryAdapter;
 import com.wisecityllc.cookedapp.parseClasses.Group;
+import com.wisecityllc.cookedapp.utilities.Stats;
 
 import java.util.List;
 
@@ -183,7 +183,7 @@ public class GroupsFragment extends Fragment {
             // Has become visible
             // If the app has just opened, avoid making this call since the View Pager will repeat it
             if(sShouldIgnoreFirstAnalyticsCall == false)
-                Analytics.with(getActivity()).screen(null, MY_GROUPS_SCREEN);
+                Stats.ScreenMyGroups();
             sShouldIgnoreFirstAnalyticsCall = false;
         }
     }

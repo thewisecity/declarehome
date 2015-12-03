@@ -19,7 +19,6 @@ import com.example.android.common.view.SlidingTabLayout;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.segment.analytics.Analytics;
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.adapters.GroupsQueryAdapter;
 import com.wisecityllc.cookedapp.adapters.PostLoginPageAdapter;
@@ -30,6 +29,7 @@ import com.wisecityllc.cookedapp.fragments.NavigationDrawerFragment;
 import com.wisecityllc.cookedapp.fragments.WellnessFragment;
 import com.wisecityllc.cookedapp.parseClasses.User;
 import com.wisecityllc.cookedapp.utilities.Notifications;
+import com.wisecityllc.cookedapp.utilities.Stats;
 
 
 public class PostLoginActivity extends ActionBarActivity
@@ -96,7 +96,7 @@ public class PostLoginActivity extends ActionBarActivity
 //        }
 
         //DEBUG: Associate ourselves with all notifs
-        Notifications.setSubscriptionForAllNotifs(true);
+//        Notifications.setSubscriptionForAllNotifs(true);
     }
 
     @Override
@@ -186,7 +186,9 @@ public class PostLoginActivity extends ActionBarActivity
                 public void done(ParseException e) {
                     if (e == null) {
                         // Hooray! We've logged out
+                        Stats.TrackLogout();
                         switchToLoginActivity();
+                        Notifications.setSubscriptionForAllNotifs(false);
 
                     } else {
                         // Logout didn't succeed. Look at the ParseException
@@ -196,7 +198,9 @@ public class PostLoginActivity extends ActionBarActivity
                 }
             });
         }else{
+            Stats.TrackLogout();
             switchToLoginActivity();
+            Notifications.setSubscriptionForAllNotifs(false);
         }
     }
 
@@ -300,10 +304,10 @@ public class PostLoginActivity extends ActionBarActivity
         String currentScreen = "";
         if(currentItem == 0) {
             // We are on the Groups fragment
-            Analytics.with(this).screen(null, GroupsFragment.MY_GROUPS_SCREEN);
+            Stats.ScreenMyGroups();
         } else if (currentItem == 1) {
             // We are on Events fragment
-            Analytics.with(this).screen(null, EventsFragment.EVENTS_SCREEN);
+            Stats.ScreenEvents();
         }
         return currentScreen;
     }
