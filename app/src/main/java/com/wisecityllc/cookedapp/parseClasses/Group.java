@@ -251,6 +251,7 @@ public class Group extends ParseObject {
 
     public void addMember(ParseUser user) {
         add(_MEMBERS_ARRAY, user);
+        this.saveInBackground();
     }
 
     public boolean isUserMember(ParseUser user, boolean forceServerContact) {
