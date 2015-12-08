@@ -40,8 +40,7 @@ public class App extends Application {
         ParseObject.registerSubclass(User.class);
         ParseObject.registerSubclass(Message.class);
         ParseObject.registerSubclass(AlertCategory.class);
-        Parse.initialize(this, "BrndBVrRczElKefgG3TvjCk3JYxtd5GB2GMzKoEP", "Xb7Pcc0lT2I3uJYNNoT6buaCuZ9dcvBMtCx9U5gw");
-
+        Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
         Analytics analytics = new Analytics.Builder(this, getString(R.string.analytics_write_key)).build();
         Analytics.setSingletonInstance(analytics);
 
