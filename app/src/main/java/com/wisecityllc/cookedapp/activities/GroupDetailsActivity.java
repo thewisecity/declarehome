@@ -263,6 +263,7 @@ public class GroupDetailsActivity extends ActionBarActivity {
     private void openInviteMembersActivity() {
         Intent openActivity = new Intent(this, InviteMembersActivity.class);
         openActivity.putExtra("groupId", getIntent().getStringExtra("id"));
+        openActivity.putExtra("groupName", getIntent().getStringExtra("name"));
         openActivity.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(openActivity);
     }

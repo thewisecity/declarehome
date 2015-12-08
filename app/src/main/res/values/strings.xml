@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">CookedApp</string>
 
-    <string name="enter_up_to_four_new_members_at_a_time">Enter up to four new members at a time</string>
+    <string name="enter_invitee_email_address">Enter an email address and hit the button below to send an invitation</string>
 
     <!-- Navigation drawer sections -->
     <string name="nav_section_view_edit_my_profile">View/Edit My Profile</string>
@@ -57,7 +57,7 @@
     <string name="facebook_page">Group\'s facebook page</string>
     <string name="twitter_name">\@groupsTwitterHandle</string>
     <string name="add_email_address">Add email address</string>
-    <string name="invite_new_members">Invite New Members</string>
+    <string name="send_invitation">Send Invitation</string>
 
     <!-- Broadcast Notification Constants Strings -->
     <string name="broadcast_force_refresh_groups">RefreshGroupsListIntent</string>
