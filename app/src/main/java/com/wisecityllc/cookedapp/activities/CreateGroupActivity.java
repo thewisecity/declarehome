@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.wisecityllc.cookedapp.R;
 import com.wisecityllc.cookedapp.parseClasses.Group;
@@ -68,9 +69,14 @@ public class CreateGroupActivity extends ActionBarActivity {
     }
 
     protected void submitGroupForCreation() {
-        //TODO: Do validation / error checking here
-        Group.createGroup(field_name.getText().toString(), field_purpose.getText().toString(), field_neighberhoods.getText().toString(), field_address.getText().toString(), field_city.getText().toString(), field_state.getText().toString(), field_website.getText().toString(), field_facebook.getText().toString(), field_twitter.getText().toString());
-        finish();
+        if(field_name.getText().toString().trim().equalsIgnoreCase("")) {
+            Toast.makeText(this, "Group Name cannot be empty", Toast.LENGTH_SHORT).show();
+        } else if(field_purpose.getText().toString().trim().equalsIgnoreCase("")) {
+            Toast.makeText(this, "Group Purpose cannot be empty", Toast.LENGTH_SHORT).show();
+        } else {
+            Group.createGroup(field_name.getText().toString().trim(), field_purpose.getText().toString().trim(), field_neighberhoods.getText().toString().trim(), field_address.getText().toString().trim(), field_city.getText().toString().trim(), field_state.getText().toString().trim(), field_website.getText().toString().trim(), field_facebook.getText().toString().trim(), field_twitter.getText().toString().trim());
+            finish();
+        }
     }
 
     @Override
